@@ -8,23 +8,23 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 <!-- vim-markdown-toc GFM -->
 
-- [安装 Installation](#安装-installation)
-- [使用 Usage](#使用-usage)
-    + [`<FormItem />`](#formitem-)
-        * [`name`](#name)
-        * [`$defaultValue`](#defaultvalue)
-        * [`$validators`](#validators)
-        * [`itemProps`](#itemprops)
-        * [`valuePropName`](#valuepropname)
-        * [`onChangePropName`](#onchangepropname)
-        * [`parser`](#parser)
-        * [`formatter`](#formatter)
-        * [`validMessage`](#validmessage)
-- [FAQ](#faq)
-    + [`一些交互组件调用时的注意事项`](#一些交互组件调用时的注意事项)
-        * [`<Switch />` `<Checkbox />` `<Checkbox />` `<Radio />`](#switch--checkbox--checkbox--radio-)
-        * [`<Slider />`](#slider-)
-        * [`<DatePicker />` `<TimePicker />`](#datepicker--timepicker-)
+*   [安装 Installation](#安装-installation)
+*   [使用 Usage](#使用-usage)
+    *   [`<FormItem />`](#formitem-)
+        *   [`name`](#name)
+        *   [`$defaultValue`](#defaultvalue)
+        *   [`$validators`](#validators)
+        *   [`itemProps`](#itemprops)
+        *   [`valuePropName`](#valuepropname)
+        *   [`onChangePropName`](#onchangepropname)
+        *   [`parser`](#parser)
+        *   [`formatter`](#formatter)
+        *   [`validMessage`](#validmessage)
+*   [FAQ](#faq)
+    *   [`一些交互组件调用时的注意事项`](#一些交互组件调用时的注意事项)
+        *   [`<Switch />` `<Checkbox />` `<Checkbox />` `<Radio />`](#switch--checkbox--checkbox--radio-)
+        *   [`<Slider />`](#slider-)
+        *   [`<DatePicker />` `<TimePicker />`](#datepicker--timepicker-)
 
 <!-- vim-markdown-toc -->
 
@@ -40,8 +40,7 @@ yarn install react-antd-formutil
 
 ### 使用 Usage
 
-> `react-antd-formutil` 整合了 `react-formutil` 的组件，所以可以直接从`react-antd-formutil`中导出所需要的 `react-formutil` 组件。
-> 不用单独从 react-formutil 中导出。
+> `react-antd-formutil` 整合了 `react-formutil` 的组件，所以可以直接从`react-antd-formutil`中导出所需要的 `react-formutil` 组件。不用单独从 react-formutil 中导出。
 
 先看一个使用示例：
 
@@ -106,14 +105,14 @@ class MyForm extends Component {
 
 > 同 react-formutil 的 EasyField，FormItem 也内置了同样的校验规则：
 
-> -   `required` 必填 `required`
-> -   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
-> -   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
-> -   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
-> -   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
-> -   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
-> -   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
-> -   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
+> *   `required` 必填 `required`
+> *   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
+> *   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
+> *   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
+> *   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
+> *   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
+> *   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
+> *   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
 
 注：校验属性的值为 `null` 时表示不进行该校验
 
@@ -135,7 +134,9 @@ class MyForm extends Component {
 
 ##### `valuePropName`
 
-设置子节点的值的属性，例如 `<Switch />` `<Checkbox />`的属性是 `checked`。
+设置子节点的值的属性，例如 `<Switch />` `<Checkbox />` `<Radio />`的属性是 `checked`。
+
+> v0.0.3 起，对于这三个组件，可以省略指定 `valuePropName`。
 
 默认为`value`
 
@@ -175,6 +176,18 @@ class MyForm extends Component {
 </FormItem>
 ```
 
+##### `checked` `unchecked`
+
+对于 `<Switch />` `<Checkbox />` `<Radio />` 这三种组件，其值默认是 checked 属性，为布尔值。可以通过`checked` `unchecked`来设置 checked 状态时说要映射的值：
+
+```javascript
+<FormItem checked="yes" unchecked="no">
+    <Switch />
+</FormItem>
+```
+
+该示例中， 当 Switch 为开时，获取的值将为 yes。
+
 ##### `validMessage`
 
 设置校验结果的错误信息。
@@ -194,52 +207,6 @@ class MyForm extends Component {
 
 #### `一些交互组件调用时的注意事项`
 
-##### `<Switch />` `<Checkbox />` `<Checkbox />` `<Radio />`
+##### `Mention` 组件暂时不可以用于和 FormItem 交互
 
-对于 Checkbox、Switch 等组件，其类似 input[type=checkbox]，其值是存储在组件的 checked 属性上的，所以需要指定`valuePropName`属性，来告诉 formutil 需要从该属性上获取输入的值。
-
-并且需要指定默认的$defaultValue，否则会有异常警告（因为 formutl 默认所有输入项的值为空字符串）
-
-```javascript
-<FormItem valuePropName="checked" $defaultValue={false}>
-    <Switch />
-</FormItem>
-```
-
-这些组件默认的值都是`true`和`false`，如果希望选中、非选中分别能对应其它值，可以使用 `parser`、`formatter` 属性来实现：
-
-```javascript
-<FormItem
-    valuePropName="checked"
-    $defaultValue="yes"
-    parser={checked => (checked ? 'yes' : 'no')}
-    formatter={value => value === 'yes'}>
-    <Switch />
-</FormItem>
-```
-
-上面的例子中，即实现了开关打开、关闭，分别对应到 yes 和 no。
-
-##### `<Slider />`
-
-该组件值为整数，所以需要传递默认值，否则会有警告：
-
-```javascript
-<FormItem $defaultValue={0}>
-    <Slider />
-</FormItem>
-
-<FormItem $defaultValue={[]}>
-    <Slider range />
-</FormItem>
-```
-
-##### `<DatePicker />` `<TimePicker />`
-
-该组件值为 moment 对象，所以如果不传递默认值，需要设置默认值为空：
-
-```javascript
-<FormItem $defaultValue={null}>
-    <DatePicker />
-</FormItem>
-```
+由于`Mention`初始化会触发 onChange，所以一起使用时会导致一些内存泄漏问题。请单独使用 Mention 组件

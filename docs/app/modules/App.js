@@ -12,6 +12,7 @@ import {
     Slider,
     Switch,
     DatePicker,
+    Cascader,
     Button
 } from 'antd';
 import { FormItem, withForm } from 'app/../../src';
@@ -50,10 +51,57 @@ const sliderMarks = {
     }
 };
 
+const cascaderOptions = [
+    {
+        value: 'zhejiang',
+        label: 'Zhejiang',
+        children: [
+            {
+                value: 'hangzhou',
+                label: 'Hangzhou',
+                children: [
+                    {
+                        value: 'xihu',
+                        label: 'West Lake'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        value: 'jiangsu',
+        label: 'Jiangsu',
+        children: [
+            {
+                value: 'nanjing',
+                label: 'Nanjing',
+                children: [
+                    {
+                        value: 'zhonghuamen',
+                        label: 'Zhong Hua Men'
+                    }
+                ]
+            }
+        ]
+    }
+];
+
 //const mentionOptions = ['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']
 
 @withForm
 class App extends Component {
+    submit = ev => {
+        ev.preventDefault();
+
+        const { $invalid, $batchDirty } = this.props.$formutil;
+        console.log('submit');
+        if ($invalid) {
+            $batchDirty(true);
+        } else {
+            // submit data
+        }
+    };
+
     render() {
         return (
             <Row>
@@ -63,11 +111,7 @@ class App extends Component {
                             <Input />
                         </FormItem>
 
-                        <FormItem
-                            name="currency"
-                            $defaultValue={1000}
-                            itemProps={{ ...formItemLayout, label: 'Currency' }}
-                            required>
+                        <FormItem name="currency" itemProps={{ ...formItemLayout, label: 'Currency' }} required>
                             <InputNumber
                                 formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 parser={value => value.replace(/\$\s?|(,*)/g, '')}
@@ -77,8 +121,6 @@ class App extends Component {
                         <FormItem
                             name="checkbox.single"
                             itemProps={{ ...formItemLayout, label: 'Checkbox.single' }}
-                            valuePropName="checked"
-                            $defaultValue={true}
                             required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
@@ -86,16 +128,11 @@ class App extends Component {
                         <FormItem
                             name="checkbox.multiple"
                             itemProps={{ ...formItemLayout, label: 'Checkbox.multiple' }}
-                            $defaultValue={['Apple']}
                             required>
                             <Checkbox.Group options={hobbiesOptions} />
                         </FormItem>
 
-                        <FormItem
-                            name="rate"
-                            itemProps={{ ...formItemLayout, label: 'Rate' }}
-                            $defaultValue={2.5}
-                            required>
+                        <FormItem name="rate" itemProps={{ ...formItemLayout, label: 'Rate' }} required>
                             <Rate allowHalf />
                         </FormItem>
 
@@ -132,7 +169,7 @@ class App extends Component {
 
                         <FormItem
                             name="select.multiple"
-                            $defaultValue={['a10', 'c12']}
+                            $defaultValue={['c12', 'a10', 's28']}
                             itemProps={{ ...formItemLayout, label: 'Select.multiple' }}
                             required>
                             <Select mode="multiple" style={{ width: '100%' }} placeholder="Please select">
@@ -157,34 +194,37 @@ class App extends Component {
                             name="switch"
                             valuePropName="checked"
                             $defaultValue="yes"
-                            parser={checked => (checked ? 'yes' : 'no')}
-                            formatter={value => value === 'yes'}
+                            checked="yes"
+                            unchecked="no"
                             itemProps={{ ...formItemLayout, label: 'Switch' }}>
                             <Switch checkedChildren="yes" unCheckedChildren="no" />
                         </FormItem>
 
                         <FormItem
                             name="datepicker.single"
-                            $defaultValue={null}
+                            required
                             itemProps={{ ...formItemLayout, label: 'DatePicker.single' }}>
                             <DatePicker />
                         </FormItem>
-
                         <FormItem
                             name="datepicker.month"
-                            $defaultValue={null}
+                            required
                             itemProps={{ ...formItemLayout, label: 'DatePicker.month' }}>
                             <DatePicker.MonthPicker />
                         </FormItem>
                         <FormItem
                             name="datepicker.range"
-                            $defaultValue={null}
+                            required
                             itemProps={{ ...formItemLayout, label: 'DatePicker.range' }}>
                             <DatePicker.RangePicker />
                         </FormItem>
+
+                        <FormItem name="cascader" itemProps={{ ...formItemLayout, label: 'Cascader' }} required>
+                            <Cascader options={cascaderOptions} placeholder="Please select" />
+                        </FormItem>
                         <Row>
                             <Col sm={{ offset: 8 }}>
-                                <Button type="primary" block>
+                                <Button type="primary" block htmlType="submit">
                                     Submit
                                 </Button>
                             </Col>
