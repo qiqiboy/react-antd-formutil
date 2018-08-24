@@ -14,8 +14,7 @@ import {
     DatePicker,
     Button
 } from 'antd';
-import { withForm } from 'react-formutil';
-import { FormItem } from 'app/../../src';
+import { FormItem, withForm } from 'app/../../src';
 
 const formItemLayout = {
     labelCol: {
@@ -155,11 +154,13 @@ class App extends Component {
                         </FormItem>
 
                         <FormItem
-                            $defaultValue={true}
                             name="switch"
                             valuePropName="checked"
+                            $defaultValue="yes"
+                            parser={checked => (checked ? 'yes' : 'no')}
+                            formatter={value => value === 'yes'}
                             itemProps={{ ...formItemLayout, label: 'Switch' }}>
-                            <Switch />
+                            <Switch checkedChildren="yes" unCheckedChildren="no" />
                         </FormItem>
 
                         <FormItem
