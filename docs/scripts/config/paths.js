@@ -32,12 +32,12 @@ var alias = {
 // config after eject: we're in ./config/
 module.exports = {
     root: resolveApp(''),
-    appBuild: resolveApp('build'),
+    appBuild: resolveApp('demo'),
     appPublic: resolveApp('public'),
     appHtml: resolveApp('public/index.html'),
     appIndexJs: resolveApp('app/index.js'),
     appPackageJson: resolveApp('package.json'),
-    appSrc: resolveApp('app'),
+    appSrc: [resolveApp('app'), resolveApp('../src')],
     staticSrc: resolveApp('static'),
     appNodeModules: resolveApp('node_modules'),
     ownNodeModules: resolveApp('node_modules'),
