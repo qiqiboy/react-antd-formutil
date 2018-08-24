@@ -1,15 +1,15 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'antd';
+import { Form, Switch, Checkbox, Radio, Rate, Slider, Select, Cascader, TreeSelect, DatePicker } from 'antd';
 import { Field } from 'react-formutil';
 
 const defaultValidators = [
     [
         'required',
-        ($value, isCheck, { componentName, checked }) =>
-            componentName === 'Checkbox' || componentName === 'Radio' || componentName === 'Switch'
+        ($value, isCheck, { component, checked }) =>
+            component === Checkbox || component === Radio || component === Switch
                 ? $value === checked
-                : $value !== null && !!($value + '')
+                : !isEmpty($value)
     ],
     ['maxLength', ($value, len) => isEmpty($value) || $value.length <= len],
     ['minLength', ($value, len) => isEmpty($value) || $value.length >= len],
@@ -66,39 +66,41 @@ class FormItem extends Component {
             ...fieldProps
         } = props;
 
-        let componentName, defaultValue, childProps;
+        let component, defaultValue, childProps;
         if (children && children.type && typeof children.type === 'function') {
-            componentName = children.type.name;
+            component = children.type;
 
-            switch (componentName) {
-                case 'Switch':
-                case 'Checkbox':
-                case 'Radio':
+            switch (component) {
+                case Switch:
+                case Checkbox:
+                case Radio:
                     defaultValue = unchecked;
                     break;
 
-                case 'Rate':
-                case 'Slider':
+                case Rate:
+                case Slider:
                     defaultValue = children.props.range ? [] : 0;
                     break;
 
-                case 'CheckboxGroup':
-                case 'DatePicker':
-                case 'Cascader':
+                case Checkbox.Group:
+                case DatePicker.RangePicker:
+                case Cascader:
                     defaultValue = [];
                     break;
 
-                case 'Select':
+                case Select:
                     if (children.props.mode === 'multiple' || children.props.mode === 'tags') {
                         defaultValue = [];
                     }
                     break;
 
-                case 'PickerWrapper':
+                case DatePicker:
+                case DatePicker.MonthPicker:
+                case DatePicker.WeekPicker:
                     defaultValue = null;
                     break;
 
-                case 'TreeSelect':
+                case TreeSelect:
                     if (children.props.multiple || children.props.treeCheckable) {
                         defaultValue = [];
                     }
@@ -117,7 +119,7 @@ class FormItem extends Component {
             <Field
                 {...fieldProps}
                 checked={checked}
-                componentName={componentName}
+                component={component}
                 $defaultValue={defaultValue}
                 $validators={{
                     ...defaultValidators,
@@ -126,10 +128,10 @@ class FormItem extends Component {
                 {$util => {
                     const { $invalid, $dirty, $error } = $util;
 
-                    switch (componentName) {
-                        case 'Switch':
-                        case 'Checkbox':
-                        case 'Radio':
+                    switch (component) {
+                        case Switch:
+                        case Checkbox:
+                        case Radio:
                             childProps = {
                                 checked: formatter($util.$value) === checked,
                                 onChange: ev => {
