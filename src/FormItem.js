@@ -62,11 +62,7 @@ function isEmpty(arg) {
 
 export default withField(FormItem, {
     $validators: [
-        [
-            'required',
-            ($value, check, { type, checked }) =>
-                type === 'checkbox' || type === 'radio' ? $value === checked : !!($value + '')
-        ],
+        ['required', $value => !!($value + '')],
         ['maxLength', ($value, len) => isEmpty($value) || $value.length <= len],
         ['minLength', ($value, len) => isEmpty($value) || $value.length >= len],
         ['max', ($value, limit) => isEmpty($value) || $value * 1 <= limit],
@@ -78,7 +74,7 @@ export default withField(FormItem, {
         const [validKey, validate] = item;
 
         $validators[validKey] = function validator($value, propValue, { validMessage = {} }) {
-            return validate(...arguments) || validMessage[validKey] || `Error input: ${validKey}`;
+            return propValue === null || validate(...arguments) || validMessage[validKey] || `Error input: ${validKey}`;
         };
         return $validators;
     }, {})

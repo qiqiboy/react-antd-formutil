@@ -1,5 +1,7 @@
 # react-antd-formutil
 
+[![npm](https://img.shields.io/npm/v/react-antd-formutil.svg?style=flat)](https://npm.im/react-antd-formutil)
+
 Happy to use react-formutil in the project based on ant-design ^\_^
 
 在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单
@@ -113,7 +115,7 @@ class MyForm extends Component {
 > -   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
 > -   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
 
-注：校验属性的值为 `false`或`空` 时(例如 `required={false|null|undefined}`) 表示不进行该校验
+注：校验属性的值为 `null` 时表示不进行该校验
 
 内置的校验规则无需再次声明，除非规则不符合预期，需要替换，则可以通过`$validators` 传递同名校验方法即可替换默认的。另外，内置的校验规则，如果校验不通过，会尝试去 `validMessage` 匹配错误信息。
 
@@ -221,6 +223,7 @@ class MyForm extends Component {
 ##### `<Slider />`
 
 该组件值为整数，所以需要传递默认值，否则会有警告：
+
 ```javascript
 <FormItem $defaultValue={0}>
     <Slider />
@@ -233,7 +236,8 @@ class MyForm extends Component {
 
 ##### `<DatePicker />` `<TimePicker />`
 
-该组件值为moment对象，所以如果不传递默认值，需要设置默认值为空：
+该组件值为 moment 对象，所以如果不传递默认值，需要设置默认值为空：
+
 ```javascript
 <FormItem $defaultValue={null}>
     <DatePicker />
