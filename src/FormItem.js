@@ -1,7 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Switch, Checkbox, Radio } from 'antd';
-import { Field } from '../../react-formutil';
+import { Field } from 'react-formutil';
 
 const defaultValidators = [
     [
