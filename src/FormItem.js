@@ -1,7 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Switch, Checkbox, Radio, Rate, Slider, Select, Cascader, TreeSelect, DatePicker } from 'antd';
-import { Field } from 'react-formutil';
+import { Form, Switch, Checkbox, Radio } from 'antd';
+import { Field } from '../../react-formutil';
 
 const defaultValidators = [
     [
@@ -66,53 +66,26 @@ class FormItem extends Component {
             ...fieldProps
         } = props;
 
-        let component, defaultValue, childProps;
+        let component, _defaultValue, childProps;
         if (children && children.type && typeof children.type === 'function') {
             component = children.type;
+        }
 
-            switch (component) {
-                case Switch:
-                case Checkbox:
-                case Radio:
-                    defaultValue = unchecked;
-                    break;
+        switch (component) {
+            case Switch:
+            case Checkbox:
+            case Radio:
+                _defaultValue = unchecked;
+                break;
 
-                case Rate:
-                case Slider:
-                    defaultValue = children.props.range ? [] : 0;
-                    break;
-
-                case Checkbox.Group:
-                case DatePicker.RangePicker:
-                case Cascader:
-                    defaultValue = [];
-                    break;
-
-                case Select:
-                    if (children.props.mode === 'multiple' || children.props.mode === 'tags') {
-                        defaultValue = [];
-                    }
-                    break;
-
-                case DatePicker:
-                case DatePicker.MonthPicker:
-                case DatePicker.WeekPicker:
-                    defaultValue = null;
-                    break;
-
-                case TreeSelect:
-                    if (children.props.multiple || children.props.treeCheckable) {
-                        defaultValue = [];
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            default:
+                break;
         }
 
         if ('$defaultValue' in props) {
-            defaultValue = $defaultValue;
+            fieldProps.$defaultValue = $defaultValue;
+        } else {
+            fieldProps.$defaultValue = _defaultValue;
         }
 
         return (
@@ -120,7 +93,6 @@ class FormItem extends Component {
                 {...fieldProps}
                 checked={checked}
                 component={component}
-                $defaultValue={defaultValue}
                 $validators={{
                     ...defaultValidators,
                     ...$validators
