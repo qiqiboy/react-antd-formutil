@@ -192,10 +192,10 @@ class App extends Component {
 
                         <FormItem
                             name="switch"
-                            valuePropName="checked"
                             $defaultValue="yes"
                             checked="yes"
                             unchecked="no"
+                            required
                             itemProps={{ ...formItemLayout, label: 'Switch' }}>
                             <Switch checkedChildren="yes" unCheckedChildren="no" />
                         </FormItem>

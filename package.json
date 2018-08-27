@@ -1,6 +1,6 @@
 {
   "name": "react-antd-formutil",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
   "main": "lib/index.js",
   "directories": {
@@ -33,7 +33,7 @@
     "react": ">15.0.0",
     "prop-types": ">15.0.0",
     "antd": ">3.0.0",
-    "react-formutil": ">0.3.0"
+    "react-formutil": ">0.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

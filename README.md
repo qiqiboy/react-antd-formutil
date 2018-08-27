@@ -145,12 +145,12 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-##### `onChangePropName`
+##### `changePropName`
 
 设置子节点的值更新的回调触发属性。默认为`onChange`
 
 ```javascript
-<FormItem onChangePropName="onSelect">
+<FormItem changePropName="onSelect">
     <Input />
 </FormItem>
 ```
