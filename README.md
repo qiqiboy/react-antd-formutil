@@ -16,7 +16,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`$validators`](#validators)
         * [`itemProps`](#itemprops)
         * [`valuePropName`](#valuepropname)
-        * [`onChangePropName`](#onchangepropname)
+        * [`changePropName`](#changepropname)
         * [`parser`](#parser)
         * [`formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)

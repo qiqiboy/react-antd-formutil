@@ -107,7 +107,16 @@ class App extends Component {
             <Row>
                 <Col lg={12}>
                     <Form onSubmit={this.submit} style={{ padding: 20 }}>
-                        <FormItem name="email" itemProps={{ ...formItemLayout, label: 'E-mail' }} required>
+                        <FormItem
+                            name="email"
+                            itemProps={{ ...formItemLayout, label: 'E-mail' }}
+                            isEmail
+                            required
+                            $validators={{
+                                isEmail: value => {
+                                    return !value || value.indexOf('@') > 1 || 'incorrect email!';
+                                }
+                            }}>
                             <Input />
                         </FormItem>
 

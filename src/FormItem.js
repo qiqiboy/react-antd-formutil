@@ -16,7 +16,7 @@ class FormItem extends Component {
 
     render() {
         const props = this.props;
-        const { $validators, children, itemProps, ...fieldProps } = props;
+        const { children, itemProps, ...fieldProps } = props;
 
         let component;
         if (children && children.type && typeof children.type === 'function') {
