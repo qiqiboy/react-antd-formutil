@@ -38,6 +38,7 @@ class FormItem extends Component {
         return (
             <EasyField
                 {...fieldProps}
+                passUtil="$fieldutil"
                 render={({ $fieldutil, onChange, value }) => {
                     const { $invalid, $dirty, $error } = $fieldutil;
 

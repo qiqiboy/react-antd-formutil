@@ -17,8 +17,8 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`itemProps`](#itemprops)
         * [`valuePropName`](#valuepropname)
         * [`changePropName`](#changepropname)
-        * [`parser`](#parser)
-        * [`formatter`](#formatter)
+        * [`$parser`](#parser)
+        * [`$formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
 - [FAQ](#faq)
@@ -155,22 +155,22 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-##### `parser`
+##### `$parser`
 
 设置输入的值收集到 formutil 状态中时的过滤处理。默认为`value => value`
 
 ```javascript
-<FormItem parser={value => parseInt(value)}>
+<FormItem $parser={value => parseInt(value)}>
     <Input />
 </FormItem>
 ```
 
-##### `formatter`
+##### `$formatter`
 
 设置 formutil 中的值渲染到输入组件上时的过滤处理。默认为`value => value`
 
 ```javascript
-<FormItem formatter={value => '$' + value}>
+<FormItem $formatter={value => '$' + value}>
     <Input />
 </FormItem>
 ```
