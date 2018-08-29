@@ -13,6 +13,7 @@ const _Transfer = isUglify ? Transfer : 'Transfer';
 
 class FormItem extends Component {
     static propTypes = {
+        children: PropTypes.element.isRequired,
         itemProps: PropTypes.object //传递给antd的Form.Item的属性
         //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
     };
