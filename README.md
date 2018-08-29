@@ -59,7 +59,7 @@ yarn install react-antd-formutil
 
 > `react-antd-formutil` 整合了 `react-formutil` 的组件，所以可以直接从`react-antd-formutil`中导出所需要的 `react-formutil` 组件。不用单独从 react-formutil 中导出。
 
-先看一个使用示例：
+先看一个使用示例（点击查看在线完整示例: [react-antd-formutil on codesandbox.io](https://codesandbox.io/s/84y6w5oox2)）：
 
 ```javascript
 import React, { Component } from 'react';
