@@ -4,7 +4,7 @@
 
 Happy to use react-formutil in the project based on ant-design ^\_^
 
-在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单
+在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单。**支持所有的`antd-design`输入组件。**
 
 <!-- vim-markdown-toc GFM -->
 
@@ -21,9 +21,27 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`$formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
+    + [`支持的组件`](#支持的组件)
+        * [`AutoComplete`](#autocomplete)
+        * [`Checkbox`](#checkbox)
+        * [`Cascader`](#cascader)
+        * [`DatePicker`](#datepicker)
+        * [`InputNumber`](#inputnumber)
+        * [`Input`](#input)
+        * [`Mention`](#mention)
+        * [`Rate`](#rate)
+        * [`Radio`](#radio)
+        * [`Switch`](#switch)
+        * [`Slider`](#slider)
+        * [`Select`](#select)
+        * [`TreeSelect`](#treeselect)
+        * [`Transfer`](#transfer)
+        * [`TimePicker`](#timepicker)
+        * [`Upload`](#upload)
 - [FAQ](#faq)
+    + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
     + [`一些交互组件调用时的注意事项`](#一些交互组件调用时的注意事项)
-        * [`Mention` 组件暂时不可以用于和 FormItem 交互](#mention-组件暂时不可以用于和-formitem-交互)
+        * [`Mention 为未非受控组件`](#mention-为未非受控组件)
 
 <!-- vim-markdown-toc -->
 
@@ -104,14 +122,14 @@ class MyForm extends Component {
 
 > 同 react-formutil 的 EasyField，FormItem 也内置了同样的校验规则：
 
-> *   `required` 必填 `required`
-> *   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
-> *   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
-> *   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
-> *   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
-> *   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
-> *   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
-> *   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
+> -   `required` 必填 `required`
+> -   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
+> -   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
+> -   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
+> -   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
+> -   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
+> -   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
+> -   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
 
 注：校验属性的值为 `null` 时表示不进行该校验
 
@@ -202,10 +220,108 @@ class MyForm extends Component {
 </FormItem>
 ```
 
+#### `支持的组件`
+
+##### `AutoComplete`
+
+##### `Checkbox`
+
+支持`Checkbox.Group`。
+
+##### `Cascader`
+
+##### `DatePicker`
+
+`DatePicker` `TimePicker` `DatePicker.WeekPicker` `DatePicker.MonthPicker` `DatePicker.RangePicker` 等几个日期类组件，都是深度结合了`moment`使用的。如果希望收集到表单中的值是格式化好的时间字符串，可以通过`$parser` `$formatter`实现：
+
+```javascript
+<FormItem name="datepicker" $parser={moment => moment.format('YYYY-MM-DD')} $formatter={date => moment(date)}>
+    <DatePicker />
+</FormItem>
+```
+
+对于`DatePicker.RangePicker`，由于其值是一个数组，所以需要这样处理：
+
+```javascript
+<FormItem
+    name="datepicker"
+    $parser={moments => moments.map(moment => moment.format('YYYY-MM-DD'))}
+    $formatter={dates => dates.map(date => moment(date))}>
+    <DatePicker.RangePicker />
+</FormItem>
+```
+
+##### `InputNumber`
+
+##### `Input`
+
+##### `Mention`
+
+##### `Rate`
+
+##### `Radio`
+
+支持`Radio.Group`。
+
+##### `Switch`
+
+`Switch` `Checkbox`(不包括`Checkbox.Group`) `Radio`(不包括`Radio.Group`)三个组件，可以通过给`FormItem`传递`checked` `unchecked`属性来改变被勾选时所映射到表单状态中的值：
+
+```javascript
+<FormItem checked="yes" unchecked="no">
+    <Switch />
+</FormItem>
+```
+
+##### `Slider`
+
+##### `Select`
+
+##### `TreeSelect`
+
+##### `Transfer`
+
+`Transfer`收集到表单状态中的是`targetKeys`。
+
+##### `TimePicker`
+
+参考 [`DatePicker`](#datepicker)
+
+##### `Upload`
+
+`Upload` 组件会将 onChange 回调的对象同步到表单状态中，所以如果仅仅需要拿到上传成功后的服务端返回信息（比如上传后保存在服务器的 url），可以通过$parser 进行过滤：
+
+```javascript
+<FormItem
+    name="upload"
+    $parser={({ file, fileList, event }) => {
+        if (file.status == 'done') {
+            //render url form server
+            return JSON.parse(file.response).data.url;
+        }
+    }}>
+    <Upload {...uplodConfig}>
+        <Button>
+            <Icon type="upload" /> Click to Upload
+        </Button>
+    </Upload>
+</FormItem>
+```
+
 ### FAQ
+
+#### `给组件设置的onChange、onFocus等方法无效、不执行`
+
+`FormItem`会覆盖掉直接添加到 antd 组件上的`onFocus` `onBlur` `onChange`方法，所以如果需要这三个事件方法，需要添加到 `FormItem`上：
+
+```javascript
+<FormItem name="test" onChange={ev => console.log('change', ev)} onFocus={ev => console.log('focus', ev)}>
+    <Input />
+</FormItem>
+```
 
 #### `一些交互组件调用时的注意事项`
 
-##### `Mention` 组件暂时不可以用于和 FormItem 交互
+##### `Mention 为未非受控组件`
 
-由于`Mention`初始化会触发 onChange，所以一起使用时会导致一些内存泄漏问题。请单独使用 Mention 组件
+由于`Mention`的 `onChange` 会频繁触发，所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。

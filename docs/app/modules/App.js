@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
+    Icon,
     Row,
     Col,
     Form,
+    AutoComplete,
     Input,
     InputNumber,
     Checkbox,
@@ -13,83 +15,28 @@ import {
     Switch,
     DatePicker,
     Cascader,
+    Mention,
+    TreeSelect,
+    Upload,
+    Transfer,
     Button
 } from 'antd';
 import { FormItem, withForm } from 'app/../../src';
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 }
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-    }
-};
-
-const hobbiesOptions = [
-    { label: 'Apple', value: 'Apple' },
-    { label: 'Pear', value: 'Pear' },
-    { label: 'Orange', value: 'Orange' }
-];
-
-const selectOption = Array(36)
-    .fill('')
-    .map((n, i) => <Select.Option key={i.toString(36) + i}>{i.toString(36) + i}</Select.Option>)
-    .slice(10);
-
-const sliderMarks = {
-    0: '0°C',
-    26: '26°C',
-    37: '37°C',
-    100: {
-        style: {
-            color: '#f50'
-        },
-        label: <strong>100°C</strong>
-    }
-};
-
-const cascaderOptions = [
-    {
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [
-            {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                    {
-                        value: 'xihu',
-                        label: 'West Lake'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [
-            {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                    {
-                        value: 'zhonghuamen',
-                        label: 'Zhong Hua Men'
-                    }
-                ]
-            }
-        ]
-    }
-];
-
-//const mentionOptions = ['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']
+import {
+    formItemLayout,
+    hobbiesOptions,
+    selectOption,
+    sliderMarks,
+    cascaderOptions,
+    mentionOptions,
+    uplodConfig,
+    transferData
+} from './config';
 
 @withForm
 class App extends Component {
+    state = { acDataSource: [] };
+
     submit = ev => {
         ev.preventDefault();
 
@@ -107,6 +54,17 @@ class App extends Component {
             <Row>
                 <Col lg={12}>
                     <Form onSubmit={this.submit} style={{ padding: 20 }}>
+                        <FormItem name="autocomplete" itemProps={{ ...formItemLayout, label: 'AutoComplete' }}>
+                            <AutoComplete
+                                dataSource={this.state.acDataSource}
+                                onSearch={value =>
+                                    this.setState({
+                                        acDataSource: !value ? [] : [value, value + value, value + value + value]
+                                    })
+                                }
+                                placeholder="input here"
+                            />
+                        </FormItem>
                         <FormItem
                             name="email"
                             itemProps={{ ...formItemLayout, label: 'E-mail' }}
@@ -117,11 +75,12 @@ class App extends Component {
                                     return !value || value.indexOf('@') > 1 || 'incorrect email!';
                                 }
                             }}>
-                            <Input />
+                            <Input placeholder="Your email" />
                         </FormItem>
 
                         <FormItem name="currency" itemProps={{ ...formItemLayout, label: 'Currency' }} required>
                             <InputNumber
+                                style={{ width: 200 }}
                                 formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 parser={value => value.replace(/\$\s?|(,*)/g, '')}
                             />
@@ -231,6 +190,66 @@ class App extends Component {
                         <FormItem name="cascader" itemProps={{ ...formItemLayout, label: 'Cascader' }} required>
                             <Cascader options={cascaderOptions} placeholder="Please select" />
                         </FormItem>
+
+                        <FormItem
+                            name="mention"
+                            $defaultValue="@afc163"
+                            itemProps={{ ...formItemLayout, label: 'Mention' }}
+                            required>
+                            <Mention style={{ width: '100%' }} suggestions={mentionOptions} placement="top" />
+                        </FormItem>
+
+                        <FormItem name="treeselect" itemProps={{ ...formItemLayout, label: 'Mention' }} required>
+                            <TreeSelect
+                                showSearch
+                                style={{ width: '100%' }}
+                                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                                placeholder="Please select"
+                                allowClear
+                                treeDefaultExpandAll>
+                                <TreeSelect.TreeNode value="parent 1" title="parent 1" key="0-1">
+                                    <TreeSelect.TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
+                                        <TreeSelect.TreeNode value="leaf1" title="my leaf" key="random" />
+                                        <TreeSelect.TreeNode value="leaf2" title="your leaf" key="random1" />
+                                    </TreeSelect.TreeNode>
+                                    <TreeSelect.TreeNode value="parent 1-1" title="parent 1-1" key="random2">
+                                        <TreeSelect.TreeNode
+                                            value="sss"
+                                            title={<b style={{ color: '#08c' }}>sss</b>}
+                                            key="random3"
+                                        />
+                                    </TreeSelect.TreeNode>
+                                </TreeSelect.TreeNode>
+                            </TreeSelect>
+                        </FormItem>
+
+                        <FormItem
+                            name="upload"
+                            itemProps={{ ...formItemLayout, label: 'Upload' }}
+                            required
+                            $parser={({ file, fileList, event }) => {
+                                if (file.status == 'done') {
+                                    //render url form server
+                                    return JSON.parse(file.response).data.url;
+                                }
+                            }}>
+                            <Upload {...uplodConfig}>
+                                <Button>
+                                    <Icon type="upload" /> Click to Upload
+                                </Button>
+                            </Upload>
+                        </FormItem>
+
+                        <FormItem name="transfer" itemProps={{ ...formItemLayout, label: 'Trasnfer' }} required>
+                            <Transfer
+                                dataSource={transferData}
+                                titles={['Source', 'Target']}
+                                onSelectChange={this.handleSelectChange}
+                                onScroll={this.handleScroll}
+                                render={item => item.title}
+                            />
+                        </FormItem>
+
                         <Row>
                             <Col sm={{ offset: 8 }}>
                                 <Button type="primary" block htmlType="submit">
