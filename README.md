@@ -15,12 +15,11 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`$defaultValue`](#defaultvalue)
         * [`$validators`](#validators)
         * [`itemProps`](#itemprops)
-        * [`valuePropName`](#valuepropname)
-        * [`changePropName`](#changepropname)
         * [`$parser`](#parser)
         * [`$formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
+        * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
     + [`支持的组件`](#支持的组件)
         * [`AutoComplete`](#autocomplete)
         * [`Checkbox`](#checkbox)
@@ -40,8 +39,8 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`Upload`](#upload)
 - [FAQ](#faq)
     + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
-    + [`一些交互组件调用时的注意事项`](#一些交互组件调用时的注意事项)
-        * [`Mention 为未非受控组件`](#mention-为未非受控组件)
+    + [`RangePicker 在safari下假死？`](#rangepicker-在safari下假死)
+    + [`Mention 为未非受控组件？`](#mention-为未非受控组件)
 
 <!-- vim-markdown-toc -->
 
@@ -149,30 +148,6 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-##### `valuePropName`
-
-设置子节点的值的属性，例如 `<Switch />` `<Checkbox />` `<Radio />`的属性是 `checked`。
-
-> v0.0.3 起，对于这三个组件，可以省略指定 `valuePropName`。
-
-默认为`value`
-
-```javascript
-<FormItem valuePropName="checked">
-    <Switch />
-</FormItem>
-```
-
-##### `changePropName`
-
-设置子节点的值更新的回调触发属性。默认为`onChange`
-
-```javascript
-<FormItem changePropName="onSelect">
-    <Input />
-</FormItem>
-```
-
 ##### `$parser`
 
 设置输入的值收集到 formutil 状态中时的过滤处理。默认为`value => value`
@@ -216,6 +191,19 @@ class MyForm extends Component {
     validMessage={{
         required: '请输入用户名'
     }}>
+    <Input />
+</FormItem>
+```
+
+##### `valuePropName` `changePropName` `focusPropName` `blurPropName`
+
+该四个参数可以用来设置绑定到组件上的值或者值变动、是否聚焦等事件回调。该项一般不需要设置，`FormItem` 已经针对 `antd` 中的所有 `data-entry` 型组件做了兼容处理。
+
+对于一些特殊场景，例如不需要同步 `focus`、`blur`，则可以通过将该值设为`{null}`来禁用：
+
+```javascript
+//禁用focus、blur状态同步
+<FormItem focusPropName={null} blurPropName={null} name="username">
     <Input />
 </FormItem>
 ```
@@ -320,8 +308,16 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-#### `一些交互组件调用时的注意事项`
+#### `RangePicker 在safari下假死？`
 
-##### `Mention 为未非受控组件`
+经过 debug，在`3.8.x`版本上，依然存在对`RangePicker`设置`onFocus` `onBlur`会异常频繁触发（比如在光标经过日期选择面板中每个数字时）的问题。可以禁用`onFocus` `onBlur`状态同步：
+
+```javascript
+<FormItem name="datepicker" focusPropName={null} blurPropName={null}>
+    <DatePicker.RangePicker />
+</FormItem>
+```
+
+#### `Mention 为未非受控组件？`
 
 由于`Mention`的 `onChange` 会频繁触发，所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。

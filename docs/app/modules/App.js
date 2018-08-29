@@ -183,6 +183,8 @@ class App extends Component {
                         <FormItem
                             name="datepicker.range"
                             required
+                            focusPropName={null}
+                            blurPropName={null}
                             itemProps={{ ...formItemLayout, label: 'DatePicker.range' }}>
                             <DatePicker.RangePicker />
                         </FormItem>
