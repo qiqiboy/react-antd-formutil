@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import {
     Icon,
     Row,
@@ -14,11 +15,13 @@ import {
     Slider,
     Switch,
     DatePicker,
+    TimePicker,
     Cascader,
     Mention,
     TreeSelect,
     Upload,
     Transfer,
+    Pagination,
     Button
 } from 'antd';
 import { FormItem, withForm } from 'app/../../src';
@@ -54,7 +57,7 @@ class App extends Component {
             <Row>
                 <Col lg={12}>
                     <Form onSubmit={this.submit} style={{ padding: 20 }}>
-                        <FormItem name="autocomplete" itemProps={{ ...formItemLayout, label: 'AutoComplete' }}>
+                        <FormItem name="autocomplete" itemProps={{ ...formItemLayout, label: 'AutoComplete' }} required>
                             <AutoComplete
                                 dataSource={this.state.acDataSource}
                                 onSearch={value =>
@@ -67,7 +70,7 @@ class App extends Component {
                         </FormItem>
                         <FormItem
                             name="email"
-                            itemProps={{ ...formItemLayout, label: 'E-mail' }}
+                            itemProps={{ ...formItemLayout, label: 'Input' }}
                             isEmail
                             required
                             $validators={{
@@ -78,7 +81,7 @@ class App extends Component {
                             <Input placeholder="Your email" />
                         </FormItem>
 
-                        <FormItem name="currency" itemProps={{ ...formItemLayout, label: 'Currency' }} required>
+                        <FormItem name="currency" itemProps={{ ...formItemLayout, label: 'InputNumber' }} required>
                             <InputNumber
                                 style={{ width: 200 }}
                                 formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -86,16 +89,13 @@ class App extends Component {
                             />
                         </FormItem>
 
-                        <FormItem
-                            name="checkbox.single"
-                            itemProps={{ ...formItemLayout, label: 'Checkbox.single' }}
-                            required>
+                        <FormItem name="checkbox.single" itemProps={{ ...formItemLayout, label: 'Checkbox' }} required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
 
                         <FormItem
                             name="checkbox.multiple"
-                            itemProps={{ ...formItemLayout, label: 'Checkbox.multiple' }}
+                            itemProps={{ ...formItemLayout, label: 'Checkbox.Group' }}
                             required>
                             <Checkbox.Group options={hobbiesOptions} />
                         </FormItem>
@@ -171,13 +171,13 @@ class App extends Component {
                         <FormItem
                             name="datepicker.single"
                             required
-                            itemProps={{ ...formItemLayout, label: 'DatePicker.single' }}>
+                            itemProps={{ ...formItemLayout, label: 'DatePicker' }}>
                             <DatePicker />
                         </FormItem>
                         <FormItem
                             name="datepicker.month"
                             required
-                            itemProps={{ ...formItemLayout, label: 'DatePicker.month' }}>
+                            itemProps={{ ...formItemLayout, label: 'MonthPicker' }}>
                             <DatePicker.MonthPicker />
                         </FormItem>
                         <FormItem
@@ -185,8 +185,16 @@ class App extends Component {
                             required
                             focusPropName={null}
                             blurPropName={null}
-                            itemProps={{ ...formItemLayout, label: 'DatePicker.range' }}>
+                            itemProps={{ ...formItemLayout, label: 'RangePicker' }}>
                             <DatePicker.RangePicker />
+                        </FormItem>
+                        <FormItem
+                            name="timepicker"
+                            required
+                            $parser={moment => moment.format('HH:mm:ss')}
+                            $formatter={time => time && moment(time, 'HH:mm:ss')}
+                            itemProps={{ ...formItemLayout, label: 'TimePicker' }}>
+                            <TimePicker />
                         </FormItem>
 
                         <FormItem name="cascader" itemProps={{ ...formItemLayout, label: 'Cascader' }} required>
@@ -242,7 +250,7 @@ class App extends Component {
                             </Upload>
                         </FormItem>
 
-                        <FormItem name="transfer" itemProps={{ ...formItemLayout, label: 'Trasnfer' }} required>
+                        <FormItem name="transfer" itemProps={{ ...formItemLayout, label: 'Transfer' }} required>
                             <Transfer
                                 dataSource={transferData}
                                 titles={['Source', 'Target']}
@@ -250,6 +258,14 @@ class App extends Component {
                                 onScroll={this.handleScroll}
                                 render={item => item.title}
                             />
+                        </FormItem>
+
+                        <FormItem
+                            name="page"
+                            itemProps={{ ...formItemLayout, label: 'Pagination' }}
+                            $defaultValue={5}
+                            valuePropName="current">
+                            <Pagination pageSize={10} total={100} />
                         </FormItem>
 
                         <Row>

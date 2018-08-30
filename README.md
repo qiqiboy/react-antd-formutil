@@ -4,7 +4,7 @@
 
 Happy to use react-formutil in the project based on ant-design ^\_^
 
-在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单。**支持所有的`antd-design`输入组件。**
+在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单。**支持所有的`ant-design`输入型（`data-entry`）组件。**
 
 <!-- vim-markdown-toc GFM -->
 
@@ -28,6 +28,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`InputNumber`](#inputnumber)
         * [`Input`](#input)
         * [`Mention`](#mention)
+        * [`Pagination`](#pagination)
         * [`Rate`](#rate)
         * [`Radio`](#radio)
         * [`Switch`](#switch)
@@ -170,7 +171,7 @@ class MyForm extends Component {
 
 ##### `checked` `unchecked`
 
-对于 `<Switch />` `<Checkbox />` `<Radio />` 这三种组件，其值默认是 checked 属性，为布尔值。可以通过`checked` `unchecked`来设置 checked 状态时说要映射的值：
+对于 `<Switch />` `<Checkbox />` `<Radio />` 这三种组件，其值默认是 checked 属性，为布尔值。可以通过`checked` `unchecked`来设置 checked 状态时所要映射的值：
 
 ```javascript
 <FormItem checked="yes" unchecked="no">
@@ -210,15 +211,15 @@ class MyForm extends Component {
 
 #### `支持的组件`
 
-##### `AutoComplete`
+##### [`AutoComplete`](https://ant.design/components/auto-complete-cn/)
 
-##### `Checkbox`
+##### [`Checkbox`](https://ant.design/components/checkbox-cn/)
 
 支持`Checkbox.Group`。
 
-##### `Cascader`
+##### [`Cascader`](https://ant.design/components/cascader-cn/)
 
-##### `DatePicker`
+##### [`DatePicker`](https://ant.design/components/date-picker-cn/)
 
 `DatePicker` `TimePicker` `DatePicker.WeekPicker` `DatePicker.MonthPicker` `DatePicker.RangePicker` 等几个日期类组件，都是深度结合了`moment`使用的。如果希望收集到表单中的值是格式化好的时间字符串，可以通过`$parser` `$formatter`实现：
 
@@ -239,19 +240,31 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-##### `InputNumber`
+##### [`InputNumber`](https://ant.design/components/input-number-cn/)
 
-##### `Input`
+##### [`Input`](https://ant.design/components/input-cn/)
 
-##### `Mention`
+##### [`Mention`](https://ant.design/components/mention-cn/)
 
-##### `Rate`
+参考 [`Mention 为未非受控组件？`](#mention-为未非受控组件)
 
-##### `Radio`
+##### [`Pagination`](https://ant.design/components/pagination-cn/)
+
+`Pagination` 并非`antd`所归纳的`data entry`组件，但是其接口设计也可以支持`FormItem`：
+
+```javascript
+<FormItem name="page" $defaultValue={2}>
+    <Pagination pageSize={10} total={100} />
+</FormItem>
+```
+
+##### [`Rate`](https://ant.design/components/rate-cn/)
+
+##### [`Radio`](https://ant.design/components/radio-cn/)
 
 支持`Radio.Group`。
 
-##### `Switch`
+##### [`Switch`](https://ant.design/components/switch-cn/)
 
 `Switch` `Checkbox`(不包括`Checkbox.Group`) `Radio`(不包括`Radio.Group`)三个组件，可以通过给`FormItem`传递`checked` `unchecked`属性来改变被勾选时所映射到表单状态中的值：
 
@@ -261,21 +274,21 @@ class MyForm extends Component {
 </FormItem>
 ```
 
-##### `Slider`
+##### [`Slider`](https://ant.design/components/slider-cn/)
 
-##### `Select`
+##### [`Select`](https://ant.design/components/select-cn/)
 
-##### `TreeSelect`
+##### [`TreeSelect`](https://ant.design/components/tree-select-cn/)
 
-##### `Transfer`
+##### [`Transfer`](https://ant.design/components/transfer-cn/)
 
 `Transfer`收集到表单状态中的是`targetKeys`。
 
-##### `TimePicker`
+##### [`TimePicker`](https://ant.design/components/time-picker-cn/)
 
 参考 [`DatePicker`](#datepicker)
 
-##### `Upload`
+##### [`Upload`](https://ant.design/components/upload-cn/)
 
 `Upload` 组件会将 onChange 回调的对象同步到表单状态中，所以如果仅仅需要拿到上传成功后的服务端返回信息（比如上传后保存在服务器的 url），可以通过$parser 进行过滤：
 
@@ -320,4 +333,4 @@ class MyForm extends Component {
 
 #### `Mention 为未非受控组件？`
 
-由于`Mention`的 `onChange` 会频繁触发，所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。
+由于`Mention`的 `onChange` 会异常触发（[issues 11619](https://github.com/ant-design/ant-design/issues/11619)、失去焦点也会触发等），所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。

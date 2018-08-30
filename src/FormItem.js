@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Switch, Checkbox, Radio, Mention, Transfer } from 'antd';
+import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
 import { EasyField } from 'react-formutil';
 
 const isUglify = Switch.name !== 'Switch';
@@ -10,17 +10,13 @@ const _Checkbox = isUglify ? Checkbox : 'Checkbox';
 const _Radio = isUglify ? Radio : 'Radio';
 const _Mention = isUglify ? Mention : 'Mention';
 const _Transfer = isUglify ? Transfer : 'Transfer';
+const _Pagination = isUglify ? Pagination : 'Pagination';
 
 class FormItem extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         itemProps: PropTypes.object //传递给antd的Form.Item的属性
         //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
-    };
-
-    static defaultProps = {
-        checked: true,
-        unchecked: false
     };
 
     render() {
@@ -39,6 +35,12 @@ class FormItem extends Component {
                 fieldProps.__TYPE__ = 'checked';
                 break;
 
+            case _Pagination:
+                if (!('$defaultValue' in fieldProps)) {
+                    fieldProps.$defaultValue = 1;
+                }
+                break;
+
             default:
                 fieldProps.__TYPE__ = 'empty';
                 break;
@@ -48,19 +50,30 @@ class FormItem extends Component {
             <EasyField
                 {...fieldProps}
                 passUtil="$fieldutil"
-                render={({ $fieldutil, onChange, onFocus, onBlur, value }) => {
+                render={({ $fieldutil, ...restProps }) => {
                     const { $invalid, $dirty, $error } = $fieldutil;
+                    const {
+                        valuePropName = 'value',
+                        changePropName = 'onChange',
+                        focusPropName = 'onFocus',
+                        blurPropName = 'onBlur'
+                    } = props;
+                    const onChange = restProps[changePropName];
+                    const onFocus = restProps[focusPropName];
+                    const onBlur = restProps[blurPropName];
+                    const value = restProps[valuePropName];
 
                     let childProps;
                     switch (component) {
                         case _Switch:
                         case _Checkbox:
                         case _Radio:
+                            const { checked = true, unchecked = false } = props;
                             childProps = {
-                                checked: value === props.checked,
+                                checked: value === checked,
                                 onChange: ev => {
                                     const newValue = ev && ev.target ? ev.target.checked : ev;
-                                    onChange(newValue ? props.checked : props.unchecked, ev);
+                                    onChange(newValue ? checked : unchecked, ev);
                                 }
                             };
                             break;
@@ -85,15 +98,25 @@ class FormItem extends Component {
                             };
                             break;
 
+                        case _Pagination:
+                            childProps = {
+                                current: value,
+                                onChange
+                            };
+                            break;
+
                         default:
                             childProps = {
-                                onChange,
-                                value
+                                [changePropName]: onChange,
+                                [valuePropName]: value
                             };
                             break;
                     }
 
-                    Object.assign(childProps, { onFocus, onBlur });
+                    Object.assign(childProps, {
+                        [focusPropName]: onFocus,
+                        [blurPropName]: onBlur
+                    });
 
                     return (
                         <Form.Item
