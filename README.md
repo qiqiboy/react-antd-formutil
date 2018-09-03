@@ -6,6 +6,12 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单。**支持所有的`ant-design`输入型（`data-entry`）组件。**
 
+> **如果你在使用其他 react 组件库，可以查阅：**
+>
+> 1. react-bootstrap [`react-bootstrap-formutil`](https://github.com/qiqiboy/react-bootstrap-formutil) [![npm](https://img.shields.io/npm/v/react-bootstrap-formutil.svg?style=flat)](https://npm.im/react-bootstrap-formutil)
+> 1. react-md [`react-md-formutil`](https://github.com/qiqiboy/react-md-formutil) [![npm](https://img.shields.io/npm/v/react-md-formutil.svg?style=flat)](https://npm.im/react-md-formutil)
+> 1. Material-UI [`react-material-formutil`](https://github.com/qiqiboy/react-material-formutil) [![npm](https://img.shields.io/npm/v/react-material-formutil.svg?style=flat)](https://npm.im/react-material-formutil)
+
 <!-- vim-markdown-toc GFM -->
 
 - [安装 Installation](#安装-installation)
