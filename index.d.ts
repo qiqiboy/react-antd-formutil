@@ -1,5 +1,5 @@
-// Type definitions for react-formutil@>0.3.0
-// Project: react-formutil
+// Type definitions for react-antd-formutil@>0.1.0
+// Project: react-antd-formutil
 // Definitions by: qiqiboy <https://github.com/qiqiboy>
 
 import { FormItemProps } from 'antd/lib/form/FormItem';
