@@ -254,8 +254,6 @@ class App extends Component {
                             <Transfer
                                 dataSource={transferData}
                                 titles={['Source', 'Target']}
-                                onSelectChange={this.handleSelectChange}
-                                onScroll={this.handleScroll}
                                 render={item => item.title}
                             />
                         </FormItem>

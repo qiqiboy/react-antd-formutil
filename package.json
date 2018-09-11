@@ -1,6 +1,6 @@
 {
   "name": "react-antd-formutil",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
   "main": "lib/index.js",
   "directories": {
@@ -29,6 +29,7 @@
     ]
   },
   "homepage": "https://github.com/qiqiboy/react-antd-formutil#readme",
+  "types": "./index.d.ts",
   "peerDependencies": {
     "react": ">15.0.0",
     "prop-types": ">15.0.0",
