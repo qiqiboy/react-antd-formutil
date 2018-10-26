@@ -8,9 +8,12 @@ import { EasyFieldComponentProps, FormFields } from 'react-formutil';
 
 export * from 'react-formutil';
 
-export interface FormItemComponentProps<T = any, Validators = {}> extends EasyFieldComponentProps<T, Validators> {
+export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields = Fields>
+    extends EasyFieldComponentProps<T, P, Fields, WeakFields> {
     itemProps: FormItemProps;
     children: React.ReactElement<{}>;
 }
 
-export class FormItem extends React.Component<Partial<FormItemComponentProps> & FormFields> {}
+export class FormItem<T = any, P = {}, Fields = {}, WeakFields = Fields> extends React.Component<
+    Partial<FormItemComponentProps<T, P, Fields, WeakFields>> & FormFields
+> {}
