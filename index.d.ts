@@ -10,7 +10,7 @@ export * from 'react-formutil';
 
 export interface FormItemComponentProps<T = any, Validators = {}> extends EasyFieldComponentProps<T, Validators> {
     itemProps: FormItemProps;
-    children: React.ReactElement;
+    children: React.ReactElement<{}>;
 }
 
 export class FormItem extends React.Component<Partial<FormItemComponentProps> & FormFields> {}
