@@ -4,15 +4,13 @@
 
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import React from 'react';
-import ReactFormutil from 'react-formutil';
+import { EasyFieldComponentProps, FormFields } from 'react-formutil';
 
-export { Field, withField, Form, withForm, EasyField, connect } from 'react-formutil';
+export * from 'react-formutil';
 
-interface FormItemComponentProps extends ReactFormutil.EasyFieldComponentProps {
-    itemProps?: FormItemProps;
-    children: React.ReactElement<any>;
-
-    [otherName: string]: any;
+export interface FormItemComponentProps<T = any, Validators = {}> extends EasyFieldComponentProps<T, Validators> {
+    itemProps: FormItemProps;
+    children: React.ReactElement;
 }
 
-export class FormItem extends React.Component<FormItemComponentProps, any> {}
+export class FormItem extends React.Component<Partial<FormItemComponentProps> & FormFields> {}
