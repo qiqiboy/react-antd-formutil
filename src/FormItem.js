@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
 import { EasyField } from 'react-formutil';
 
+let errorLevel = 1;
+
+/**
+ * 0 dirty & invalid & touched
+ * 1 dirty & invalid
+ * 2 invalid
+ */
+export const setErrorLevel = function(level) {
+    errorLevel = level;
+};
+
 const isUglify = Switch.name !== 'Switch';
 
 const _Switch = isUglify ? Switch : 'Switch';
@@ -51,7 +62,7 @@ class FormItem extends Component {
                 {...fieldProps}
                 passUtil="$fieldutil"
                 render={({ $fieldutil, ...restProps }) => {
-                    const { $invalid, $dirty, $error } = $fieldutil;
+                    const { $invalid, $dirty, $touched, $getFirstError } = $fieldutil;
                     const {
                         valuePropName = 'value',
                         changePropName = 'onChange',
@@ -118,10 +129,24 @@ class FormItem extends Component {
                         [blurPropName]: onBlur
                     });
 
+                    let hasError;
+
+                    switch (errorLevel) {
+                        case 0:
+                            hasError = $invalid && $dirty & $touched;
+                            break;
+                        case 1:
+                            hasError = $invalid && $dirty;
+                            break;
+                        default:
+                            hasError = $invalid;
+                            break;
+                    }
+
                     return (
                         <Form.Item
-                            validateStatus={$invalid && $dirty ? 'error' : ''}
-                            help={$invalid && $dirty ? Object.values($error)[0] : ''}
+                            validateStatus={hasError ? 'error' : ''}
+                            help={hasError ? $getFirstError() : ''}
                             {...itemProps}>
                             {cloneElement(children, childProps)}
                         </Form.Item>

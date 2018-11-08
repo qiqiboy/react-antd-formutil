@@ -209,7 +209,7 @@ class App extends Component {
                             <Mention style={{ width: '100%' }} suggestions={mentionOptions} placement="top" />
                         </FormItem>
 
-                        <FormItem name="treeselect" itemProps={{ ...formItemLayout, label: 'Mention' }} required>
+                        <FormItem name="treeselect" itemProps={{ ...formItemLayout, label: 'TreeSelect' }} required>
                             <TreeSelect
                                 showSearch
                                 style={{ width: '100%' }}

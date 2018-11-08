@@ -8,9 +8,9 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 > **如果你在使用其他 react 组件库，可以查阅：**
 >
-> 1. react-bootstrap [`react-bootstrap-formutil`](https://github.com/qiqiboy/react-bootstrap-formutil) [![npm](https://img.shields.io/npm/v/react-bootstrap-formutil.svg?style=flat)](https://npm.im/react-bootstrap-formutil)
-> 1. react-md [`react-md-formutil`](https://github.com/qiqiboy/react-md-formutil) [![npm](https://img.shields.io/npm/v/react-md-formutil.svg?style=flat)](https://npm.im/react-md-formutil)
-> 1. Material-UI [`react-material-formutil`](https://github.com/qiqiboy/react-material-formutil) [![npm](https://img.shields.io/npm/v/react-material-formutil.svg?style=flat)](https://npm.im/react-material-formutil)
+> 1.  react-bootstrap [`react-bootstrap-formutil`](https://github.com/qiqiboy/react-bootstrap-formutil) [![npm](https://img.shields.io/npm/v/react-bootstrap-formutil.svg?style=flat)](https://npm.im/react-bootstrap-formutil)
+> 1.  react-md [`react-md-formutil`](https://github.com/qiqiboy/react-md-formutil) [![npm](https://img.shields.io/npm/v/react-md-formutil.svg?style=flat)](https://npm.im/react-md-formutil)
+> 1.  Material-UI [`react-material-formutil`](https://github.com/qiqiboy/react-material-formutil) [![npm](https://img.shields.io/npm/v/react-material-formutil.svg?style=flat)](https://npm.im/react-material-formutil)
 
 <!-- vim-markdown-toc GFM -->
 
@@ -26,6 +26,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
+    + [`setErrorLevel(level)`](#seterrorlevellevel)
     + [`支持的组件`](#支持的组件)
         * [`AutoComplete`](#autocomplete)
         * [`Checkbox`](#checkbox)
@@ -128,14 +129,14 @@ class MyForm extends Component {
 
 > 同 react-formutil 的 EasyField，FormItem 也内置了同样的校验规则：
 
-> -   `required` 必填 `required`
-> -   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
-> -   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
-> -   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
-> -   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
-> -   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
-> -   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
-> -   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
+> *   `required` 必填 `required`
+> *   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
+> *   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
+> *   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
+> *   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
+> *   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
+> *   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
+> *   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
 
 注：校验属性的值为 `null` 时表示不进行该校验
 
@@ -213,6 +214,22 @@ class MyForm extends Component {
 <FormItem focusPropName={null} blurPropName={null} name="username">
     <Input />
 </FormItem>
+```
+
+#### `setErrorLevel(level)`
+
+`setErrorLevel` 该方法可以用来全局设置错误信息何时出现，有三个级别可以设置：
+
+*   `0` 当`$dirty` `$touched` `invalid` 都为 true 时
+*   `1` 当`$dirty` `invalid` 都为 true 时
+*   `2` 当`invalid` 为 true 时
+
+默认值为 `1`
+
+```javascript
+import { setErrorLevel } from 'react-antd-formutil';
+
+setErrorLevel(0);
 ```
 
 #### `支持的组件`

@@ -70,12 +70,13 @@
     "react-animated-router": "0.1.11",
     "react-awesome-snippets": "0.0.22",
     "react-dom": "16.4.2",
-    "react-formutil": "^0.3.4",
+    "react-formutil": "0.4.0",
     "react-router-dom": "4.2.2",
     "react-transition-group": "2.4.0"
   },
   "devDependencies": {
     "address": "1.0.2",
+    "antd": "^3.10.4",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
