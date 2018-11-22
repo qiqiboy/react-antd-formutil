@@ -37,7 +37,12 @@ class FormItem extends Component {
 
         let component;
         if (children && children.type && typeof children.type === 'function') {
-            component = isUglify ? children.type : children.type.name;
+            component =
+                'formutilType' in children.type
+                    ? children.type.formutilType
+                    : isUglify
+                        ? children.type
+                        : children.type.name;
         }
 
         switch (component) {
@@ -51,6 +56,14 @@ class FormItem extends Component {
                 if (!('$defaultValue' in fieldProps)) {
                     fieldProps.$defaultValue = 1;
                 }
+                break;
+
+            case 'checked':
+            case 'array':
+            case 'object':
+            case 'number':
+            case 'empty':
+                fieldProps.__TYPE__ = component;
                 break;
 
             default:
@@ -80,6 +93,7 @@ class FormItem extends Component {
                         case _Switch:
                         case _Checkbox:
                         case _Radio:
+                        case 'checked':
                             const { checked = true, unchecked = false } = props;
                             childProps = {
                                 checked: value === checked,
