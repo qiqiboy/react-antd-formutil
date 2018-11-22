@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
 import { EasyField } from 'react-formutil';
 
-let errorLevel = 1;
+let errorLevelGlobal = 1;
 
 /**
  * 0 dirty & invalid & touched
@@ -11,7 +11,7 @@ let errorLevel = 1;
  * 2 invalid
  */
 export const setErrorLevel = function(level) {
-    errorLevel = level;
+    errorLevelGlobal = level;
 };
 
 const isUglify = Switch.name !== 'Switch';
@@ -26,13 +26,14 @@ const _Pagination = isUglify ? Pagination : 'Pagination';
 class FormItem extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        itemProps: PropTypes.object //传递给antd的Form.Item的属性
+        itemProps: PropTypes.object, //传递给antd的Form.Item的属性
+        errorLevel: PropTypes.number
         //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
     };
 
     render() {
         const props = this.props;
-        const { children, itemProps, ...fieldProps } = props;
+        const { children, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
 
         let component;
         if (children && children.type && typeof children.type === 'function') {

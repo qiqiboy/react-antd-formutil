@@ -26,6 +26,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
+        * [`errorLevel`](#errorlevel)
     + [`setErrorLevel(level)`](#seterrorlevellevel)
     + [`支持的组件`](#支持的组件)
         * [`AutoComplete`](#autocomplete)
@@ -215,6 +216,10 @@ class MyForm extends Component {
     <Input />
 </FormItem>
 ```
+
+##### `errorLevel`
+
+用来覆盖全局的 errorLevel 设置。参考[`setErrorLevel(level)`](#seterrorlevellevel)
 
 #### `setErrorLevel(level)`
 

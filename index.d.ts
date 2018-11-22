@@ -8,9 +8,12 @@ import { EasyFieldComponentProps } from 'react-formutil';
 
 export * from 'react-formutil';
 
+export type ErrorLevel = 0 | 1 | 2;
+
 export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields = Fields>
     extends EasyFieldComponentProps<T, P, Fields, WeakFields> {
     itemProps?: FormItemProps;
+    errorLevel?: ErrorLevel;
     children: React.ReactElement<any>;
 
     [otherName: string]: any;
@@ -20,4 +23,4 @@ export class FormItem<T = any, P = {}, Fields = {}, WeakFields = Fields> extends
     FormItemComponentProps<T, P, Fields, WeakFields>
 > {}
 
-export function setErrorLevel(errorLevel: 0 | 1 | 2): void;
+export function setErrorLevel(errorLevel: ErrorLevel): void;
