@@ -225,9 +225,9 @@ class MyForm extends Component {
 
 `setErrorLevel` 该方法可以用来全局设置错误信息何时出现，有三个级别可以设置：
 
-*   `0` 当`$dirty` `$touched` `invalid` 都为 true 时
-*   `1` 当`$dirty` `invalid` 都为 true 时
-*   `2` 当`invalid` 为 true 时
+*   `0` 当`$dirty` `$touched` `$invalid` 都为 true 时
+*   `1` 当`$dirty` `$invalid` 都为 true 时
+*   `2` 当`$invalid` 为 true 时
 *   `off` 关闭错误显示
 
 默认值为 `1`
@@ -247,7 +247,7 @@ setErrorLevel(0);
         validateStatus: $formutil.$errors.errorOff ? 'error' : undefined,
         help: $formutil.$errors.errorOff ? <div>出错啦</div> : null
     }}>
-    <FormControl />
+    <Input />
 </FormGroup>;
 ```
 
