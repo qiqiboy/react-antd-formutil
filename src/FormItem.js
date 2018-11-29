@@ -27,13 +27,13 @@ class FormItem extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         itemProps: PropTypes.object, //传递给antd的Form.Item的属性
-        errorLevel: PropTypes.number
+        errorLevel: PropTypes.oneOf([0, 1, 2, 'off'])
         //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
     };
 
     render() {
         const props = this.props;
-        const { children, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
+        const { children, itemProps, errorLevel = errorLevelGlobal, className, ...fieldProps } = props;
 
         let component;
         if (children && children.type && typeof children.type === 'function') {
@@ -153,16 +153,23 @@ class FormItem extends Component {
                         case 1:
                             hasError = $invalid && $dirty;
                             break;
-                        default:
+                        case 2:
                             hasError = $invalid;
+                            break;
+                        default:
+                            hasError = false;
                             break;
                     }
 
+                    const validateResult = hasError
+                        ? {
+                              validateStatus: 'error',
+                              help: $getFirstError()
+                          }
+                        : {};
+
                     return (
-                        <Form.Item
-                            validateStatus={hasError ? 'error' : ''}
-                            help={hasError ? $getFirstError() : ''}
-                            {...itemProps}>
+                        <Form.Item className={className} {...itemProps} {...validateResult}>
                             {cloneElement(children, childProps)}
                         </Form.Item>
                     );

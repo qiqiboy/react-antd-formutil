@@ -228,13 +228,27 @@ class MyForm extends Component {
 *   `0` 当`$dirty` `$touched` `invalid` 都为 true 时
 *   `1` 当`$dirty` `invalid` 都为 true 时
 *   `2` 当`invalid` 为 true 时
+*   `off` 关闭错误显示
 
 默认值为 `1`
+
+> 注意，该方法影响全局，如果只是希望单独对某个表单项进行设置，可以通过`errorLevel`属性进行设置：参考[`errorLevel`](#errorlevel)
 
 ```javascript
 import { setErrorLevel } from 'react-antd-formutil';
 
 setErrorLevel(0);
+
+// 当关闭错误显示时，errorLevel='off'，你可以手动自行设置错误展示方式：
+<FormGroup
+    name="errorOff"
+    errorLevel="off"
+    itemProps={{
+        validateStatus: $formutil.$errors.errorOff ? 'error' : undefined,
+        help: $formutil.$errors.errorOff ? <div>出错啦</div> : null
+    }}>
+    <FormControl />
+</FormGroup>;
 ```
 
 #### `支持的组件`
