@@ -50,6 +50,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
     + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
     + [`RangePicker 在safari下假死？`](#rangepicker-在safari下假死)
     + [`Mention 为未非受控组件？`](#mention-为未非受控组件)
+    + [`在生产环境(NODE_ENV==='production')部分组件调用有异常？`](#在生产环境node_envproduction部分组件调用有异常)
 
 <!-- vim-markdown-toc -->
 
@@ -376,3 +377,31 @@ setErrorLevel(0);
 #### `Mention 为未非受控组件？`
 
 由于`Mention`的 `onChange` 会异常触发（[issues 11619](https://github.com/ant-design/ant-design/issues/11619)、失去焦点也会触发等），所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。
+
+#### `在生产环境(NODE_ENV==='production')部分组件调用有异常？`
+
+如果在生产环境，发现例如`Checkbox` `Radio` `Switch`等组件无法正确捕获用户输入的值，这种情况一般是由于项目中使用了`babel-plugin-import`插件。
+
+`react-antd-formutil`中是使用 `import { Switch } from 'antd'` 这种写法来调用 `Switch` 组件的，而`babel-plugin-import`插件会将项目源代码中的类似语句，替换成`import Switch from 'antd/lib/switch'`。这两种写法获取到的`Switch`其实并不是严格意义上的相等，前者是对后者的又一层导出封装。
+
+而由于`babel-plugin-import`一般仅仅会配置成仅仅对项目代码进行处理，所以处于项目`node_modules`目录中的`react-antd-formutil`中的语句不会被处理。我们需要通过修改项目 webpack 配置的方式，来使`babel-plugin-import`插件能处理`react-antd-formutil`的代码。
+
+可以编辑项目的 webpack 配置（只需要配置生产环境的构建配置即可），在`rules`模块下添加以下的代码：
+
+```javascript
+{
+    test: /\.(js|mjs)$/,
+    include: /react-antd-formutil/, // 仅仅处理react-antd-formutil即可
+    loader: require.resolve('babel-loader'),
+    options: {
+        babelrc: false,
+        plugins: [[
+            "import",
+            {
+                "libraryName": "antd"
+            },
+            "antd"
+        ]]
+    }
+}
+```
