@@ -160,23 +160,11 @@ class MyForm extends Component {
 
 ##### `$parser`
 
-设置输入的值收集到 formutil 状态中时的过滤处理。默认为`value => value`
-
-```javascript
-<FormItem $parser={value => parseInt(value)}>
-    <Input />
-</FormItem>
-```
+请参考`react-formutil`中[`$parser`](https://github.com/qiqiboy/react-formutil#parser)介绍。
 
 ##### `$formatter`
 
-设置 formutil 中的值渲染到输入组件上时的过滤处理。默认为`value => value`
-
-```javascript
-<FormItem $formatter={value => '$' + value}>
-    <Input />
-</FormItem>
-```
+请参考`react-formutil`中[`$formatter`](https://github.com/qiqiboy/react-formutil#formatter)介绍。
 
 ##### `checked` `unchecked`
 
