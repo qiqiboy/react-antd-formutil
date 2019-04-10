@@ -72,7 +72,7 @@ function createConfig(env, module) {
                         // Remove PropTypes from production build
                         require('babel-plugin-transform-react-remove-prop-types').default,
                         {
-                            removeImport: false
+                            removeImport: true
                         }
                     ]
                 ].filter(Boolean)

@@ -1,7 +1,6 @@
 var checkDependencies = require('check-dependencies');
 var inquirer = require('react-dev-utils/inquirer');
 var spawn = require('cross-spawn');
-var fs = require('fs-extra');
 var chalk = require('chalk');
 var paths = require('./paths');
 
@@ -30,7 +29,7 @@ function checkMiss(spinner) {
                             install(function(code, command, args) {
                                 if (code !== 0) {
                                     console.error('`' + command + ' ' + args.join(' ') + '` 运行失败');
-                                    return reject();;
+                                    return reject();
                                 }
 
                                 spinner.succeed(chalk.green('项目依赖已更新'));
@@ -57,6 +56,7 @@ function checkMiss(spinner) {
 function install(callback) {
     var command;
     var args;
+
     if (paths.cnpm) {
         command = 'cnpm';
     } else {

@@ -44,7 +44,9 @@ class App extends Component {
         ev.preventDefault();
 
         const { $invalid, $batchDirty } = this.props.$formutil;
+
         console.log('submit');
+
         if ($invalid) {
             $batchDirty(true);
         } else {
@@ -238,8 +240,8 @@ class App extends Component {
                             itemProps={{ ...formItemLayout, label: 'Upload' }}
                             required
                             $parser={({ file, fileList, event }) => {
-                                if (file.status == 'done') {
-                                    //render url form server
+                                if (file.status === 'done') {
+                                    // render url form server
                                     return JSON.parse(file.response).data.url;
                                 }
                             }}>

@@ -81,6 +81,7 @@ export const uplodConfig = {
 };
 
 export const transferData = [];
+
 for (let i = 0; i < 20; i++) {
     transferData.push({
         key: i.toString(),

@@ -1,6 +1,7 @@
 import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
 import React, { cloneElement, Component } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination } from 'antd';
 
 function _defineProperty(obj, key, value) {
@@ -329,6 +330,14 @@ function (_Component) {
 
   return FormItem;
 }(Component);
+
+FormItem.propTypes = {
+  children: PropTypes.element.isRequired,
+  itemProps: PropTypes.object,
+  //传递给antd的Form.Item的属性
+  errorLevel: PropTypes.oneOf([0, 1, 2, 'off']) //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
+
+};
 
 //export react-formutil
 

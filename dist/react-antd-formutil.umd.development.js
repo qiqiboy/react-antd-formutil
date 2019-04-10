@@ -1,10 +1,11 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react-formutil'), require('react'), require('antd')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react-formutil', 'react', 'antd'], factory) :
-  (global = global || self, factory(global.ReactAntdFormutil = {}, global.ReactFormutil, global.React, global.antd));
-}(this, function (exports, reactFormutil, React, antd) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react-formutil'), require('react'), require('prop-types'), require('antd')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react-formutil', 'react', 'prop-types', 'antd'], factory) :
+  (global = global || self, factory(global.ReactAntdFormutil = {}, global.ReactFormutil, global.React, global.PropTypes, global.antd));
+}(this, function (exports, reactFormutil, React, PropTypes, antd) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
+  PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -332,6 +333,14 @@
 
     return FormItem;
   }(React.Component);
+
+  FormItem.propTypes = {
+    children: PropTypes.element.isRequired,
+    itemProps: PropTypes.object,
+    //传递给antd的Form.Item的属性
+    errorLevel: PropTypes.oneOf([0, 1, 2, 'off']) //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
+
+  };
 
   //export react-formutil
 

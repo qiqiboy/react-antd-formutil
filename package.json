@@ -1,6 +1,6 @@
 {
   "name": "react-antd-formutil",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -20,9 +20,6 @@
   "bugs": {
     "url": "https://github.com/qiqiboy/react-antd-formutil/issues"
   },
-  "babel": {
-    "presets": ["react-app"]
-  },
   "eslintConfig": {
     "extends": [
       "react-app"
@@ -34,7 +31,7 @@
     "react": ">15.0.0",
     "prop-types": ">15.0.0",
     "antd": ">3.0.0",
-    "react-formutil": ">0.4.0"
+    "react-formutil": ">0.5.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

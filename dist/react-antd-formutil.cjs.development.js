@@ -7,6 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var reactFormutil = require('react-formutil');
 var React = require('react');
 var React__default = _interopDefault(React);
+var PropTypes = _interopDefault(require('prop-types'));
 var antd = require('antd');
 
 function _defineProperty(obj, key, value) {
@@ -335,6 +336,14 @@ function (_Component) {
 
   return FormItem;
 }(React.Component);
+
+FormItem.propTypes = {
+  children: PropTypes.element.isRequired,
+  itemProps: PropTypes.object,
+  //传递给antd的Form.Item的属性
+  errorLevel: PropTypes.oneOf([0, 1, 2, 'off']) //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
+
+};
 
 //export react-formutil
 
