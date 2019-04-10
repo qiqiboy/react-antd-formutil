@@ -1,8 +1,9 @@
 {
   "name": "react-antd-formutil",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
-  "main": "lib/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "directories": {
     "doc": "docs"
   },
