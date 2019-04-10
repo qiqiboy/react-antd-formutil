@@ -13,7 +13,7 @@ function createConfig(env, module) {
 
     return {
         input: 'src/index.js',
-        external: module === 'umd' ? ['react', 'prop-types', 'react-formutil'] : id => !id.startsWith('.') && !id.startsWith('@babel/runtime') && !path.isAbsolute(id),
+        external: module === 'umd' ? ['react', 'prop-types', 'react-formutil', 'antd'] : id => !id.startsWith('.') && !id.startsWith('@babel/runtime') && !path.isAbsolute(id),
         output: {
             file: `dist/react-antd-formutil.${module}.${env}.js`,
             format: module,
@@ -23,7 +23,8 @@ function createConfig(env, module) {
             globals: {
                 react: 'React',
                 'prop-types': 'PropTypes',
-                'react-formutil': 'ReactFormutil'
+                'react-formutil': 'ReactFormutil',
+                antd: 'antd'
             }
         },
         plugins: [

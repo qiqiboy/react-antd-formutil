@@ -1,2 +1,5 @@
 docs/
 src/
+npm/
+rollup.config.*
+*.un~
