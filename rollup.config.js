@@ -4,6 +4,9 @@ const replace = require('rollup-plugin-replace');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 const sourceMaps = require('rollup-plugin-sourcemaps');
+const filesize = require('rollup-plugin-filesize');
+const clear = require('rollup-plugin-clear');
+const copy = require('rollup-plugin-copy');
 const { terser } = require('rollup-plugin-terser');
 
 process.env.NODE_ENV = 'production';
@@ -31,6 +34,9 @@ function createConfig(env, module) {
             }
         },
         plugins: [
+            clear({
+                targets: ['dist']
+            }),
             replace({
                 'process.env.NODE_ENV': JSON.stringify(env)
             }),
@@ -101,7 +107,12 @@ function createConfig(env, module) {
                     ecma: 5,
                     ie8: false,
                     toplevel: module !== 'umd'
-                })
+                }),
+            filesize(),
+            copy({
+                targets: [`npm/index.${module}.js`],
+                verbose: true
+            })
         ].filter(Boolean)
     };
 }

@@ -188,8 +188,7 @@
             itemProps = props.itemProps,
             _props$errorLevel = props.errorLevel,
             errorLevel = _props$errorLevel === void 0 ? errorLevelGlobal : _props$errorLevel,
-            className = props.className,
-            fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel", "className"]);
+            fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
         var component;
 
@@ -329,9 +328,7 @@
               validateStatus: 'error',
               help: $getFirstError()
             } : {};
-            return React__default.createElement(antd.Form.Item, Object.assign({
-              className: className
-            }, restProps, itemProps, validateResult), React.cloneElement(React.Children.only(children), childProps));
+            return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validateResult), React.cloneElement(React.Children.only(children), childProps));
           }
         }));
       }

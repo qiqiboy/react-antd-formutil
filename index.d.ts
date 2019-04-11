@@ -13,7 +13,6 @@ export type ErrorLevel = 0 | 1 | 2 | 'off';
 export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields = Fields>
     extends BaseEasyFieldComponentProps<T, P, Fields, WeakFields>, Omit<FormItemProps, 'required'> {
     itemProps?: FormItemProps;
-    className?: string;
     errorLevel?: ErrorLevel;
     children: React.ReactElement<any>;
 }

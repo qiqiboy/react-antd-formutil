@@ -34,7 +34,7 @@ class FormItem extends Component {
 
     render() {
         const props = this.props;
-        const { children, itemProps, errorLevel = errorLevelGlobal, className, ...fieldProps } = props;
+        const { children, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
 
         let component;
         if (children && children.type && typeof children.type === 'function') {
@@ -173,7 +173,7 @@ class FormItem extends Component {
                         : {};
 
                     return (
-                        <Form.Item className={className} {...restProps} {...itemProps} {...validateResult}>
+                        <Form.Item {...restProps} {...itemProps} {...validateResult}>
                             {cloneElement(Children.only(children), childProps)}
                         </Form.Item>
                     );
