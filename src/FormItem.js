@@ -76,21 +76,23 @@ class FormItem extends Component {
             <EasyField
                 {...fieldProps}
                 passUtil="$fieldutil"
-                render={({ $fieldutil, ...$handleProps }) => {
-                    const { $invalid, $dirty, $touched, $getFirstError } = $fieldutil;
+                render={$handleProps => {
                     const {
+                        $fieldutil,
+
                         valuePropName = 'value',
                         changePropName = 'onChange',
                         focusPropName = 'onFocus',
-                        blurPropName = 'onBlur'
-                    } = props;
-                    const {
+                        blurPropName = 'onBlur',
+
                         [valuePropName]: onChange,
                         [focusPropName]: onFocus,
                         [blurPropName]: onBlur,
                         [valuePropName]: value,
+
                         ...restProps
                     } = $handleProps;
+                    const { $invalid, $dirty, $touched, $getFirstError } = $fieldutil;
 
                     let childProps;
                     switch (component) {
