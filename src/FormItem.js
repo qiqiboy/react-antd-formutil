@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component, cloneElement, Children } from 'react';
 import PropTypes from 'prop-types';
 // remember to add reserve array words in roollup.config.js
 import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
@@ -42,8 +42,8 @@ class FormItem extends Component {
                 'formutilType' in children.type
                     ? children.type.formutilType
                     : isUglify
-                        ? children.type
-                        : children.type.name;
+                    ? children.type
+                    : children.type.name;
         }
 
         switch (component) {
@@ -76,7 +76,7 @@ class FormItem extends Component {
             <EasyField
                 {...fieldProps}
                 passUtil="$fieldutil"
-                render={({ $fieldutil, ...restProps }) => {
+                render={({ $fieldutil, ...$handleProps }) => {
                     const { $invalid, $dirty, $touched, $getFirstError } = $fieldutil;
                     const {
                         valuePropName = 'value',
@@ -84,10 +84,13 @@ class FormItem extends Component {
                         focusPropName = 'onFocus',
                         blurPropName = 'onBlur'
                     } = props;
-                    const onChange = restProps[changePropName];
-                    const onFocus = restProps[focusPropName];
-                    const onBlur = restProps[blurPropName];
-                    const value = restProps[valuePropName];
+                    const {
+                        [valuePropName]: onChange,
+                        [focusPropName]: onFocus,
+                        [blurPropName]: onBlur,
+                        [valuePropName]: value,
+                        ...restProps
+                    } = $handleProps;
 
                     let childProps;
                     switch (component) {
@@ -170,8 +173,8 @@ class FormItem extends Component {
                         : {};
 
                     return (
-                        <Form.Item className={className} {...itemProps} {...validateResult}>
-                            {cloneElement(children, childProps)}
+                        <Form.Item className={className} {...restProps} {...itemProps} {...validateResult}>
+                            {cloneElement(Children.only(children), childProps)}
                         </Form.Item>
                     );
                 }}

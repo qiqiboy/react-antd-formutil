@@ -1,6 +1,6 @@
 import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
-import React, { cloneElement, Component } from 'react';
+import React, { cloneElement, Children, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination } from 'antd';
 
@@ -138,6 +138,9 @@ function _inherits(subClass, superClass) {
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
 
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var errorLevelGlobal = 1;
 /**
  * 0 dirty & invalid & touched
@@ -224,7 +227,7 @@ function (_Component) {
           var _childProps, _Object$assign;
 
           var $fieldutil = _ref.$fieldutil,
-              restProps = _objectWithoutProperties(_ref, ["$fieldutil"]);
+              $handleProps = _objectWithoutProperties(_ref, ["$fieldutil"]);
 
           var $invalid = $fieldutil.$invalid,
               $dirty = $fieldutil.$dirty,
@@ -238,10 +241,13 @@ function (_Component) {
               focusPropName = _props$focusPropName === void 0 ? 'onFocus' : _props$focusPropName,
               _props$blurPropName = props.blurPropName,
               blurPropName = _props$blurPropName === void 0 ? 'onBlur' : _props$blurPropName;
-          var _onChange = restProps[changePropName];
-          var onFocus = restProps[focusPropName];
-          var onBlur = restProps[blurPropName];
-          var value = restProps[valuePropName];
+
+          var _onChange = $handleProps[valuePropName],
+              onFocus = $handleProps[focusPropName],
+              onBlur = $handleProps[blurPropName],
+              value = $handleProps[valuePropName],
+              restProps = _objectWithoutProperties($handleProps, [valuePropName, focusPropName, blurPropName, valuePropName].map(_toPropertyKey));
+
           var childProps;
 
           switch (component) {
@@ -322,7 +328,7 @@ function (_Component) {
           } : {};
           return React.createElement(Form.Item, Object.assign({
             className: className
-          }, itemProps, validateResult), cloneElement(children, childProps));
+          }, restProps, itemProps, validateResult), cloneElement(Children.only(children), childProps));
         }
       }));
     }

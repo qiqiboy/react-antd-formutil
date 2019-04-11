@@ -68,6 +68,8 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 ### 安装 Installation
 
+[![react-antd-formutil](https://nodei.co/npm/react-antd-formutil.png?compact=true)](https://npm.im/react-antd-formutil)
+
 ```bash
 # npm
 npm install react-antd-formutil --save
@@ -127,7 +129,11 @@ class MyForm extends Component {
 
 所以`FormItem`会完整实现`Form.Item`所可以显示的校验状态、错误暂时等 UI 变化。
 
-> 同 antd 的`Form.Item`一样，`FormItem`也只允许嵌套一个 child 组件，不允许多个。放置多个 child，会自动停止状态追踪。
+> 如果给 `FormItem` 传递了多个子节点，则只会对第一个节点进行表单状态绑定！！
+
+**支持传递的属性**
+
+`FormItem`可以接收所有`antd`中的`Form.Item`组件所接收的所有属性，另外还新增以下属性支持：
 
 ##### `name`
 
