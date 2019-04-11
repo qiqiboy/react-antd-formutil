@@ -1,6 +1,18 @@
 # react-antd-formutil
 
 [![npm](https://img.shields.io/npm/v/react-antd-formutil.svg?style=flat)](https://npm.im/react-antd-formutil)
+[![peerDependencies](https://img.shields.io/npm/dependency-version/react-antd-formutil/peer/react.svg?color=yellowgreen)](https://reactjs.org)
+[![definitionTypes](https://img.shields.io/npm/types/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil/blob/master/index.d.ts)
+[![gzip](https://img.shields.io/bundlephobia/minzip/react-antd-formutil.svg)](https://npm.im/react-antd-formutil)
+[![download](https://img.shields.io/npm/dm/react-antd-formutil.svg)](https://npm.im/react-antd-formutil)
+[![issues](https://img.shields.io/github/issues/qiqiboy/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil/issues)
+[![license](https://img.shields.io/github/license/qiqiboy/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil/blob/master/LICENSE)
+[![github](https://img.shields.io/github/last-commit/qiqiboy/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil)
+[![github](https://img.shields.io/github/release-date/qiqiboy/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil/releases)
+[![github](https://img.shields.io/github/commit-activity/m/qiqiboy/react-antd-formutil.svg)](https://github.com/qiqiboy/react-antd-formutil/commits/master)
+[![github](https://img.shields.io/github/stars/qiqiboy/react-antd-formutil.svg?style=social)](https://github.com/qiqiboy/react-antd-formutil)
+
+[![react-antd-formutil](https://nodei.co/npm/react-antd-formutil.png?compact=true)](https://npm.im/react-antd-formutil)
 
 Happy to use react-formutil in the project based on ant-design ^\_^
 
