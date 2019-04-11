@@ -1,5 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
+// remember to add reserve array words in roollup.config.js
 import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
 import { EasyField } from 'react-formutil';
 

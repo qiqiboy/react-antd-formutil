@@ -94,6 +94,10 @@ function createConfig(env, module) {
                               }
                             : false,
                     warnings: false,
+                    mangle: {
+                        // https://github.com/ant-design/babel-plugin-import/issues/282
+                        reserved: ['Switch', 'Mention', 'Form', 'Checkbox', 'Radio', 'Transfer', 'Pagination']
+                    },
                     ecma: 5,
                     ie8: false,
                     toplevel: module !== 'umd'
