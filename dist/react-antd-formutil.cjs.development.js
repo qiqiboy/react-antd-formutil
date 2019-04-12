@@ -231,20 +231,21 @@ function (_Component) {
         render: function render($handleProps) {
           var _childProps, _Object$assign;
 
+          var _props$valuePropName = props.valuePropName,
+              valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
+              _props$changePropName = props.changePropName,
+              changePropName = _props$changePropName === void 0 ? 'onChange' : _props$changePropName,
+              _props$focusPropName = props.focusPropName,
+              focusPropName = _props$focusPropName === void 0 ? 'onFocus' : _props$focusPropName,
+              _props$blurPropName = props.blurPropName,
+              blurPropName = _props$blurPropName === void 0 ? 'onBlur' : _props$blurPropName;
+
           var $fieldutil = $handleProps.$fieldutil,
-              _$handleProps$valuePr = $handleProps.valuePropName,
-              valuePropName = _$handleProps$valuePr === void 0 ? 'value' : _$handleProps$valuePr,
-              _$handleProps$changeP = $handleProps.changePropName,
-              changePropName = _$handleProps$changeP === void 0 ? 'onChange' : _$handleProps$changeP,
-              _$handleProps$focusPr = $handleProps.focusPropName,
-              focusPropName = _$handleProps$focusPr === void 0 ? 'onFocus' : _$handleProps$focusPr,
-              _$handleProps$blurPro = $handleProps.blurPropName,
-              blurPropName = _$handleProps$blurPro === void 0 ? 'onBlur' : _$handleProps$blurPro,
-              _onChange = $handleProps[valuePropName],
+              _onChange = $handleProps[changePropName],
               onFocus = $handleProps[focusPropName],
               onBlur = $handleProps[blurPropName],
               value = $handleProps[valuePropName],
-              restProps = _objectWithoutProperties($handleProps, ["$fieldutil", "valuePropName", "changePropName", "focusPropName", "blurPropName", valuePropName, focusPropName, blurPropName, valuePropName].map(_toPropertyKey));
+              restProps = _objectWithoutProperties($handleProps, ["$fieldutil", changePropName, focusPropName, blurPropName, valuePropName].map(_toPropertyKey));
 
           var $invalid = $fieldutil.$invalid,
               $dirty = $fieldutil.$dirty,

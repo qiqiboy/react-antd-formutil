@@ -78,14 +78,15 @@ class FormItem extends Component {
                 passUtil="$fieldutil"
                 render={$handleProps => {
                     const {
-                        $fieldutil,
-
                         valuePropName = 'value',
                         changePropName = 'onChange',
                         focusPropName = 'onFocus',
-                        blurPropName = 'onBlur',
+                        blurPropName = 'onBlur'
+                    } = props;
+                    const {
+                        $fieldutil,
 
-                        [valuePropName]: onChange,
+                        [changePropName]: onChange,
                         [focusPropName]: onFocus,
                         [blurPropName]: onBlur,
                         [valuePropName]: value,
