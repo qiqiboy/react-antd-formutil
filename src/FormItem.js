@@ -34,7 +34,8 @@ class FormItem extends Component {
 
     render() {
         const props = this.props;
-        const { children, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
+        const { children: childList, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
+        const children = Children.only(childList);
 
         let component;
         if (children && children.type && typeof children.type === 'function') {
@@ -155,7 +156,7 @@ class FormItem extends Component {
 
                     switch (errorLevel) {
                         case 0:
-                            hasError = $invalid && $dirty & $touched;
+                            hasError = $invalid && $dirty && $touched;
                             break;
                         case 1:
                             hasError = $invalid && $dirty;
@@ -177,7 +178,7 @@ class FormItem extends Component {
 
                     return (
                         <Form.Item {...restProps} {...itemProps} {...validateResult}>
-                            {cloneElement(Children.only(children), childProps)}
+                            {cloneElement(children, childProps)}
                         </Form.Item>
                     );
                 }}

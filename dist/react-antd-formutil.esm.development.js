@@ -1,6 +1,6 @@
 import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
-import React, { cloneElement, Children, Component } from 'react';
+import React, { Children, cloneElement, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination } from 'antd';
 
@@ -183,12 +183,13 @@ function (_Component) {
     value: function render() {
       var props = this.props;
 
-      var children = props.children,
+      var childList = props.children,
           itemProps = props.itemProps,
           _props$errorLevel = props.errorLevel,
           errorLevel = _props$errorLevel === void 0 ? errorLevelGlobal : _props$errorLevel,
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
+      var children = Children.only(childList);
       var component;
 
       if (children && children.type && typeof children.type === 'function') {
@@ -305,7 +306,7 @@ function (_Component) {
 
           switch (errorLevel) {
             case 0:
-              hasError = $invalid && $dirty & $touched;
+              hasError = $invalid && $dirty && $touched;
               break;
 
             case 1:
@@ -325,7 +326,7 @@ function (_Component) {
             validateStatus: 'error',
             help: $getFirstError()
           } : {};
-          return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validateResult), cloneElement(Children.only(children), childProps));
+          return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validateResult), cloneElement(children, childProps));
         }
       }));
     }

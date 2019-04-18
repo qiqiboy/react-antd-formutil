@@ -189,12 +189,13 @@ function (_Component) {
     value: function render() {
       var props = this.props;
 
-      var children = props.children,
+      var childList = props.children,
           itemProps = props.itemProps,
           _props$errorLevel = props.errorLevel,
           errorLevel = _props$errorLevel === void 0 ? errorLevelGlobal : _props$errorLevel,
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
+      var children = React.Children.only(childList);
       var component;
 
       if (children && children.type && typeof children.type === 'function') {
@@ -311,7 +312,7 @@ function (_Component) {
 
           switch (errorLevel) {
             case 0:
-              hasError = $invalid && $dirty & $touched;
+              hasError = $invalid && $dirty && $touched;
               break;
 
             case 1:
@@ -331,7 +332,7 @@ function (_Component) {
             validateStatus: 'error',
             help: $getFirstError()
           } : {};
-          return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validateResult), React.cloneElement(React.Children.only(children), childProps));
+          return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validateResult), React.cloneElement(children, childProps));
         }
       }));
     }
