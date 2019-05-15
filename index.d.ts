@@ -4,7 +4,7 @@
 
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import React from 'react';
-import { BaseEasyFieldComponentProps, FieldValidatorProps, Omit, OtherKeys } from 'react-formutil';
+import { BaseEasyFieldComponentProps, Omit, OtherKeys } from 'react-formutil';
 
 export * from 'react-formutil';
 
@@ -18,7 +18,7 @@ export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields
 }
 
 export class FormItem<T = any, P = {}, Fields = {}, WeakFields = Fields> extends React.Component<
-    FormItemComponentProps<T, P, Fields, WeakFields> & FieldValidatorProps<P> & OtherKeys
+    FormItemComponentProps<T, P, Fields, WeakFields> & OtherKeys
 > {}
 
 export function setErrorLevel(errorLevel: ErrorLevel): void;
