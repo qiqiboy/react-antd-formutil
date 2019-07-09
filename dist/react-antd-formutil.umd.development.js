@@ -184,6 +184,8 @@
     _createClass(FormItem, [{
       key: "render",
       value: function render() {
+        var _this = this;
+
         var props = this.props;
 
         var childList = props.children,
@@ -300,7 +302,29 @@
                 break;
 
               default:
-                childProps = (_childProps = {}, _defineProperty(_childProps, changePropName, _onChange), _defineProperty(_childProps, valuePropName, value), _childProps);
+                childProps = (_childProps = {
+                  onCompositionEnd: function onCompositionEnd(ev) {
+                    _this.isComposition = false;
+                    delete _this.compositionValue;
+
+                    _onChange(ev);
+                  },
+                  onCompositionStart: function onCompositionStart() {
+                    return _this.isComposition = true;
+                  }
+                }, _defineProperty(_childProps, changePropName, function (ev) {
+                  if (_this.isComposition) {
+                    _this.compositionValue = ev.target[valuePropName];
+
+                    _this.forceUpdate();
+                  } else {
+                    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                      rest[_key - 1] = arguments[_key];
+                    }
+
+                    _onChange.apply(void 0, [ev].concat(rest));
+                  }
+                }), _defineProperty(_childProps, valuePropName, 'compositionValue' in _this ? _this.compositionValue : value), _childProps);
                 break;
             }
 
