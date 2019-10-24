@@ -1,6 +1,7 @@
 import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
 import React, { Children, cloneElement, Component } from 'react';
+import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination } from 'antd';
 
@@ -167,6 +168,26 @@ var _Transfer = isUglify ? Transfer : 'Transfer';
 
 var _Pagination = isUglify ? Pagination : 'Pagination';
 
+function getChildComponent(children) {
+  if (children) {
+    var childrenType = children.type;
+
+    if (typeof childrenType !== 'string' && isValidElementType(childrenType)) {
+      if (childrenType.formutilType) {
+        return childrenType.formutilType;
+      }
+
+      if (isUglify) {
+        return childrenType;
+      }
+
+      return childrenType.displayName || childrenType.name;
+    }
+
+    return children.props.type || children.type;
+  }
+}
+
 var FormItem =
 /*#__PURE__*/
 function (_Component) {
@@ -192,11 +213,7 @@ function (_Component) {
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
       var children = Children.only(childList);
-      var component;
-
-      if (children && children.type && typeof children.type === 'function') {
-        component = 'formutilType' in children.type ? children.type.formutilType : isUglify ? children.type : children.type.name;
-      }
+      var component = getChildComponent(children);
 
       switch (component) {
         case _Switch:
@@ -366,8 +383,6 @@ FormItem.propTypes = {
   errorLevel: PropTypes.oneOf([0, 1, 2, 'off']) //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
 
 };
-
-//export react-formutil
 
 export { FormItem, setErrorLevel };
 //# sourceMappingURL=react-antd-formutil.esm.development.js.map

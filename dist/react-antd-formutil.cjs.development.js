@@ -7,6 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var reactFormutil = require('react-formutil');
 var React = require('react');
 var React__default = _interopDefault(React);
+var reactIs = require('react-is');
 var PropTypes = _interopDefault(require('prop-types'));
 var antd = require('antd');
 
@@ -173,6 +174,26 @@ var _Transfer = isUglify ? antd.Transfer : 'Transfer';
 
 var _Pagination = isUglify ? antd.Pagination : 'Pagination';
 
+function getChildComponent(children) {
+  if (children) {
+    var childrenType = children.type;
+
+    if (typeof childrenType !== 'string' && reactIs.isValidElementType(childrenType)) {
+      if (childrenType.formutilType) {
+        return childrenType.formutilType;
+      }
+
+      if (isUglify) {
+        return childrenType;
+      }
+
+      return childrenType.displayName || childrenType.name;
+    }
+
+    return children.props.type || children.type;
+  }
+}
+
 var FormItem =
 /*#__PURE__*/
 function (_Component) {
@@ -198,11 +219,7 @@ function (_Component) {
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
       var children = React.Children.only(childList);
-      var component;
-
-      if (children && children.type && typeof children.type === 'function') {
-        component = 'formutilType' in children.type ? children.type.formutilType : isUglify ? children.type : children.type.name;
-      }
+      var component = getChildComponent(children);
 
       switch (component) {
         case _Switch:
@@ -373,13 +390,11 @@ FormItem.propTypes = {
 
 };
 
-//export react-formutil
-
-Object.keys(reactFormutil).forEach(function (key) {
-  Object.defineProperty(exports, key, {
+Object.keys(reactFormutil).forEach(function (k) {
+  if (k !== 'default') Object.defineProperty(exports, k, {
     enumerable: true,
     get: function () {
-      return reactFormutil[key];
+      return reactFormutil[k];
     }
   });
 });

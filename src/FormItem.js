@@ -1,4 +1,5 @@
 import React, { Component, cloneElement, Children } from 'react';
+import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 // remember to add reserve array words in roollup.config.js
 import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
@@ -24,6 +25,26 @@ const _Mention = isUglify ? Mention : 'Mention';
 const _Transfer = isUglify ? Transfer : 'Transfer';
 const _Pagination = isUglify ? Pagination : 'Pagination';
 
+function getChildComponent(children) {
+    if (children) {
+        const childrenType = children.type;
+
+        if (typeof childrenType !== 'string' && isValidElementType(childrenType)) {
+            if (childrenType.formutilType) {
+                return childrenType.formutilType;
+            }
+
+            if (isUglify) {
+                return childrenType;
+            }
+
+            return childrenType.displayName || childrenType.name;
+        }
+
+        return children.props.type || children.type;
+    }
+}
+
 class FormItem extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
@@ -37,15 +58,7 @@ class FormItem extends Component {
         const { children: childList, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
         const children = Children.only(childList);
 
-        let component;
-        if (children && children.type && typeof children.type === 'function') {
-            component =
-                'formutilType' in children.type
-                    ? children.type.formutilType
-                    : isUglify
-                    ? children.type
-                    : children.type.name;
-        }
+        let component = getChildComponent(children);
 
         switch (component) {
             case _Switch:
