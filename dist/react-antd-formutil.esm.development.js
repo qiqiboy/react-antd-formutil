@@ -266,6 +266,7 @@ function (_Component) {
           var $invalid = $fieldutil.$invalid,
               $dirty = $fieldutil.$dirty,
               $touched = $fieldutil.$touched,
+              $focused = $fieldutil.$focused,
               $getFirstError = $fieldutil.$getFirstError;
           var childProps;
 
@@ -363,6 +364,7 @@ function (_Component) {
               break;
           }
 
+          restProps.className = [restProps.className, hasError && 'has-error', $invalid && 'is-invalid', $dirty && 'is-dirty', $touched && 'is-touched', $focused && 'is-focused'].filter(Boolean).join(' ');
           var validateResult = hasError ? {
             validateStatus: 'error',
             help: $getFirstError()

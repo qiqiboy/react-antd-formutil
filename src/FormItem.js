@@ -107,7 +107,7 @@ class FormItem extends Component {
 
                         ...restProps
                     } = $handleProps;
-                    const { $invalid, $dirty, $touched, $getFirstError } = $fieldutil;
+                    const { $invalid, $dirty, $touched, $focused, $getFirstError } = $fieldutil;
 
                     let childProps;
                     switch (component) {
@@ -194,6 +194,17 @@ class FormItem extends Component {
                             hasError = false;
                             break;
                     }
+
+                    restProps.className = [
+                        restProps.className,
+                        hasError && 'has-error',
+                        $invalid && 'is-invalid',
+                        $dirty && 'is-dirty',
+                        $touched && 'is-touched',
+                        $focused && 'is-focused'
+                    ]
+                        .filter(Boolean)
+                        .join(' ');
 
                     const validateResult = hasError
                         ? {

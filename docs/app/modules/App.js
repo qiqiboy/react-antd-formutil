@@ -59,7 +59,11 @@ class App extends Component {
             <Row>
                 <Col lg={12}>
                     <Form onSubmit={this.submit} style={{ padding: 20 }}>
-                        <FormItem name="autocomplete" itemProps={{ ...formItemLayout, label: 'AutoComplete' }} required>
+                        <FormItem
+                            name="autocomplete"
+                            itemProps={{ ...formItemLayout, label: 'AutoComplete' }}
+                            className="abc"
+                            required>
                             <AutoComplete
                                 dataSource={this.state.acDataSource}
                                 onSearch={value =>
