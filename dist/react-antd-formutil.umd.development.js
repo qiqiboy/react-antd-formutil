@@ -640,7 +640,7 @@
                 break;
             }
 
-            restProps.className = [restProps.className, hasError && 'has-error', $invalid && 'is-invalid', $dirty && 'is-dirty', $touched && 'is-touched', $focused && 'is-focused'].filter(Boolean).join(' ');
+            restProps.className = [restProps.className, hasError && 'has-error', $invalid ? 'is-invalid' : 'is-valid', $dirty ? 'is-dirty' : 'is-pristine', $touched ? 'is-touched' : 'is-untouched', $focused ? 'is-focused' : 'is-unfocused'].filter(Boolean).join(' ');
             var validateResult = hasError ? {
               validateStatus: 'error',
               help: $getFirstError()

@@ -58,6 +58,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`Transfer`](#transfer)
         * [`TimePicker`](#timepicker)
         * [`Upload`](#upload)
+    + [`动态className`](#动态classname)
 - [FAQ](#faq)
     + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
     + [`RangePicker 在safari下假死？`](#rangepicker-在safari下假死)
@@ -357,6 +358,20 @@ setErrorLevel(0);
     </Upload>
 </FormItem>
 ```
+
+#### `动态className`
+
+`FormGroup`会自动给表单节点增加与该表单项校验状态相关的 className：
+
+-   `has-error`
+-   `is-invalid`
+-   `is-valid`
+-   `is-touched`
+-   `is-untouched`
+-   `is-focused`
+-   `is-unfocused`
+-   `is-dirty`
+-   `is-pristine`
 
 ### FAQ
 

@@ -198,10 +198,10 @@ class FormItem extends Component {
                     restProps.className = [
                         restProps.className,
                         hasError && 'has-error',
-                        $invalid && 'is-invalid',
-                        $dirty && 'is-dirty',
-                        $touched && 'is-touched',
-                        $focused && 'is-focused'
+                        $invalid ? 'is-invalid' : 'is-valid',
+                        $dirty ? 'is-dirty' : 'is-pristine',
+                        $touched ? 'is-touched' : 'is-untouched',
+                        $focused ? 'is-focused' : 'is-unfocused'
                     ]
                         .filter(Boolean)
                         .join(' ');
