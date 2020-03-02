@@ -2,7 +2,7 @@ import React, { Component, cloneElement, Children } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 // remember to add reserve array words in roollup.config.js
-import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination } from 'antd';
+import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination, Upload } from 'antd';
 import { EasyField } from 'react-formutil';
 
 let errorLevelGlobal = 1;
@@ -24,6 +24,7 @@ const _Radio = isUglify ? Radio : 'Radio';
 const _Mention = isUglify ? Mention : 'Mention';
 const _Transfer = isUglify ? Transfer : 'Transfer';
 const _Pagination = isUglify ? Pagination : 'Pagination';
+const _Upload = isUglify ? Upload : 'Upload';
 
 function getChildComponent(children) {
     if (children) {
@@ -148,6 +149,13 @@ class FormItem extends Component {
                         case _Pagination:
                             childProps = {
                                 current: value,
+                                onChange
+                            };
+                            break;
+
+                        case _Upload:
+                            childProps = {
+                                fileList: value && 'fileList' in value ? value.fileList : undefined,
                                 onChange
                             };
                             break;

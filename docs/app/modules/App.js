@@ -17,7 +17,7 @@ import {
     DatePicker,
     TimePicker,
     Cascader,
-    Mention,
+    Mentions,
     TreeSelect,
     Upload,
     Transfer,
@@ -31,7 +31,6 @@ import {
     selectOption,
     sliderMarks,
     cascaderOptions,
-    mentionOptions,
     uplodConfig,
     transferData
 } from './config';
@@ -210,9 +209,13 @@ class App extends Component {
                         <FormItem
                             name="mention"
                             $defaultValue="@afc163"
-                            itemProps={{ ...formItemLayout, label: 'Mention' }}
+                            itemProps={{ ...formItemLayout, label: 'Mentions' }}
                             required>
-                            <Mention style={{ width: '100%' }} suggestions={mentionOptions} placement="top" />
+                            <Mentions style={{ width: '100%' }} placement="top">
+                                <Mentions.Option value="afc163">afc163</Mentions.Option>
+                                <Mentions.Option value="zombieJ">zombieJ</Mentions.Option>
+                                <Mentions.Option value="yesmeck">yesmeck</Mentions.Option>
+                            </Mentions>
                         </FormItem>
 
                         <FormItem name="treeselect" itemProps={{ ...formItemLayout, label: 'TreeSelect' }} required>
@@ -243,10 +246,12 @@ class App extends Component {
                             name="upload"
                             itemProps={{ ...formItemLayout, label: 'Upload' }}
                             required
-                            $parser={({ file, fileList, event }) => {
+                            $parser={({ file }) => {
                                 if (file.status === 'done') {
-                                    // render url form server
-                                    return JSON.parse(file.response).data.url;
+                                    console.log(file);
+
+                                    // 这里仅作为示例
+                                    return file.originFileObj.uid;
                                 }
                             }}>
                             <Upload {...uplodConfig}>
