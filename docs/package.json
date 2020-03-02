@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "axios": "0.17.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "moment": "^2.22.2",
     "react-animated-router": "0.1.11",
     "react-awesome-snippets": "0.0.22",
