@@ -43,6 +43,8 @@ var _Transfer = isUglify ? antd.Transfer : 'Transfer';
 
 var _Pagination = isUglify ? antd.Pagination : 'Pagination';
 
+var _Upload = isUglify ? antd.Upload : 'Upload';
+
 function getChildComponent(children) {
   if (children) {
     var childrenType = children.type;
@@ -185,6 +187,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
             case _Pagination:
               childProps = {
                 current: value,
+                onChange: _onChange
+              };
+              break;
+
+            case _Upload:
+              childProps = {
+                fileList: value && 'fileList' in value ? value.fileList : undefined,
                 onChange: _onChange
               };
               break;
