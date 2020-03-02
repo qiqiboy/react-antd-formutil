@@ -119,7 +119,7 @@
     "prettier": "1.19.1",
     "raf-dom": "1.1.0",
     "raw-loader": "3.1.0",
-    "react-dev-utils": "10.1.0",
+    "react-dev-utils": "4.2.2",
     "rsync": "0.6.1",
     "sass": "1.26.2",
     "sass-loader": "8.0.2",
