@@ -3,6 +3,7 @@
 // Definitions by: qiqiboy <https://github.com/qiqiboy>
 
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FieldProps } from 'rc-field-form/lib/Field';
 import React from 'react';
 import { BaseEasyFieldComponentProps, Omit, OtherKeys } from 'react-formutil';
 
@@ -11,8 +12,8 @@ export * from 'react-formutil';
 export type ErrorLevel = 0 | 1 | 2 | 'off';
 
 export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields = Fields>
-    extends BaseEasyFieldComponentProps<T, P, Fields, WeakFields>, Omit<FormItemProps, 'required'> {
-    itemProps?: FormItemProps;
+    extends BaseEasyFieldComponentProps<T, P, Fields, WeakFields>, Omit<FormItemProps, keyof FieldProps | 'required'> {
+    itemProps?: Omit<FormItemProps, keyof FieldProps | 'required'>;
     errorLevel?: ErrorLevel;
     children: React.ReactElement<any>;
 }

@@ -37,11 +37,11 @@ var _Checkbox = isUglify ? antd.Checkbox : 'Checkbox';
 
 var _Radio = isUglify ? antd.Radio : 'Radio';
 
-var _Mention = isUglify ? antd.Mention : 'Mention';
-
 var _Transfer = isUglify ? antd.Transfer : 'Transfer';
 
 var _Pagination = isUglify ? antd.Pagination : 'Pagination';
+
+var _Upload = isUglify ? antd.Upload : 'Upload';
 
 function getChildComponent(children) {
   if (children) {
@@ -162,19 +162,6 @@ var FormItem = /*#__PURE__*/function (_Component) {
               };
               break;
 
-            case _Mention:
-              childProps = {
-                defaultValue: antd.Mention.toContentState(value || ''),
-                onChange: function onChange(contentState) {
-                  var newValue = antd.Mention.toString(contentState);
-
-                  if (newValue !== value) {
-                    _onChange(newValue);
-                  }
-                }
-              };
-              break;
-
             case _Transfer:
               childProps = {
                 targetKeys: value,
@@ -185,6 +172,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
             case _Pagination:
               childProps = {
                 current: value,
+                onChange: _onChange
+              };
+              break;
+
+            case _Upload:
+              childProps = {
+                fileList: value && 'fileList' in value ? value.fileList : undefined,
                 onChange: _onChange
               };
               break;
@@ -242,7 +236,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
             validateStatus: 'error',
             help: $getFirstError()
           } : {};
-          return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validateResult), React.cloneElement(children, childProps));
+          return React__default.createElement(antd.Form.Item, Object.assign({
+            required: false
+          }, itemProps, validateResult), React.cloneElement(children, childProps));
         }
       }));
     }

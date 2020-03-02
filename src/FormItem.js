@@ -2,7 +2,7 @@ import React, { Component, cloneElement, Children } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 // remember to add reserve array words in roollup.config.js
-import { Form, Switch, Checkbox, Radio, Mention, Transfer, Pagination, Upload } from 'antd';
+import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 import { EasyField } from 'react-formutil';
 
 let errorLevelGlobal = 1;
@@ -21,7 +21,6 @@ const isUglify = Switch.name !== 'Switch';
 const _Switch = isUglify ? Switch : 'Switch';
 const _Checkbox = isUglify ? Checkbox : 'Checkbox';
 const _Radio = isUglify ? Radio : 'Radio';
-const _Mention = isUglify ? Mention : 'Mention';
 const _Transfer = isUglify ? Transfer : 'Transfer';
 const _Pagination = isUglify ? Pagination : 'Pagination';
 const _Upload = isUglify ? Upload : 'Upload';
@@ -126,19 +125,6 @@ class FormItem extends Component {
                             };
                             break;
 
-                        case _Mention:
-                            childProps = {
-                                defaultValue: Mention.toContentState(value || ''),
-                                onChange: contentState => {
-                                    const newValue = Mention.toString(contentState);
-
-                                    if (newValue !== value) {
-                                        onChange(newValue);
-                                    }
-                                }
-                            };
-                            break;
-
                         case _Transfer:
                             childProps = {
                                 targetKeys: value,
@@ -222,7 +208,7 @@ class FormItem extends Component {
                         : {};
 
                     return (
-                        <Form.Item {...restProps} {...itemProps} {...validateResult}>
+                        <Form.Item required={false} {...itemProps} {...validateResult}>
                             {cloneElement(children, childProps)}
                         </Form.Item>
                     );

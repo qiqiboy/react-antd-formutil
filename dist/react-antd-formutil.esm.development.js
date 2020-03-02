@@ -11,7 +11,7 @@ import _inherits from '@babel/runtime/helpers/esm/inherits';
 import React, { Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination } from 'antd';
+import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 
 var errorLevelGlobal = 1;
 /**
@@ -31,11 +31,11 @@ var _Checkbox = isUglify ? Checkbox : 'Checkbox';
 
 var _Radio = isUglify ? Radio : 'Radio';
 
-var _Mention = isUglify ? Mention : 'Mention';
-
 var _Transfer = isUglify ? Transfer : 'Transfer';
 
 var _Pagination = isUglify ? Pagination : 'Pagination';
+
+var _Upload = isUglify ? Upload : 'Upload';
 
 function getChildComponent(children) {
   if (children) {
@@ -156,19 +156,6 @@ var FormItem = /*#__PURE__*/function (_Component) {
               };
               break;
 
-            case _Mention:
-              childProps = {
-                defaultValue: Mention.toContentState(value || ''),
-                onChange: function onChange(contentState) {
-                  var newValue = Mention.toString(contentState);
-
-                  if (newValue !== value) {
-                    _onChange(newValue);
-                  }
-                }
-              };
-              break;
-
             case _Transfer:
               childProps = {
                 targetKeys: value,
@@ -179,6 +166,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
             case _Pagination:
               childProps = {
                 current: value,
+                onChange: _onChange
+              };
+              break;
+
+            case _Upload:
+              childProps = {
+                fileList: value && 'fileList' in value ? value.fileList : undefined,
                 onChange: _onChange
               };
               break;
@@ -236,7 +230,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
             validateStatus: 'error',
             help: $getFirstError()
           } : {};
-          return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validateResult), cloneElement(children, childProps));
+          return React.createElement(Form.Item, Object.assign({
+            required: false
+          }, itemProps, validateResult), cloneElement(children, childProps));
         }
       }));
     }
