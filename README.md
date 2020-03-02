@@ -27,6 +27,8 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 <!-- vim-markdown-toc GFM -->
 
 - [安装 Installation](#安装-installation)
+    + [`Ant Design 4.x`](#ant-design-4x)
+    + [`Ant Design 3.x`](#ant-design-3x)
 - [使用 Usage](#使用-usage)
     + [`<FormItem />`](#formitem-)
         * [`name`](#name)
@@ -47,7 +49,7 @@ Happy to use react-formutil in the project based on ant-design ^\_^
         * [`DatePicker`](#datepicker)
         * [`InputNumber`](#inputnumber)
         * [`Input`](#input)
-        * [`Mention`](#mention)
+        * [`Mentions`](#mentions)
         * [`Pagination`](#pagination)
         * [`Rate`](#rate)
         * [`Radio`](#radio)
@@ -62,7 +64,6 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 - [FAQ](#faq)
     + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
     + [`RangePicker 在safari下假死？`](#rangepicker-在safari下假死)
-    + [`Mention 为未非受控组件？`](#mention-为未非受控组件)
     + [`在生产环境(NODE_ENV==='production')部分组件调用有异常？`](#在生产环境node_envproduction部分组件调用有异常)
 
 <!-- vim-markdown-toc -->
@@ -71,12 +72,24 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 [![react-antd-formutil](https://nodei.co/npm/react-antd-formutil.png?compact=true)](https://npm.im/react-antd-formutil)
 
+#### `Ant Design 4.x`
+
 ```bash
 # npm
-npm install react-antd-formutil --save
+npm install react-antd-formutil@next --save
 
 # yarn
-yarn install react-antd-formutil
+yarn install react-antd-formutil@next
+```
+
+#### `Ant Design 3.x`
+
+```bash
+# npm
+npm install react-antd-formutil@0.2 --save
+
+# yarn
+yarn install react-antd-formutil@0.2
 ```
 
 ### 使用 Usage
@@ -294,9 +307,7 @@ setErrorLevel(0);
 
 ##### [`Input`](https://ant.design/components/input-cn/)
 
-##### [`Mention`](https://ant.design/components/mention-cn/)
-
-参考 [`Mention 为未非受控组件？`](#mention-为未非受控组件)
+##### [`Mentions`](https://ant.design/components/mentions-cn/)
 
 ##### [`Pagination`](https://ant.design/components/pagination-cn/)
 
@@ -394,10 +405,6 @@ setErrorLevel(0);
     <DatePicker.RangePicker />
 </FormItem>
 ```
-
-#### `Mention 为未非受控组件？`
-
-由于`Mention`的 `onChange` 会异常触发（[issues 11619](https://github.com/ant-design/ant-design/issues/11619)、失去焦点也会触发等），所以为了性能考虑，针对该组件使用了非受控组件。即，只能在初次调用时传入 value，后期不可通过`react-formutil`提供的`$setValues`等方法去动态的设置该项的值。
 
 #### `在生产环境(NODE_ENV==='production')部分组件调用有异常？`
 
