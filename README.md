@@ -14,7 +14,7 @@
 
 [![react-antd-formutil](https://nodei.co/npm/react-antd-formutil.png?compact=true)](https://npm.im/react-antd-formutil)
 
-Happy to use react-formutil in the project based on ant-design ^\_^
+Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
 
 在 [ant-design](https://github.com/ant-design/ant-design) 项目，结合 [react-formutil](https://github.com/qiqiboy/react-formutil) 来快速构建表单。**支持所有的`ant-design`输入型（`data-entry`）组件。**
 
@@ -27,8 +27,6 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 <!-- vim-markdown-toc GFM -->
 
 - [安装 Installation](#安装-installation)
-    + [`Ant Design 4.x`](#ant-design-4x)
-    + [`Ant Design 3.x`](#ant-design-3x)
 - [使用 Usage](#使用-usage)
     + [`<FormItem />`](#formitem-)
         * [`name`](#name)
@@ -72,24 +70,14 @@ Happy to use react-formutil in the project based on ant-design ^\_^
 
 [![react-antd-formutil](https://nodei.co/npm/react-antd-formutil.png?compact=true)](https://npm.im/react-antd-formutil)
 
-#### `Ant Design 4.x`
+**`react-antd-formutil`从`1.0.0`版本开始，同时支持 Ant Design `3.x`和`4.x`版本**
 
 ```bash
 # npm
-npm install react-antd-formutil@next --save
+npm install react-antd-formutil --save
 
 # yarn
-yarn install react-antd-formutil@next
-```
-
-#### `Ant Design 3.x`
-
-```bash
-# npm
-npm install react-antd-formutil@0.2 --save
-
-# yarn
-yarn install react-antd-formutil@0.2
+yarn install react-antd-formutil
 ```
 
 ### 使用 Usage
@@ -155,22 +143,22 @@ class MyForm extends Component {
 
 ##### `$defaultValue`
 
-设置该表单项的默认值 _（同`react-formutil`的`Field`同名参数，可以参考[$defaultvalue](https://github.com/qiqiboy/react-formutil#defaultvalue)）_
+设置该表单项的默认值 _（同`react-formutil`的`Field`同名参数，可以参考[\$defaultvalue](https://github.com/qiqiboy/react-formutil#defaultvalue)）_
 
 ##### `$validators`
 
-设置校验方法 _（同`react-formutil`的`Field`同名参数, 可以参考 [$validators](https://github.com/qiqiboy/react-formutil#validators)）_
+设置校验方法 _（同`react-formutil`的`Field`同名参数, 可以参考 [\$validators](https://github.com/qiqiboy/react-formutil#validators)）_
 
 > 同 react-formutil 的 EasyField，FormItem 也内置了同样的校验规则：
 
-> *   `required` 必填 `required`
-> *   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
-> *   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
-> *   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
-> *   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
-> *   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
-> *   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
-> *   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
+> -   `required` 必填 `required`
+> -   `maxLength` 。最大输入长度，有效输入时才会校验 `maxLength="100"`
+> -   `minLength` 最小输入长度，有效输入时才会校验 `minLength="10"`
+> -   `max` 最大输入数值，仅支持 Number 比较。有效输入时才会校验 `max="100"`
+> -   `min` 最小输入数值，仅支持 Number 比较。有效输入时才会校验 `min="10"`
+> -   `pattern` 正则匹配。有效输入时才会校验 `pattern={/^\d+$/}`
+> -   `enum` 枚举值检测。有效输入时才会校验 `enum={[1,2,3]}`
+> -   `checker` 自定义校验函数。`checker={value => value > 10 && value < 100 || '输入比如大于10小与100'}`
 
 注：校验属性的值为 `null` 时表示不进行该校验
 
@@ -246,10 +234,10 @@ class MyForm extends Component {
 
 `setErrorLevel` 该方法可以用来全局设置错误信息何时出现，有三个级别可以设置：
 
-*   `0` 当`$dirty` `$touched` `$invalid` 都为 true 时
-*   `1` 当`$dirty` `$invalid` 都为 true 时
-*   `2` 当`$invalid` 为 true 时
-*   `off` 关闭错误显示
+-   `0` 当`$dirty` `$touched` `$invalid` 都为 true 时
+-   `1` 当`$dirty` `$invalid` 都为 true 时
+-   `2` 当`$invalid` 为 true 时
+-   `off` 关闭错误显示
 
 默认值为 `1`
 
@@ -351,7 +339,7 @@ setErrorLevel(0);
 
 ##### [`Upload`](https://ant.design/components/upload-cn/)
 
-`Upload` 组件会将 onChange 回调的对象同步到表单状态中，所以如果仅仅需要拿到上传成功后的服务端返回信息（比如上传后保存在服务器的 url），可以通过$parser 进行过滤：
+`Upload` 组件会将 onChange 回调的对象同步到表单状态中，所以如果仅仅需要拿到上传成功后的服务端返回信息（比如上传后保存在服务器的 url），可以通过\$parser 进行过滤：
 
 ```javascript
 <FormItem
