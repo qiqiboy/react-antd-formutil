@@ -53,7 +53,7 @@ function getChildComponent(children) {
       return childrenType.displayName || childrenType.name;
     }
 
-    return children.props.type || children.type;
+    return children.props.type || childrenType;
   }
 }
 
@@ -79,7 +79,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           errorLevel = _props$errorLevel === void 0 ? errorLevelGlobal : _props$errorLevel,
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel"]);
 
-      var children = Children.only(childList);
+      var children = typeof childList === 'function' ? childList : Children.only(childList);
       var component = getChildComponent(children);
 
       switch (component) {
@@ -232,7 +232,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           } : {};
           return React.createElement(Form.Item, Object.assign({
             required: false
-          }, restProps, itemProps, validateResult), cloneElement(children, childProps));
+          }, restProps, itemProps, validateResult), typeof children === 'function' ? children(childProps) : cloneElement(children, childProps));
         }
       }));
     }
@@ -242,7 +242,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 }(Component);
 
 FormItem.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
   itemProps: PropTypes.object,
   //传递给antd的Form.Item的属性
   errorLevel: PropTypes.oneOf([0, 1, 2, 'off']) //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数

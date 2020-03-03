@@ -2,11 +2,11 @@
 // Project: react-antd-formutil
 // Definitions by: qiqiboy <https://github.com/qiqiboy>
 
-import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FormItemProps } from 'antd/es/form/FormItem';
 // If the next line occur error, please install rc-field-form or add 'skipLibCheck' to tsconfig.json for disable t.ds check.
-import { FieldProps } from 'rc-field-form/lib/Field';
+import { FieldProps } from 'rc-field-form/es/Field';
 import React from 'react';
-import { BaseEasyFieldComponentProps, Omit, OtherKeys } from 'react-formutil';
+import { BaseEasyFieldComponentProps, $FieldHandler, Omit, OtherKeys } from 'react-formutil';
 
 export * from 'react-formutil';
 
@@ -20,7 +20,7 @@ export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields
         Omit<FormItemProps, FilterPropNames> {
     itemProps?: Omit<FormItemProps, FilterPropNames>;
     errorLevel?: ErrorLevel;
-    children: React.ReactElement<any>;
+    children: React.ReactElement<any> | (($fieldHandler: Partial<$FieldHandler<T>> & OtherKeys) => React.ReactNode);
 }
 
 export class FormItem<T = any, P = {}, Fields = {}, WeakFields = Fields> extends React.Component<

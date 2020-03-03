@@ -63,6 +63,7 @@ Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
     + [`给组件设置的onChange、onFocus等方法无效、不执行`](#给组件设置的onchangeonfocus等方法无效不执行)
     + [`RangePicker 在safari下假死？`](#rangepicker-在safari下假死)
     + [`在生产环境(NODE_ENV==='production')部分组件调用有异常？`](#在生产环境node_envproduction部分组件调用有异常)
+    + [`如何正确的使用FormItem嵌套渲染多个节点元素？`](#如何正确的使用formitem嵌套渲染多个节点元素)
 
 <!-- vim-markdown-toc -->
 
@@ -131,7 +132,7 @@ class MyForm extends Component {
 
 所以`FormItem`会完整实现`Form.Item`所可以显示的校验状态、错误暂时等 UI 变化。
 
-> 如果给 `FormItem` 传递了多个子节点，则只会对第一个节点进行表单状态绑定！！
+> 如果给 `FormItem` 传递了多个子节点，可能会出现无法非预期的异常情况。你可以了解[`如何正确的使用FormItem嵌套渲染多个节点元素？`](#如何正确的使用formitem嵌套渲染多个节点元素)
 
 **支持传递的属性**
 
@@ -420,4 +421,23 @@ setErrorLevel(0);
         ]]
     }
 }
+```
+
+#### `如何正确的使用FormItem嵌套渲染多个节点元素？`
+
+你可以通过给给`children`属性传递`render props`函数，来自由定义要渲染出的节点。但是请注意，当传递一个`render props`函数时，需要手动绑定相关绑定事件和 value 属性！
+
+该`children`函数接受一个`$fieldHandler`的对象，默认情况下其包含`value` `onChange` `onFocus` `onBlur`四个属性，但是如果你给`FormItem`传递了`valuePropName`等属性的话，这个值将会变为你通过`valuePropName`所定义的名字。
+
+更具体解释可以参考 [**react-formutil.\$fieldHandler**](https://github.com/qiqiboy/react-formutil#fieldhandler)
+
+```typescript
+<FormItem name="username">
+    {$fieldHandler => (
+        <>
+            <Input {...$fieldHandler} />
+            <div>其它节点内容</div>
+        </>
+    )}
+</FormItem>
 ```
