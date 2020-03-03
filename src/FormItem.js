@@ -208,7 +208,7 @@ class FormItem extends Component {
                         : {};
 
                     return (
-                        <Form.Item required={false} {...itemProps} {...validateResult}>
+                        <Form.Item required={false} {...restProps} {...itemProps} {...validateResult}>
                             {cloneElement(children, childProps)}
                         </Form.Item>
                     );

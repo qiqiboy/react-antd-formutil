@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import {
-    Icon,
     Row,
     Col,
     Form,
@@ -24,6 +23,7 @@ import {
     Pagination,
     Button
 } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { FormItem, withForm } from 'app/../../src';
 import {
     formItemLayout,
@@ -40,8 +40,6 @@ class App extends Component {
     state = { acDataSource: [] };
 
     submit = ev => {
-        ev.preventDefault();
-
         const { $invalid, $batchDirty } = this.props.$formutil;
 
         console.log('submit');
@@ -57,17 +55,25 @@ class App extends Component {
         return (
             <Row>
                 <Col lg={12}>
-                    <Form onSubmit={this.submit} style={{ padding: 20 }}>
+                    <Form onFinish={this.submit} style={{ padding: 20 }}>
                         <FormItem
                             name="autocomplete"
                             itemProps={{ ...formItemLayout, label: 'AutoComplete' }}
                             className="abc"
                             required>
                             <AutoComplete
-                                dataSource={this.state.acDataSource}
+                                options={this.state.acDataSource}
                                 onSearch={value =>
                                     this.setState({
-                                        acDataSource: !value ? [] : [value, value + value, value + value + value]
+                                        acDataSource: !value
+                                            ? []
+                                            : [
+                                                  {
+                                                      value
+                                                  },
+                                                  { value: value + value },
+                                                  { value: value + value + value }
+                                              ]
                                     })
                                 }
                                 placeholder="input here"
@@ -94,7 +100,7 @@ class App extends Component {
                             />
                         </FormItem>
 
-                        <FormItem name="checkbox.single" itemProps={{ ...formItemLayout, label: 'Checkbox' }} required>
+                        <FormItem name="checkbox.single" itemProps={{ ...formItemLayout, label: 'Checkbox', help: "123" }} required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
 
@@ -226,17 +232,13 @@ class App extends Component {
                                 placeholder="Please select"
                                 allowClear
                                 treeDefaultExpandAll>
-                                <TreeSelect.TreeNode value="parent 1" title="parent 1" key="0-1">
-                                    <TreeSelect.TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-                                        <TreeSelect.TreeNode value="leaf1" title="my leaf" key="random" />
-                                        <TreeSelect.TreeNode value="leaf2" title="your leaf" key="random1" />
+                                <TreeSelect.TreeNode value="parent 1" title="parent 1">
+                                    <TreeSelect.TreeNode value="parent 1-0" title="parent 1-0">
+                                        <TreeSelect.TreeNode value="leaf1" title="my leaf" />
+                                        <TreeSelect.TreeNode value="leaf2" title="your leaf" />
                                     </TreeSelect.TreeNode>
-                                    <TreeSelect.TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-                                        <TreeSelect.TreeNode
-                                            value="sss"
-                                            title={<b style={{ color: '#08c' }}>sss</b>}
-                                            key="random3"
-                                        />
+                                    <TreeSelect.TreeNode value="parent 1-1" title="parent 1-1">
+                                        <TreeSelect.TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} />
                                     </TreeSelect.TreeNode>
                                 </TreeSelect.TreeNode>
                             </TreeSelect>
@@ -256,7 +258,7 @@ class App extends Component {
                             }}>
                             <Upload {...uplodConfig}>
                                 <Button>
-                                    <Icon type="upload" /> Click to Upload
+                                    <UploadOutlined /> Click to Upload
                                 </Button>
                             </Upload>
                         </FormItem>
@@ -265,7 +267,7 @@ class App extends Component {
                             <Transfer
                                 dataSource={transferData}
                                 titles={['Source', 'Target']}
-                                render={item => item.title}
+                                render={item => item.title || null}
                             />
                         </FormItem>
 

@@ -232,7 +232,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           } : {};
           return React.createElement(Form.Item, Object.assign({
             required: false
-          }, itemProps, validateResult), cloneElement(children, childProps));
+          }, restProps, itemProps, validateResult), cloneElement(children, childProps));
         }
       }));
     }

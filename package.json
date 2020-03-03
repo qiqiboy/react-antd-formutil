@@ -1,6 +1,6 @@
 {
   "name": "react-antd-formutil",
-  "version": "4.0.0-beta.0",
+  "version": "4.0.0-beta.1",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "cd docs && npm start",
-    "pack": "rollup -c"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",

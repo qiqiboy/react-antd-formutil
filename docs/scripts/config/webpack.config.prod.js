@@ -19,6 +19,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const pkg = require(paths.appPackageJson);
 
 const relativeRoot = path.join(pkg.noRewrite ? '.' : process.env.BASE_NAME || '/');
@@ -367,6 +368,7 @@ module.exports = {
                 resourceRegExp: /^\.\/locale$/,
                 contextRegExp: /moment$/
             }),
+            new BundleAnalyzerPlugin(),
             shouldUseSW &&
                 new SWPrecacheWebpackPlugin({
                     cacheId: pkg.name,

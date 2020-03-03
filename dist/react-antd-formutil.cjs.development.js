@@ -238,7 +238,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           } : {};
           return React__default.createElement(antd.Form.Item, Object.assign({
             required: false
-          }, itemProps, validateResult), React.cloneElement(children, childProps));
+          }, restProps, itemProps, validateResult), React.cloneElement(children, childProps));
         }
       }));
     }
