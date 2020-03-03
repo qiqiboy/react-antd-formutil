@@ -11,7 +11,7 @@ import _inherits from '@babel/runtime/helpers/esm/inherits';
 import React, { Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Switch, Mention, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 
 var errorLevelGlobal = 1;
 /**
@@ -30,8 +30,6 @@ var _Switch = isUglify ? Switch : 'Switch';
 var _Checkbox = isUglify ? Checkbox : 'Checkbox';
 
 var _Radio = isUglify ? Radio : 'Radio';
-
-var _Mention = isUglify ? Mention : 'Mention';
 
 var _Transfer = isUglify ? Transfer : 'Transfer';
 
@@ -158,19 +156,6 @@ var FormItem = /*#__PURE__*/function (_Component) {
               };
               break;
 
-            case _Mention:
-              childProps = {
-                defaultValue: Mention.toContentState(value || ''),
-                onChange: function onChange(contentState) {
-                  var newValue = Mention.toString(contentState);
-
-                  if (newValue !== value) {
-                    _onChange(newValue);
-                  }
-                }
-              };
-              break;
-
             case _Transfer:
               childProps = {
                 targetKeys: value,
@@ -245,7 +230,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
             validateStatus: 'error',
             help: $getFirstError()
           } : {};
-          return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validateResult), cloneElement(children, childProps));
+          return React.createElement(Form.Item, Object.assign({
+            required: false
+          }, restProps, itemProps, validateResult), cloneElement(children, childProps));
         }
       }));
     }
