@@ -141,7 +141,7 @@ class FormItem extends Component {
 
                         case _Upload:
                             childProps = {
-                                fileList: value && 'fileList' in value ? value.fileList : undefined,
+                                fileList: value?.fileList ?? value,
                                 onChange
                             };
                             break;

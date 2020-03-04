@@ -112,7 +112,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
       return React.createElement(EasyField, Object.assign({}, fieldProps, {
         passUtil: "$fieldutil",
         render: function render($handleProps) {
-          var _childProps, _Object$assign;
+          var _ref, _childProps, _Object$assign;
 
           var _props$valuePropName = props.valuePropName,
               valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
@@ -172,7 +172,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             case _Upload:
               childProps = {
-                fileList: value && 'fileList' in value ? value.fileList : undefined,
+                fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
                 onChange: _onChange
               };
               break;

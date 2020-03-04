@@ -34,7 +34,7 @@ function createConfig(env, module) {
         'react-dom': 'ReactDOM',
         'prop-types': 'PropTypes',
         'react-formutil': 'ReactFormutil',
-        'antd': 'AntDesign'
+        'antd': 'antd'
     };
 
     return {
@@ -65,7 +65,7 @@ function createConfig(env, module) {
             /**
              * 如果你有引入一些有副作用的代码模块，或者构建后的代码运行异常，可以尝试将该项设置为 true
              */
-            moduleSideEffects: false
+            moduleSideEffects: true
         },
         plugins: [
             replace({

@@ -100,7 +100,10 @@ class App extends Component {
                             />
                         </FormItem>
 
-                        <FormItem name="checkbox.single" itemProps={{ ...formItemLayout, label: 'Checkbox', help: "123" }} required>
+                        <FormItem
+                            name="checkbox.single"
+                            itemProps={{ ...formItemLayout, label: 'Checkbox', help: '123' }}
+                            required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
 
@@ -245,17 +248,61 @@ class App extends Component {
                         </FormItem>
 
                         <FormItem
-                            name="upload"
-                            itemProps={{ ...formItemLayout, label: 'Upload' }}
-                            required
-                            $parser={({ file }) => {
-                                if (file.status === 'done') {
-                                    console.log(file);
+                            name="upload.single"
+                            $defaultValue={
+                                'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+                            }
+                            $formatter={url =>
+                                url && [
+                                    {
+                                        url,
+                                        uid: url,
+                                        status: 'done',
+                                        name: url.split('/').slice(-1)[0]
+                                    }
+                                ]
+                            }
+                            $parser={(info, $setViewValue) => {
+                                // 限制只能上传一个文件
+                                $setViewValue(info.fileList.slice(-1));
 
-                                    // 这里仅作为示例
-                                    return file.originFileObj.uid;
+                                if (info.file.status === 'done') {
+                                    return info.file.response.url;
                                 }
-                            }}>
+                            }}
+                            itemProps={{ ...formItemLayout, label: 'Upload.single' }}
+                            required>
+                            <Upload {...uplodConfig}>
+                                <Button>
+                                    <UploadOutlined /> Click to Upload
+                                </Button>
+                            </Upload>
+                        </FormItem>
+
+                        <FormItem
+                            $defaultValue={[
+                                'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+                            ]}
+                            name="upload.multiple"
+                            $formatter={urls =>
+                                urls &&
+                                urls.map(url => ({
+                                    url,
+                                    uid: url,
+                                    status: 'done',
+                                    name: url.split('/').slice(-1)[0]
+                                }))
+                            }
+                            $parser={(info, $setViewValue) => {
+                                // 限制最大上传文件数量为3，如果不需要限制，可以移除该行，或者修改该值
+                                $setViewValue(info.fileList.slice(-3));
+
+                                return info.fileList
+                                    .filter(file => file.status === 'done')
+                                    .map(file => file.url || file.response.url);
+                            }}
+                            itemProps={{ ...formItemLayout, label: 'Upload.multiple' }}
+                            required>
                             <Upload {...uplodConfig}>
                                 <Button>
                                     <UploadOutlined /> Click to Upload

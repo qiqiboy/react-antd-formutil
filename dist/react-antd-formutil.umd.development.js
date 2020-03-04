@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react-formutil'), require('react'), require('prop-types'), require('antd')) :
   typeof define === 'function' && define.amd ? define(['exports', 'react-formutil', 'react', 'prop-types', 'antd'], factory) :
-  (global = global || self, factory(global['react-antd-formutil'] = {}, global.ReactFormutil, global.React, global.PropTypes, global.AntDesign));
+  (global = global || self, factory(global['react-antd-formutil'] = {}, global.ReactFormutil, global.React, global.PropTypes, global.antd));
 }(this, (function (exports, reactFormutil, React, PropTypes, antd) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
@@ -471,7 +471,7 @@
         return React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
           passUtil: "$fieldutil",
           render: function render($handleProps) {
-            var _childProps, _Object$assign;
+            var _ref, _childProps, _Object$assign;
 
             var _props$valuePropName = props.valuePropName,
                 valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
@@ -531,7 +531,7 @@
 
               case _Upload:
                 childProps = {
-                  fileList: value && 'fileList' in value ? value.fileList : undefined,
+                  fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
                   onChange: _onChange
                 };
                 break;

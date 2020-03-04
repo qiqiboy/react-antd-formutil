@@ -38,6 +38,7 @@ Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
         * [`checked` `unchecked`](#checked-unchecked)
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
+        * [`getValueFromEvent`](#getvaluefromevent)
         * [`errorLevel`](#errorlevel)
     + [`setErrorLevel(level)`](#seterrorlevellevel)
     + [`支持的组件`](#支持的组件)
@@ -227,6 +228,10 @@ class MyForm extends Component {
 </FormItem>
 ```
 
+##### `getValueFromEvent`
+
+请参考 [`getValueFromEvent()`](https://github.com/qiqiboy/react-formutil/blob/master/README.md#getvaluefromevent)
+
 ##### `errorLevel`
 
 用来覆盖全局的 errorLevel 设置。参考[`setErrorLevel(level)`](#seterrorlevellevel)
@@ -340,20 +345,66 @@ setErrorLevel(0);
 
 ##### [`Upload`](https://ant.design/components/upload-cn/)
 
-`Upload` 组件会将 onChange 回调的对象同步到表单状态中，所以如果仅仅需要拿到上传成功后的服务端返回信息（比如上传后保存在服务器的 url），可以通过\$parser 进行过滤：
+`Upload`组件非常特殊，其接受`fileList`对象作为整个组件的状态。而实际业务中，往往只需要获取上传文件的返回的地址，或者一组文件的地址。可以通过`$parser`控制如何获取上传结果的值，并且可以通过`$parser`的第二个回调方法`$setViewValue`来控制`fileList`对象，实现对文件上传数量的控制。
+
+**单个文件上传，获取单个文件上传地址**
 
 ```javascript
 <FormItem
     name="upload"
-    $parser={({ file, fileList, event }) => {
-        if (file.status == 'done') {
-            //render url form server
-            return JSON.parse(file.response).data.url;
+    $formatter={url =>
+        url && [
+            {
+                url,
+                uid: url,
+                status: 'done',
+                name: url.split('/').slice(-1)[0]
+            }
+        ]
+    }
+    $parser={(info, $setViewValue) => {
+        // 必不可少，限制只能上传一个文件
+        $setViewValue(info.fileList.slice(-1));
+
+        if (info.file.status === 'done') {
+            return info.file.response.url;
         }
-    }}>
+    }}
+    itemProps={{ ...formItemLayout, label: 'Upload' }}
+    required>
     <Upload {...uplodConfig}>
         <Button>
-            <Icon type="upload" /> Click to Upload
+            <UploadOutlined /> Click to Upload
+        </Button>
+    </Upload>
+</FormItem>
+```
+
+**多文件列表上传，获取多个文件上传地址数组**
+
+```javascript
+<FormItem
+    name="upload"
+    $formatter={urls =>
+        urls &&
+        urls.map(url => ({
+            url,
+            uid: url,
+            status: 'done',
+            name: url.split('/').slice(-1)[0]
+        }))
+    }
+    $parser={(info, $setViewValue) => {
+        // 限制最大上传文件数量为3，如果不需要限制，可以移除该行，或者修改该值
+        $setViewValue(info.fileList.slice(-3));
+
+        return info.fileList.filter(file => file.status === 'done').map(file => file.url || file.response.url);
+    }}
+    itemProps={{ ...formItemLayout, label: 'Upload' }}
+    required>
+    <Upload {...uplodConfig}>
+        <Button>
+            <UploadOutlined /> Click to Upload
         </Button>
     </Upload>
 </FormItem>
