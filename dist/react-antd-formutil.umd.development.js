@@ -398,6 +398,8 @@
 
   function getChildComponent(children) {
     if (children) {
+      var _children$props;
+
       var childrenType = children.type;
 
       if (typeof childrenType !== 'string' && _reactIs_16_13_0_reactIs_1(childrenType)) {
@@ -412,7 +414,7 @@
         return childrenType.displayName || childrenType.name;
       }
 
-      return children.props.type || childrenType;
+      return ((_children$props = children.props) === null || _children$props === void 0 ? void 0 : _children$props.type) || childrenType;
     }
   }
 

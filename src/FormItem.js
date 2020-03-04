@@ -41,7 +41,7 @@ function getChildComponent(children) {
             return childrenType.displayName || childrenType.name;
         }
 
-        return children.props.type || childrenType;
+        return children.props?.type || childrenType;
     }
 }
 
