@@ -56,6 +56,28 @@ class App extends Component {
             <Row>
                 <Col lg={12}>
                     <Form onFinish={this.submit} style={{ padding: 20 }}>
+                        <FormItem label="FormItem Group" {...formItemLayout}>
+                            <>
+                                <Input.Group compact>
+                                    <FormItem name="address.province" noStyle required validMessage={{required: 'Province requird!'}}>
+                                        <Select placeholder="Select province">
+                                            <Select.Option value="Zhejiang">Zhejiang</Select.Option>
+                                            <Select.Option value="Jiangsu">Jiangsu</Select.Option>
+                                        </Select>
+                                    </FormItem>
+
+                                    {this.props.$formutil.$params.address?.hasStreet && (
+                                        <FormItem name="address.street" noStyle required validMessage={{required: 'Street requird!'}}>
+                                            <Input style={{ width: '50%' }} placeholder="Input street" />
+                                        </FormItem>
+                                    )}
+                                </Input.Group>
+
+                                <FormItem name="address.hasStreet" noStyle $defaultValue>
+                                    <Checkbox>Show Street</Checkbox>
+                                </FormItem>
+                            </>
+                        </FormItem>
                         <FormItem
                             name="autocomplete"
                             itemProps={{ ...formItemLayout, label: 'AutoComplete' }}
@@ -100,10 +122,7 @@ class App extends Component {
                             />
                         </FormItem>
 
-                        <FormItem
-                            name="checkbox.single"
-                            itemProps={{ ...formItemLayout, label: 'Checkbox', help: '123' }}
-                            required>
+                        <FormItem name="checkbox.single" itemProps={{ ...formItemLayout, label: 'Checkbox' }} required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
 

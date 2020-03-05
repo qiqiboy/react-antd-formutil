@@ -39,6 +39,7 @@ Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
         * [`getValueFromEvent`](#getvaluefromevent)
+        * [`noStyle`](#nostyle)
         * [`errorLevel`](#errorlevel)
     + [`setErrorLevel(level)`](#seterrorlevellevel)
     + [`支持的组件`](#支持的组件)
@@ -231,6 +232,44 @@ class MyForm extends Component {
 ##### `getValueFromEvent`
 
 请参考 [`getValueFromEvent()`](https://github.com/qiqiboy/react-formutil/blob/master/README.md#getvaluefromevent)
+
+##### `noStyle`
+
+> 该属性从 `v1.1.0` 起可用
+>
+> 该属性同时兼容`antd@3.x` 和`antd@4.x`，都可以使用！
+
+`noStyle`与`AntDesign v4.0`中新版本的`Form.Item`的`noStyle`类似，可以用来控制是否输出`Form.Item`的额外的样式元素。缺省情况下默认值为`false`。
+
+当`noStyle`为`true`时，将会只渲染字段节点本身，但是其表单状态依然会被处理收集。此时，如果其存在父级嵌套的`FormItem`，那么其表达校验状态将会传递给父级的`FormItem`来展现。
+
+这对于连续的紧凑型表单元素将非常有用！可以避免校验错误描述信息都堆叠在一起! **但是没有额外的样式显示，包括表单校验状态都无法显示了。此时可以在其外层包裹一层不带`name`的`FormItem`，这些`noStyle`的表单项就会把他们自身的状态向上进行注册显示了！**
+
+但是有以下几点需要注意：
+
+1. 最外层的`FormItem`不能设置`name`属性，否则将不会被当作子级的校验状态容器
+2. 内层的`FormItem`需要添加相应的`name`值（向表单控制器注册自身）以及`noStyle`属性（不渲染额外的样式，避免和上层冲突）
+
+```typescript
+// 这里不能设置name
+<FormItem label="FormItem Group">
+    <Input.Group compact>
+        {/* 与普通的FormItem用法一致，只是多了个noStyle */}
+        <FormItem name="address.province" noStyle required validMessage={{ required: 'Province requird!' }}>
+            <Select placeholder="Select province">
+                <Select.Option value="Zhejiang">Zhejiang</Select.Option>
+                <Select.Option value="Jiangsu">Jiangsu</Select.Option>
+            </Select>
+        </FormItem>
+
+        {this.props.$formutil.$params.address?.hasStreet && (
+            <FormItem name="address.street" noStyle required validMessage={{ required: 'Street requird!' }}>
+                <Input style={{ width: '50%' }} placeholder="Input street" />
+            </FormItem>
+        )}
+    </Input.Group>
+</FormItem>
+```
 
 ##### `errorLevel`
 

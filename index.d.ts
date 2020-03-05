@@ -20,6 +20,7 @@ export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields
         Omit<FormItemProps, FilterPropNames> {
     itemProps?: Omit<FormItemProps, FilterPropNames>;
     errorLevel?: ErrorLevel;
+    noStyle?: boolean;
     children: React.ReactElement<any> | (($fieldHandler: Partial<$FieldHandler<T>> & OtherKeys) => React.ReactNode);
 }
 

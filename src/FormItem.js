@@ -1,9 +1,12 @@
-import React, { Component, cloneElement, Children } from 'react';
+import React, { Component, cloneElement, Children, createContext } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 // remember to add reserve array words in roollup.config.js
 import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 import { EasyField } from 'react-formutil';
+import isEqual from 'react-fast-compare';
+
+const { Consumer, Provider } = createContext({});
 
 let errorLevelGlobal = 1;
 
@@ -49,13 +52,104 @@ class FormItem extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
         itemProps: PropTypes.object, //传递给antd的Form.Item的属性
-        errorLevel: PropTypes.oneOf([0, 1, 2, 'off'])
+        errorLevel: PropTypes.oneOf([0, 1, 2, 'off']),
+        noStyle: PropTypes.bool
         //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
     };
 
+    fields = {};
+    registerField = (name, $fieldutil) => ($fieldutil ? (this.fields[name] = $fieldutil) : delete this.fields[name]);
+    latestValidationProps = null;
+    fetchCurrentValidationProps = errorLevel => {
+        const allFieldutils = Object.keys(this.fields).map(name => this.fields[name].$new());
+        const errFieldutils = allFieldutils.filter($fieldutil => $fieldutil.$invalid);
+
+        const $invalid = errFieldutils.length > 0;
+        const $dirty = allFieldutils.some($fieldutil => $fieldutil.$dirty);
+        const $touched = allFieldutils.some($fieldutil => $fieldutil.$touched);
+        const $focused = allFieldutils.some($fieldutil => $fieldutil.$focused);
+        const $errors = errFieldutils.map($fieldutil => $fieldutil.$getFirstError());
+
+        return this.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $errors);
+    };
+
+    getValidationProps = (errorLevel, $invalid, $dirty, $touched, $focused, $errors) => {
+        let hasError;
+
+        switch (errorLevel) {
+            case 0:
+                hasError = $invalid && $dirty && $touched;
+                break;
+            case 1:
+                hasError = $invalid && $dirty;
+                break;
+            case 2:
+                hasError = $invalid;
+                break;
+            default:
+                hasError = false;
+                break;
+        }
+
+        const validationProps = {
+            className: [
+                this.props.className,
+                hasError && 'has-error',
+                $invalid ? 'is-invalid' : 'is-valid',
+                $dirty ? 'is-dirty' : 'is-pristine',
+                $touched ? 'is-touched' : 'is-untouched',
+                $focused ? 'is-focused' : 'is-unfocused'
+            ]
+                .filter(Boolean)
+                .join(' ')
+        };
+
+        if (hasError) {
+            Object.assign(validationProps, {
+                validateStatus: 'error',
+                help: $errors
+            });
+        }
+
+        return validationProps;
+    };
+
+    componentDidMount() {
+        // eslint-disable-next-line
+        this.registerAncestorField?.(this.props.name, this.$fieldutil);
+    }
+
+    componentWillUnmount() {
+        // eslint-disable-next-line
+        this.registerAncestorField?.(this.props.name, null);
+    }
+
     render() {
         const props = this.props;
-        const { children: childList, itemProps, errorLevel = errorLevelGlobal, ...fieldProps } = props;
+        const { children: childList, itemProps, errorLevel = errorLevelGlobal, noStyle, ...fieldProps } = props;
+        const { name, ...formItemProps } = fieldProps;
+
+        if (!props.name) {
+            const validationProps = this.latestValidationProps = this.fetchCurrentValidationProps(errorLevel);
+
+            /**
+             * 检查下最新的校验状态和当前是否一致，不一致的话需要强制刷新下
+             */
+            Promise.resolve().then(() => {
+                if (!isEqual(this.latestValidationProps, this.fetchCurrentValidationProps(errorLevel))) {
+                    this.forceUpdate();
+                }
+            });
+
+            return (
+                <Provider value={{ registerField: this.registerField }}>
+                    <Form.Item {...formItemProps} {...validationProps}>
+                        {childList}
+                    </Form.Item>
+                </Provider>
+            );
+        }
+
         const children = typeof childList === 'function' ? childList : Children.only(childList);
 
         let component = getChildComponent(children);
@@ -172,45 +266,35 @@ class FormItem extends Component {
                         [blurPropName]: onBlur
                     });
 
-                    let hasError;
-
-                    switch (errorLevel) {
-                        case 0:
-                            hasError = $invalid && $dirty && $touched;
-                            break;
-                        case 1:
-                            hasError = $invalid && $dirty;
-                            break;
-                        case 2:
-                            hasError = $invalid;
-                            break;
-                        default:
-                            hasError = false;
-                            break;
-                    }
-
-                    restProps.className = [
-                        restProps.className,
-                        hasError && 'has-error',
-                        $invalid ? 'is-invalid' : 'is-valid',
-                        $dirty ? 'is-dirty' : 'is-pristine',
-                        $touched ? 'is-touched' : 'is-untouched',
-                        $focused ? 'is-focused' : 'is-unfocused'
-                    ]
-                        .filter(Boolean)
-                        .join(' ');
-
-                    const validateResult = hasError
-                        ? {
-                              validateStatus: 'error',
-                              help: $getFirstError()
-                          }
-                        : {};
+                    const fieldInstance =
+                        typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
 
                     return (
-                        <Form.Item required={false} {...restProps} {...itemProps} {...validateResult}>
-                            {typeof children === 'function' ? children(childProps) : cloneElement(children, childProps)}
-                        </Form.Item>
+                        <Consumer>
+                            {({ registerField }) => {
+                                if (noStyle) {
+                                    this.$fieldutil = $fieldutil;
+                                    this.registerAncestorField = registerField;
+
+                                    return fieldInstance;
+                                }
+
+                                const validationProps = this.getValidationProps(
+                                    errorLevel,
+                                    $invalid,
+                                    $dirty,
+                                    $touched,
+                                    $focused,
+                                    $getFirstError()
+                                );
+
+                                return (
+                                    <Form.Item required={false} {...restProps} {...itemProps} {...validationProps}>
+                                        {fieldInstance}
+                                    </Form.Item>
+                                );
+                            }}
+                        </Consumer>
                     );
                 }}
             />
