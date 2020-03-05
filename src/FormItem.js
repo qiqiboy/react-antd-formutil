@@ -60,6 +60,18 @@ class FormItem extends Component {
     fields = {};
     registerField = (name, $fieldutil) => ($fieldutil ? (this.fields[name] = $fieldutil) : delete this.fields[name]);
     latestValidationProps = null;
+    checkHasError = (errorLevel, $invalid, $dirty, $touched, $focused) => {
+        switch (errorLevel) {
+            case 0:
+                return $invalid && $dirty && $touched;
+            case 1:
+                return $invalid && $dirty;
+            case 2:
+                return $invalid;
+            default:
+                return false;
+        }
+    };
     fetchCurrentValidationProps = errorLevel => {
         const allFieldutils = Object.keys(this.fields).map(name => this.fields[name].$new());
         const errFieldutils = allFieldutils.filter($fieldutil => $fieldutil.$invalid);
@@ -74,22 +86,7 @@ class FormItem extends Component {
     };
 
     getValidationProps = (errorLevel, $invalid, $dirty, $touched, $focused, $errors) => {
-        let hasError;
-
-        switch (errorLevel) {
-            case 0:
-                hasError = $invalid && $dirty && $touched;
-                break;
-            case 1:
-                hasError = $invalid && $dirty;
-                break;
-            case 2:
-                hasError = $invalid;
-                break;
-            default:
-                hasError = false;
-                break;
-        }
+        const hasError = this.checkHasError(errorLevel, $invalid, $dirty, $touched, $focused);
 
         const validationProps = {
             className: [
@@ -127,10 +124,9 @@ class FormItem extends Component {
     render() {
         const props = this.props;
         const { children: childList, itemProps, errorLevel = errorLevelGlobal, noStyle, ...fieldProps } = props;
-        const { name, ...formItemProps } = fieldProps;
 
         if (!props.name) {
-            const validationProps = this.latestValidationProps = this.fetchCurrentValidationProps(errorLevel);
+            const validationProps = (this.latestValidationProps = this.fetchCurrentValidationProps(errorLevel));
 
             /**
              * 检查下最新的校验状态和当前是否一致，不一致的话需要强制刷新下
@@ -143,7 +139,7 @@ class FormItem extends Component {
 
             return (
                 <Provider value={{ registerField: this.registerField }}>
-                    <Form.Item {...formItemProps} {...validationProps}>
+                    <Form.Item {...fieldProps} {...validationProps}>
                         {childList}
                     </Form.Item>
                 </Provider>

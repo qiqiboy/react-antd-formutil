@@ -87,6 +87,22 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
     _this.latestValidationProps = null;
 
+    _this.checkHasError = function (errorLevel, $invalid, $dirty, $touched, $focused) {
+      switch (errorLevel) {
+        case 0:
+          return $invalid && $dirty && $touched;
+
+        case 1:
+          return $invalid && $dirty;
+
+        case 2:
+          return $invalid;
+
+        default:
+          return false;
+      }
+    };
+
     _this.fetchCurrentValidationProps = function (errorLevel) {
       var allFieldutils = Object.keys(_this.fields).map(function (name) {
         return _this.fields[name].$new();
@@ -111,25 +127,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.getValidationProps = function (errorLevel, $invalid, $dirty, $touched, $focused, $errors) {
-      var hasError;
-
-      switch (errorLevel) {
-        case 0:
-          hasError = $invalid && $dirty && $touched;
-          break;
-
-        case 1:
-          hasError = $invalid && $dirty;
-          break;
-
-        case 2:
-          hasError = $invalid;
-          break;
-
-        default:
-          hasError = false;
-          break;
-      }
+      var hasError = _this.checkHasError(errorLevel, $invalid, $dirty, $touched, $focused);
 
       var validationProps = {
         className: [_this.props.className, hasError && 'has-error', $invalid ? 'is-invalid' : 'is-valid', $dirty ? 'is-dirty' : 'is-pristine', $touched ? 'is-touched' : 'is-untouched', $focused ? 'is-focused' : 'is-unfocused'].filter(Boolean).join(' ')
@@ -178,9 +176,6 @@ var FormItem = /*#__PURE__*/function (_Component) {
           noStyle = props.noStyle,
           fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel", "noStyle"]);
 
-      var name = fieldProps.name,
-          formItemProps = _objectWithoutProperties(fieldProps, ["name"]);
-
       if (!props.name) {
         var validationProps = this.latestValidationProps = this.fetchCurrentValidationProps(errorLevel);
         /**
@@ -196,7 +191,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           value: {
             registerField: this.registerField
           }
-        }, React.createElement(Form.Item, Object.assign({}, formItemProps, validationProps), childList));
+        }, React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
       }
 
       var children = typeof childList === 'function' ? childList : Children.only(childList);
