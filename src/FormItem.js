@@ -285,7 +285,7 @@ class FormItem extends Component {
                                 );
 
                                 return (
-                                    <Form.Item required={false} {...restProps} {...itemProps} {...validationProps}>
+                                    <Form.Item {...restProps} {...itemProps} {...validationProps}>
                                         {fieldInstance}
                                     </Form.Item>
                                 );

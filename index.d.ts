@@ -13,7 +13,7 @@ export * from 'react-formutil';
 export type ErrorLevel = 0 | 1 | 2 | 'off';
 
 // Compatible with antd@3 & antd@4
-type FilterPropNames = any extends FieldProps ? 'required' : keyof FieldProps | 'required';
+type FilterPropNames = any extends FieldProps ? '__NO__' : keyof FieldProps;
 
 export interface FormItemComponentProps<T = any, P = {}, Fields = {}, WeakFields = Fields>
     extends BaseEasyFieldComponentProps<T, P, Fields, WeakFields>,

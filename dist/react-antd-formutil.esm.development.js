@@ -332,9 +332,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             var validationProps = _this2.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $getFirstError());
 
-            return React.createElement(Form.Item, Object.assign({
-              required: false
-            }, restProps, itemProps, validationProps), fieldInstance);
+            return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
           });
         }
       }));
