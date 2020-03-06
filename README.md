@@ -262,14 +262,14 @@ class MyForm extends Component {
             </Select>
         </FormItem>
 
-        {this.props.$formutil.$params.address?.hasStreet && (
-            <FormItem name="address.street" noStyle required validMessage={{ required: 'Street requird!' }}>
-                <Input style={{ width: '50%' }} placeholder="Input street" />
-            </FormItem>
-        )}
+        <FormItem name="address.street" noStyle required validMessage={{ required: 'Street requird!' }}>
+            <Input style={{ width: '50%' }} placeholder="Input street" />
+        </FormItem>
     </Input.Group>
 </FormItem>
 ```
+
+以上运行示例请参考 [示例](http://github.boy.im/react-antd-formutil/demo/)
 
 ##### `errorLevel`
 
