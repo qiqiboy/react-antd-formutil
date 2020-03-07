@@ -465,7 +465,7 @@
     }
   };
 
-  var _createContext = React.createContext({}),
+  var _createContext = React.createContext(),
       Consumer = _createContext.Consumer,
       Provider = _createContext.Provider;
 
@@ -479,39 +479,24 @@
   var setErrorLevel = function setErrorLevel(level) {
     errorLevelGlobal = level;
   };
-  var isUglify = antd.Switch.name !== 'Switch';
-
-  var _Switch = isUglify ? antd.Switch : 'Switch';
-
-  var _Checkbox = isUglify ? antd.Checkbox : 'Checkbox';
-
-  var _Radio = isUglify ? antd.Radio : 'Radio';
-
-  var _Transfer = isUglify ? antd.Transfer : 'Transfer';
-
-  var _Pagination = isUglify ? antd.Pagination : 'Pagination';
-
-  var _Upload = isUglify ? antd.Upload : 'Upload';
 
   function getChildComponent(children) {
     if (children) {
-      var _children$props;
-
       var childrenType = children.type;
 
-      if (typeof childrenType !== 'string' && _reactIs_16_13_0_reactIs_1(childrenType)) {
+      if (_reactIs_16_13_0_reactIs_1(childrenType)) {
+        // SomeComponent.formutiType = xx
         if (childrenType.formutilType) {
           return childrenType.formutilType;
-        }
+        } // <input type="checkbox" />
 
-        if (isUglify) {
-          return childrenType;
-        }
 
-        return childrenType.displayName || childrenType.name;
+        if (typeof childrenType === 'string' && children.props.type) {
+          return children.props.type;
+        }
       }
 
-      return ((_children$props = children.props) === null || _children$props === void 0 ? void 0 : _children$props.type) || childrenType;
+      return childrenType || children;
     }
   }
 
@@ -639,9 +624,7 @@
             }
           });
           return React__default.createElement(Provider, {
-            value: {
-              registerField: this.registerField
-            }
+            value: this.registerField
           }, React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
         }
 
@@ -649,13 +632,13 @@
         var component = getChildComponent(children);
 
         switch (component) {
-          case _Switch:
-          case _Checkbox:
-          case _Radio:
+          case antd.Switch:
+          case antd.Checkbox:
+          case antd.Radio:
             fieldProps.__TYPE__ = 'checked';
             break;
 
-          case _Pagination:
+          case antd.Pagination:
             if (!('$defaultValue' in fieldProps)) {
               fieldProps.$defaultValue = 1;
             }
@@ -704,9 +687,9 @@
             var childProps;
 
             switch (component) {
-              case _Switch:
-              case _Checkbox:
-              case _Radio:
+              case antd.Switch:
+              case antd.Checkbox:
+              case antd.Radio:
               case 'checked':
                 var _props$checked = props.checked,
                     checked = _props$checked === void 0 ? true : _props$checked,
@@ -722,21 +705,21 @@
                 };
                 break;
 
-              case _Transfer:
+              case antd.Transfer:
                 childProps = {
                   targetKeys: value,
                   onChange: _onChange
                 };
                 break;
 
-              case _Pagination:
+              case antd.Pagination:
                 childProps = {
                   current: value,
                   onChange: _onChange
                 };
                 break;
 
-              case _Upload:
+              case antd.Upload:
                 childProps = {
                   fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
                   onChange: _onChange
@@ -772,9 +755,7 @@
 
             Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign));
             var fieldInstance = typeof children === 'function' ? children(childProps) : React.cloneElement(children, childProps);
-            return React__default.createElement(Consumer, null, function (_ref2) {
-              var registerField = _ref2.registerField;
-
+            return React__default.createElement(Consumer, null, function (registerField) {
               if (noStyle) {
                 _this2.$fieldutil = $fieldutil;
                 _this2.registerAncestorField = registerField;

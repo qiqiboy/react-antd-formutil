@@ -1,12 +1,11 @@
 import React, { Component, cloneElement, Children, createContext } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-// remember to add reserve array words in roollup.config.js
 import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 import { EasyField } from 'react-formutil';
 import isEqual from 'react-fast-compare';
 
-const { Consumer, Provider } = createContext({});
+const { Consumer, Provider } = createContext();
 
 let errorLevelGlobal = 1;
 
@@ -19,32 +18,23 @@ export const setErrorLevel = function(level) {
     errorLevelGlobal = level;
 };
 
-const isUglify = Switch.name !== 'Switch';
-
-const _Switch = isUglify ? Switch : 'Switch';
-const _Checkbox = isUglify ? Checkbox : 'Checkbox';
-const _Radio = isUglify ? Radio : 'Radio';
-const _Transfer = isUglify ? Transfer : 'Transfer';
-const _Pagination = isUglify ? Pagination : 'Pagination';
-const _Upload = isUglify ? Upload : 'Upload';
-
 function getChildComponent(children) {
     if (children) {
         const childrenType = children.type;
 
-        if (typeof childrenType !== 'string' && isValidElementType(childrenType)) {
+        if (isValidElementType(childrenType)) {
+            // SomeComponent.formutiType = xx
             if (childrenType.formutilType) {
                 return childrenType.formutilType;
             }
 
-            if (isUglify) {
-                return childrenType;
+            // <input type="checkbox" />
+            if (typeof childrenType === 'string' && children.props.type) {
+                return children.props.type;
             }
-
-            return childrenType.displayName || childrenType.name;
         }
 
-        return children.props?.type || childrenType;
+        return childrenType || children;
     }
 }
 
@@ -138,7 +128,7 @@ class FormItem extends Component {
             });
 
             return (
-                <Provider value={{ registerField: this.registerField }}>
+                <Provider value={this.registerField}>
                     <Form.Item {...fieldProps} {...validationProps}>
                         {childList}
                     </Form.Item>
@@ -147,17 +137,16 @@ class FormItem extends Component {
         }
 
         const children = typeof childList === 'function' ? childList : Children.only(childList);
-
         let component = getChildComponent(children);
 
         switch (component) {
-            case _Switch:
-            case _Checkbox:
-            case _Radio:
+            case Switch:
+            case Checkbox:
+            case Radio:
                 fieldProps.__TYPE__ = 'checked';
                 break;
 
-            case _Pagination:
+            case Pagination:
                 if (!('$defaultValue' in fieldProps)) {
                     fieldProps.$defaultValue = 1;
                 }
@@ -201,9 +190,9 @@ class FormItem extends Component {
 
                     let childProps;
                     switch (component) {
-                        case _Switch:
-                        case _Checkbox:
-                        case _Radio:
+                        case Switch:
+                        case Checkbox:
+                        case Radio:
                         case 'checked':
                             const { checked = true, unchecked = false } = props;
                             childProps = {
@@ -215,21 +204,21 @@ class FormItem extends Component {
                             };
                             break;
 
-                        case _Transfer:
+                        case Transfer:
                             childProps = {
                                 targetKeys: value,
                                 onChange
                             };
                             break;
 
-                        case _Pagination:
+                        case Pagination:
                             childProps = {
                                 current: value,
                                 onChange
                             };
                             break;
 
-                        case _Upload:
+                        case Upload:
                             childProps = {
                                 fileList: value?.fileList ?? value,
                                 onChange
@@ -267,7 +256,7 @@ class FormItem extends Component {
 
                     return (
                         <Consumer>
-                            {({ registerField }) => {
+                            {registerField => {
                                 if (noStyle) {
                                     this.$fieldutil = $fieldutil;
                                     this.registerAncestorField = registerField;

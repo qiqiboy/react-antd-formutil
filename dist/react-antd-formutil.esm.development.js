@@ -11,10 +11,10 @@ import _inherits from '@babel/runtime/helpers/esm/inherits';
 import React, { createContext, Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import { Form, Pagination, Radio, Checkbox, Switch, Upload, Transfer } from 'antd';
 import isEqual from 'react-fast-compare';
 
-var _createContext = createContext({}),
+var _createContext = createContext(),
     Consumer = _createContext.Consumer,
     Provider = _createContext.Provider;
 
@@ -28,39 +28,24 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
-var isUglify = Switch.name !== 'Switch';
-
-var _Switch = isUglify ? Switch : 'Switch';
-
-var _Checkbox = isUglify ? Checkbox : 'Checkbox';
-
-var _Radio = isUglify ? Radio : 'Radio';
-
-var _Transfer = isUglify ? Transfer : 'Transfer';
-
-var _Pagination = isUglify ? Pagination : 'Pagination';
-
-var _Upload = isUglify ? Upload : 'Upload';
 
 function getChildComponent(children) {
   if (children) {
-    var _children$props;
-
     var childrenType = children.type;
 
-    if (typeof childrenType !== 'string' && isValidElementType(childrenType)) {
+    if (isValidElementType(childrenType)) {
+      // SomeComponent.formutiType = xx
       if (childrenType.formutilType) {
         return childrenType.formutilType;
-      }
+      } // <input type="checkbox" />
 
-      if (isUglify) {
-        return childrenType;
-      }
 
-      return childrenType.displayName || childrenType.name;
+      if (typeof childrenType === 'string' && children.props.type) {
+        return children.props.type;
+      }
     }
 
-    return ((_children$props = children.props) === null || _children$props === void 0 ? void 0 : _children$props.type) || childrenType;
+    return childrenType || children;
   }
 }
 
@@ -188,9 +173,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           }
         });
         return React.createElement(Provider, {
-          value: {
-            registerField: this.registerField
-          }
+          value: this.registerField
         }, React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
       }
 
@@ -198,13 +181,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
       var component = getChildComponent(children);
 
       switch (component) {
-        case _Switch:
-        case _Checkbox:
-        case _Radio:
+        case Switch:
+        case Checkbox:
+        case Radio:
           fieldProps.__TYPE__ = 'checked';
           break;
 
-        case _Pagination:
+        case Pagination:
           if (!('$defaultValue' in fieldProps)) {
             fieldProps.$defaultValue = 1;
           }
@@ -253,9 +236,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
           var childProps;
 
           switch (component) {
-            case _Switch:
-            case _Checkbox:
-            case _Radio:
+            case Switch:
+            case Checkbox:
+            case Radio:
             case 'checked':
               var _props$checked = props.checked,
                   checked = _props$checked === void 0 ? true : _props$checked,
@@ -271,21 +254,21 @@ var FormItem = /*#__PURE__*/function (_Component) {
               };
               break;
 
-            case _Transfer:
+            case Transfer:
               childProps = {
                 targetKeys: value,
                 onChange: _onChange
               };
               break;
 
-            case _Pagination:
+            case Pagination:
               childProps = {
                 current: value,
                 onChange: _onChange
               };
               break;
 
-            case _Upload:
+            case Upload:
               childProps = {
                 fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
                 onChange: _onChange
@@ -321,9 +304,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
           Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign));
           var fieldInstance = typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
-          return React.createElement(Consumer, null, function (_ref2) {
-            var registerField = _ref2.registerField;
-
+          return React.createElement(Consumer, null, function (registerField) {
             if (noStyle) {
               _this2.$fieldutil = $fieldutil;
               _this2.registerAncestorField = registerField;
