@@ -36,6 +36,8 @@ Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
         * [`$parser`](#parser)
         * [`$formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)
+        * [`$validateLazy`](#validatelazy)
+        * [`$renderLazy`](#renderlazy)
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
         * [`getValueFromEvent`](#getvaluefromevent)
@@ -200,6 +202,16 @@ class MyForm extends Component {
 ```
 
 该示例中， 当 Switch 为开时，获取的值将为 yes。
+
+##### `$validateLazy`
+
+可以用来优化表单的校验速度，请参考： [`$validateLazy`](https://github.com/qiqiboy/react-formutil#validatelazy)
+
+##### `$renderLazy`
+
+可以用来优化当前表单项的，避免过多的重复渲染。
+
+详细解释和使用、注意事项请参考： [`$renderLazy`](https://github.com/qiqiboy/react-formutil#renderlazy)
 
 ##### `validMessage`
 

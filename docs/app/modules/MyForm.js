@@ -35,6 +35,7 @@ import {
     uplodConfig,
     transferData
 } from './config';
+import MemoRender from 'memo-render';
 
 @withForm
 class NormalRenderForm extends Component {
@@ -104,7 +105,7 @@ class NormalRenderForm extends Component {
                 <Col lg={12}>
                     <Form onFinish={this.submit} style={{ padding: 20 }}>
                         <Affix>
-                            <Form.Item label="Enable $renderLazy" {...formItemLayout} style={{background: 'white'}}>
+                            <Form.Item label="Enable $renderLazy" {...formItemLayout} style={{ background: 'white' }}>
                                 <Checkbox
                                     checked={this.state.$renderLazy}
                                     onChange={ev =>
@@ -179,7 +180,7 @@ class NormalRenderForm extends Component {
                             isEmail
                             required
                             $validators={this.emailValidators}>
-                            <Input placeholder={"The currency: " + (this.props.$formutil.$params.currency ?? '')} />
+                            <Input placeholder={'The currency: ' + (this.props.$formutil.$params.currency ?? '')} />
                         </FormItem>
 
                         <FormItem
@@ -423,18 +424,20 @@ class NormalRenderForm extends Component {
                             name="page"
                             itemProps={{ ...formItemLayout, label: 'Pagination' }}
                             $renderLazy={$renderLazy}
-                            $defaultValue={5}
+                            $defaultValue={1}
                             valuePropName="current">
                             <Pagination pageSize={10} total={100} />
                         </FormItem>
 
-                        <Row>
-                            <Col sm={{ offset: 8 }}>
-                                <Button type="primary" block htmlType="submit">
-                                    Submit
-                                </Button>
-                            </Col>
-                        </Row>
+                        <MemoRender disabled={!$renderLazy}>
+                            <Row>
+                                <Col sm={{ offset: 8 }}>
+                                    <Button type="primary" block htmlType="submit">
+                                        Submit {this.props.$formutil.$params.page}
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </MemoRender>
                     </Form>
                 </Col>
                 <Col lg={6} style={{ padding: 20 }}>
