@@ -302,7 +302,12 @@ var FormItem = /*#__PURE__*/function (_Component) {
               break;
           }
 
-          Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign));
+          Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign)); // ansure 'required' could pass to Form.Item
+
+          if (!restProps.required && fieldProps.required && !(itemProps === null || itemProps === void 0 ? void 0 : itemProps.required)) {
+            restProps.required = true;
+          }
+
           var fieldInstance = typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
           return React.createElement(Consumer, null, function (registerField) {
             if (noStyle) {

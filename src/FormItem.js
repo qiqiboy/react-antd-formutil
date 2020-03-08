@@ -251,6 +251,11 @@ class FormItem extends Component {
                         [blurPropName]: onBlur
                     });
 
+                    // ansure 'required' could pass to Form.Item
+                    if (!restProps.required && fieldProps.required && !itemProps?.required) {
+                        restProps.required = true;
+                    }
+
                     const fieldInstance =
                         typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
 
