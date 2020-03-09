@@ -37,7 +37,7 @@ Happy to use react-formutil in the project based on ant-design@`3`&`4` ^\_^
         * [`$formatter`](#formatter)
         * [`checked` `unchecked`](#checked-unchecked)
         * [`$validateLazy`](#validatelazy)
-        * [`$renderLazy`](#renderlazy)
+        * [`$memo`](#memo)
         * [`validMessage`](#validmessage)
         * [`valuePropName` `changePropName` `focusPropName` `blurPropName`](#valuepropname-changepropname-focuspropname-blurpropname)
         * [`getValueFromEvent`](#getvaluefromevent)
@@ -209,7 +209,7 @@ class MyForm extends Component {
 
 ##### `$memo`
 
-可以用来优化当前表单项的性能，避免过多的重复渲染。
+可以用来优化当前表单项的性能，避免过多的重复渲染。如果你遇到了表单性能问题，可以尝试该属性来改善。
 
 详细解释和使用、注意事项请参考： [`$memo`](https://github.com/qiqiboy/react-formutil#memo)
 
