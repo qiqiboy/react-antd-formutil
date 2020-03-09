@@ -38,13 +38,13 @@ import {
 import MemoRender from 'memo-render';
 
 @withForm
-class NormalRenderForm extends Component {
-    state = { acDataSource: [], $renderLazy: false };
+class AntdFormutilDemo extends Component {
+    state = { acDataSource: [], $memo: false };
 
     submit = ev => {
-        const { $invalid, $batchDirty } = this.props.$formutil;
+        ev.preventDefault();
 
-        console.log('submit');
+        const { $invalid, $batchDirty } = this.props.$formutil;
 
         if ($invalid) {
             $batchDirty(true);
@@ -98,19 +98,19 @@ class NormalRenderForm extends Component {
     };
 
     render() {
-        const { $renderLazy } = this.state;
+        const { $memo } = this.state;
 
         return (
             <Row>
-                <Col lg={12}>
-                    <Form onFinish={this.submit} style={{ padding: 20 }}>
+                <Col lg={12} md={24}>
+                    <form onSubmit={this.submit} style={{ padding: 20 }}>
                         <Affix>
-                            <Form.Item label="Enable $renderLazy" {...formItemLayout} style={{ background: 'white' }}>
+                            <Form.Item label="Enable $memo" {...formItemLayout} style={{ background: 'white' }}>
                                 <Checkbox
-                                    checked={this.state.$renderLazy}
+                                    checked={this.state.$memo}
                                     onChange={ev =>
                                         this.setState({
-                                            $renderLazy: ev.target.checked
+                                            $memo: ev.target.checked
                                         })
                                     }
                                 />
@@ -122,7 +122,7 @@ class NormalRenderForm extends Component {
                                 <Input.Group compact>
                                     <FormItem
                                         name="address.province"
-                                        $renderLazy={$renderLazy}
+                                        $memo={$memo}
                                         noStyle
                                         required
                                         validMessage={{ required: 'Province requird!' }}>
@@ -135,7 +135,7 @@ class NormalRenderForm extends Component {
                                     {this.props.$formutil.$params.address?.hasStreet && (
                                         <FormItem
                                             name="address.street"
-                                            $renderLazy={$renderLazy}
+                                            $memo={$memo}
                                             noStyle
                                             required
                                             validMessage={{ required: 'Street requird!' }}>
@@ -144,7 +144,7 @@ class NormalRenderForm extends Component {
                                     )}
                                 </Input.Group>
 
-                                <FormItem name="address.hasStreet" noStyle $defaultValue $renderLazy={$renderLazy}>
+                                <FormItem name="address.hasStreet" noStyle $defaultValue $memo={$memo}>
                                     <Checkbox>Show Street</Checkbox>
                                 </FormItem>
                             </>
@@ -152,7 +152,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="autocomplete"
                             itemProps={{ ...formItemLayout, label: 'AutoComplete' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             className="abc"
                             required>
                             <AutoComplete
@@ -176,7 +176,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="email"
                             itemProps={{ ...formItemLayout, label: 'Input' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             isEmail
                             required
                             $validators={this.emailValidators}>
@@ -186,7 +186,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="currency"
                             itemProps={{ ...formItemLayout, label: 'InputNumber' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             required>
                             <InputNumber
                                 style={{ width: 200 }}
@@ -198,7 +198,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="checkbox.single"
                             itemProps={{ ...formItemLayout, label: 'Checkbox' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             required>
                             <Checkbox>I agree</Checkbox>
                         </FormItem>
@@ -206,16 +206,12 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="checkbox.multiple"
                             itemProps={{ ...formItemLayout, label: 'Checkbox.Group' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             required>
                             <Checkbox.Group options={hobbiesOptions} />
                         </FormItem>
 
-                        <FormItem
-                            name="rate"
-                            itemProps={{ ...formItemLayout, label: 'Rate' }}
-                            required
-                            $renderLazy={$renderLazy}>
+                        <FormItem name="rate" itemProps={{ ...formItemLayout, label: 'Rate' }} required $memo={$memo}>
                             <Rate allowHalf />
                         </FormItem>
 
@@ -223,7 +219,7 @@ class NormalRenderForm extends Component {
                             name="radio.single"
                             itemProps={{ ...formItemLayout, label: 'Radio' }}
                             required
-                            $renderLazy={$renderLazy}>
+                            $memo={$memo}>
                             <Radio.Group options={hobbiesOptions} />
                         </FormItem>
 
@@ -231,7 +227,7 @@ class NormalRenderForm extends Component {
                             name="radio.button"
                             itemProps={{ ...formItemLayout, label: 'Radio.Button' }}
                             required
-                            $renderLazy={$renderLazy}>
+                            $memo={$memo}>
                             <Radio.Group>
                                 {hobbiesOptions.map(item => (
                                     <Radio.Button value={item.value} key={item.value}>
@@ -245,7 +241,7 @@ class NormalRenderForm extends Component {
                             name="select.single"
                             $defaultValue="c12"
                             itemProps={{ ...formItemLayout, label: 'Select.single' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             required>
                             <Select
                                 showSearch
@@ -262,7 +258,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="select.multiple"
                             $defaultValue={['c12', 'a10', 's28']}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             itemProps={{ ...formItemLayout, label: 'Select.multiple' }}
                             required>
                             <Select mode="multiple" style={{ width: '100%' }} placeholder="Please select">
@@ -272,14 +268,14 @@ class NormalRenderForm extends Component {
 
                         <FormItem
                             name="Slider.single"
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             $defaultValue={30}
                             itemProps={{ ...formItemLayout, label: 'Slider.single' }}>
                             <Slider marks={sliderMarks} />
                         </FormItem>
                         <FormItem
                             $defaultValue={[20, 50]}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             name="Slider.range"
                             itemProps={{ ...formItemLayout, label: 'Slider.range' }}>
                             <Slider range marks={sliderMarks} />
@@ -288,7 +284,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="switch"
                             $defaultValue="yes"
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             checked="yes"
                             unchecked="no"
                             required
@@ -299,21 +295,21 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="datepicker.single"
                             required
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             itemProps={{ ...formItemLayout, label: 'DatePicker' }}>
                             <DatePicker />
                         </FormItem>
                         <FormItem
                             name="datepicker.month"
                             required
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             itemProps={{ ...formItemLayout, label: 'MonthPicker' }}>
                             <DatePicker.MonthPicker />
                         </FormItem>
                         <FormItem
                             name="datepicker.range"
                             required
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             focusPropName={null}
                             blurPropName={null}
                             itemProps={{ ...formItemLayout, label: 'RangePicker' }}>
@@ -322,7 +318,7 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="timepicker"
                             required
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             $parser={this.timeParser}
                             $formatter={this.timeFormatter}
                             itemProps={{ ...formItemLayout, label: 'TimePicker' }}>
@@ -333,13 +329,13 @@ class NormalRenderForm extends Component {
                             name="cascader"
                             itemProps={{ ...formItemLayout, label: 'Cascader' }}
                             required
-                            $renderLazy={$renderLazy}>
+                            $memo={$memo}>
                             <Cascader options={cascaderOptions} placeholder="Please select" />
                         </FormItem>
 
                         <FormItem
                             name="mention"
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             $defaultValue="@afc163"
                             itemProps={{ ...formItemLayout, label: 'Mentions' }}
                             required>
@@ -354,7 +350,7 @@ class NormalRenderForm extends Component {
                             name="treeselect"
                             itemProps={{ ...formItemLayout, label: 'TreeSelect' }}
                             required
-                            $renderLazy={$renderLazy}>
+                            $memo={$memo}>
                             <TreeSelect
                                 showSearch
                                 style={{ width: '100%' }}
@@ -376,7 +372,7 @@ class NormalRenderForm extends Component {
 
                         <FormItem
                             name="upload.single"
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             $defaultValue={
                                 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
                             }
@@ -395,7 +391,7 @@ class NormalRenderForm extends Component {
                             $defaultValue={[
                                 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
                             ]}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             name="upload.multiple"
                             $formatter={this.uploadMultipleFormatter}
                             $parser={this.uploadMultipleParser}
@@ -412,7 +408,7 @@ class NormalRenderForm extends Component {
                             name="transfer"
                             itemProps={{ ...formItemLayout, label: 'Transfer' }}
                             required
-                            $renderLazy={$renderLazy}>
+                            $memo={$memo}>
                             <Transfer
                                 dataSource={transferData}
                                 titles={['Source', 'Target']}
@@ -423,13 +419,13 @@ class NormalRenderForm extends Component {
                         <FormItem
                             name="page"
                             itemProps={{ ...formItemLayout, label: 'Pagination' }}
-                            $renderLazy={$renderLazy}
+                            $memo={$memo}
                             $defaultValue={1}
                             valuePropName="current">
                             <Pagination pageSize={10} total={100} />
                         </FormItem>
 
-                        <MemoRender disabled={!$renderLazy}>
+                        <MemoRender disabled={!$memo}>
                             <Row>
                                 <Col sm={{ offset: 8 }}>
                                     <Button type="primary" block htmlType="submit">
@@ -438,17 +434,17 @@ class NormalRenderForm extends Component {
                                 </Col>
                             </Row>
                         </MemoRender>
-                    </Form>
+                    </form>
                 </Col>
-                <Col lg={6} style={{ padding: 20 }}>
-                    <pre>{JSON.stringify(this.props.$formutil.$params, null, 2)}</pre>
+                <Col lg={6} md={12}>
+                    <pre style={{ padding: 20 }}>{JSON.stringify(this.props.$formutil.$params, null, 2)}</pre>
                 </Col>
-                <Col lg={6} style={{ padding: 20 }}>
-                    <pre>{JSON.stringify(this.props.$formutil.$errors, null, 2)}</pre>
+                <Col lg={6} md={12}>
+                    <pre style={{ padding: 20 }}>{JSON.stringify(this.props.$formutil.$errors, null, 2)}</pre>
                 </Col>
             </Row>
         );
     }
 }
 
-export default NormalRenderForm;
+export default AntdFormutilDemo;

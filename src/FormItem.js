@@ -252,7 +252,7 @@ class FormItem extends Component {
                     });
 
                     // ansure 'required' could pass to Form.Item
-                    if (!restProps.required && fieldProps.required && !itemProps?.required) {
+                    if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {
                         restProps.required = true;
                     }
 

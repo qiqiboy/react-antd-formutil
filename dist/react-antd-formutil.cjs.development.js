@@ -310,7 +310,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
           Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign)); // ansure 'required' could pass to Form.Item
 
-          if (!restProps.required && fieldProps.required && !(itemProps === null || itemProps === void 0 ? void 0 : itemProps.required)) {
+          if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {
             restProps.required = true;
           }
 
