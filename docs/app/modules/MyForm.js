@@ -97,6 +97,28 @@ class AntdFormutilDemo extends Component {
         return info.fileList.filter(file => file.status === 'done').map(file => file.url || file.response.url);
     };
 
+    inputNumFormatter = value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    inputNumParser = value => value.replace(/\$\s?|(,*)/g, '');
+
+    autoCptSearch = value =>
+        this.setState({
+            acDataSource: !value
+                ? []
+                : [
+                      {
+                          value
+                      },
+                      { value: value + value },
+                      { value: value + value + value }
+                  ]
+        });
+
+    selectFilterOptions = (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+
+    transferRender = item => item.title || null;
+
+    memoEmpty = [];
+
     render() {
         const { $memo } = this.state;
 
@@ -104,18 +126,24 @@ class AntdFormutilDemo extends Component {
             <Row>
                 <Col lg={12} md={24}>
                     <form onSubmit={this.submit} style={{ padding: 20 }}>
-                        <Affix>
-                            <Form.Item label="Enable $memo" {...formItemLayout} style={{ background: 'white' }}>
-                                <Checkbox
-                                    checked={this.state.$memo}
-                                    onChange={ev =>
-                                        this.setState({
-                                            $memo: ev.target.checked
-                                        })
-                                    }
-                                />
-                            </Form.Item>
-                        </Affix>
+                        <MemoRender deps={[this.state.$memo]}>
+                            <Affix>
+                                <Form.Item label="Enable $memo" {...formItemLayout} style={{ background: 'white' }}>
+                                    <Radio.Group
+                                        size="small"
+                                        value={$memo}
+                                        onChange={ev =>
+                                            this.setState({
+                                                $memo: ev.target.value
+                                            })
+                                        }>
+                                        <Radio.Button value={false}>false</Radio.Button>
+                                        <Radio.Button value={true}>true</Radio.Button>
+                                        <Radio.Button value={this.memoEmpty}>空数组</Radio.Button>
+                                    </Radio.Group>
+                                </Form.Item>
+                            </Affix>
+                        </MemoRender>
 
                         <FormItem label="FormItem Group" {...formItemLayout}>
                             <>
@@ -157,19 +185,7 @@ class AntdFormutilDemo extends Component {
                             required>
                             <AutoComplete
                                 options={this.state.acDataSource}
-                                onSearch={value =>
-                                    this.setState({
-                                        acDataSource: !value
-                                            ? []
-                                            : [
-                                                  {
-                                                      value
-                                                  },
-                                                  { value: value + value },
-                                                  { value: value + value + value }
-                                              ]
-                                    })
-                                }
+                                onSearch={this.autoCptSearch}
                                 placeholder="input here"
                             />
                         </FormItem>
@@ -190,8 +206,8 @@ class AntdFormutilDemo extends Component {
                             required>
                             <InputNumber
                                 style={{ width: 200 }}
-                                formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                formatter={this.inputNumFormatter}
+                                parser={this.inputNumParser}
                             />
                         </FormItem>
 
@@ -247,9 +263,7 @@ class AntdFormutilDemo extends Component {
                                 showSearch
                                 style={{ width: '100%' }}
                                 optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
+                                filterOption={this.selectFilterOptions}
                                 placeholder="Please select">
                                 {selectOption}
                             </Select>
@@ -412,7 +426,7 @@ class AntdFormutilDemo extends Component {
                             <Transfer
                                 dataSource={transferData}
                                 titles={['Source', 'Target']}
-                                render={item => item.title || null}
+                                render={this.transferRender}
                             />
                         </FormItem>
 

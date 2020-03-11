@@ -175,6 +175,11 @@ var FormItem = /*#__PURE__*/function (_Component) {
         return React.createElement(Provider, {
           value: this.registerField
         }, React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+      } // If $memo is true, pass the children to Field for SCU diffing.
+
+
+      if (props.$memo === true) {
+        fieldProps.__DIFF__ = childList;
       }
 
       var children = typeof childList === 'function' ? childList : Children.only(childList);

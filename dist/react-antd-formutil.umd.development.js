@@ -626,6 +626,11 @@
           return React__default.createElement(Provider, {
             value: this.registerField
           }, React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+        } // If $memo is true, pass the children to Field for SCU diffing.
+
+
+        if (props.$memo === true) {
+          fieldProps.__DIFF__ = childList;
         }
 
         var children = typeof childList === 'function' ? childList : React.Children.only(childList);
