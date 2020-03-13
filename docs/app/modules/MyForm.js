@@ -391,7 +391,7 @@ class AntdFormutilDemo extends Component {
                                 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
                             }
                             $formatter={this.uploadSingleFormatter}
-                            $parser={this.uploadMultipleParser}
+                            $parser={this.uploadSingleParser}
                             itemProps={{ ...formItemLayout, label: 'Upload.single' }}
                             required>
                             <Upload {...uplodConfig}>
