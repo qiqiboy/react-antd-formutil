@@ -1,11 +1,11 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react-formutil'), require('react'), require('prop-types'), require('antd')) :
   typeof define === 'function' && define.amd ? define(['exports', 'react-formutil', 'react', 'prop-types', 'antd'], factory) :
-  (global = global || self, factory(global['react-antd-formutil'] = {}, global.ReactFormutil, global.React, global.PropTypes, global.antd));
+  (global = global || self, factory(global.ReactAntdFormutil = {}, global.ReactFormutil, global.React, global.PropTypes, global.antd));
 }(this, (function (exports, reactFormutil, React, PropTypes, antd) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
-  PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
+  PropTypes = PropTypes && Object.prototype.hasOwnProperty.call(PropTypes, 'default') ? PropTypes['default'] : PropTypes;
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -22,15 +22,22 @@
     return obj;
   }
 
+  var defineProperty = _defineProperty;
+
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  }
+
+  var _typeof_1 = createCommonjsModule(function (module) {
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof(obj) {
+      module.exports = _typeof = function _typeof(obj) {
         return typeof obj;
       };
     } else {
-      _typeof = function _typeof(obj) {
+      module.exports = _typeof = function _typeof(obj) {
         return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
     }
@@ -38,23 +45,30 @@
     return _typeof(obj);
   }
 
+  module.exports = _typeof;
+  });
+
   function _toPrimitive(input, hint) {
-    if (_typeof(input) !== "object" || input === null) return input;
+    if (_typeof_1(input) !== "object" || input === null) return input;
     var prim = input[Symbol.toPrimitive];
 
     if (prim !== undefined) {
       var res = prim.call(input, hint || "default");
-      if (_typeof(res) !== "object") return res;
+      if (_typeof_1(res) !== "object") return res;
       throw new TypeError("@@toPrimitive must return a primitive value.");
     }
 
     return (hint === "string" ? String : Number)(input);
   }
 
+  var toPrimitive = _toPrimitive;
+
   function _toPropertyKey(arg) {
-    var key = _toPrimitive(arg, "string");
-    return _typeof(key) === "symbol" ? key : String(key);
+    var key = toPrimitive(arg, "string");
+    return _typeof_1(key) === "symbol" ? key : String(key);
   }
+
+  var toPropertyKey = _toPropertyKey;
 
   function _objectWithoutPropertiesLoose(source, excluded) {
     if (source == null) return {};
@@ -71,9 +85,11 @@
     return target;
   }
 
+  var objectWithoutPropertiesLoose = _objectWithoutPropertiesLoose;
+
   function _objectWithoutProperties(source, excluded) {
     if (source == null) return {};
-    var target = _objectWithoutPropertiesLoose(source, excluded);
+    var target = objectWithoutPropertiesLoose(source, excluded);
     var key, i;
 
     if (Object.getOwnPropertySymbols) {
@@ -90,11 +106,15 @@
     return target;
   }
 
+  var objectWithoutProperties = _objectWithoutProperties;
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   }
+
+  var classCallCheck = _classCallCheck;
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -112,6 +132,34 @@
     return Constructor;
   }
 
+  var createClass = _createClass;
+
+  var getPrototypeOf = createCommonjsModule(function (module) {
+  function _getPrototypeOf(o) {
+    module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
+  module.exports = _getPrototypeOf;
+  });
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var isNativeReflectConstruct = _isNativeReflectConstruct;
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -120,29 +168,48 @@
     return self;
   }
 
+  var assertThisInitialized = _assertThisInitialized;
+
   function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    if (call && (_typeof_1(call) === "object" || typeof call === "function")) {
       return call;
     }
 
-    return _assertThisInitialized(self);
+    return assertThisInitialized(self);
   }
 
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-      return o.__proto__ || Object.getPrototypeOf(o);
+  var possibleConstructorReturn = _possibleConstructorReturn;
+
+  function _createSuper(Derived) {
+    return function () {
+      var Super = getPrototypeOf(Derived),
+          result;
+
+      if (isNativeReflectConstruct()) {
+        var NewTarget = getPrototypeOf(this).constructor;
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return possibleConstructorReturn(this, result);
     };
-    return _getPrototypeOf(o);
   }
 
+  var createSuper = _createSuper;
+
+  var setPrototypeOf = createCommonjsModule(function (module) {
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
 
     return _setPrototypeOf(o, p);
   }
+
+  module.exports = _setPrototypeOf;
+  });
 
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -156,12 +223,10 @@
         configurable: true
       }
     });
-    if (superClass) _setPrototypeOf(subClass, superClass);
+    if (superClass) setPrototypeOf(subClass, superClass);
   }
 
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
+  var inherits = _inherits;
 
   var reactIs_development = createCommonjsModule(function (module, exports) {
 
@@ -364,31 +429,32 @@
   var reactIs_development_27 = reactIs_development.isValidElementType;
   var reactIs_development_28 = reactIs_development.typeOf;
 
-  var _reactIs_16_13_0_reactIs = createCommonjsModule(function (module) {
+  var _reactIs_16_13_1_reactIs = createCommonjsModule(function (module) {
 
   {
     module.exports = reactIs_development;
   }
   });
-  var _reactIs_16_13_0_reactIs_1 = _reactIs_16_13_0_reactIs.isValidElementType;
+  var _reactIs_16_13_1_reactIs_1 = _reactIs_16_13_1_reactIs.isValidElementType;
 
-  var isArray = Array.isArray;
-  var keyList = Object.keys;
-  var hasProp = Object.prototype.hasOwnProperty;
+  /* global Map:readonly, Set:readonly, ArrayBuffer:readonly */
+
   var hasElementType = typeof Element !== 'undefined';
+  var hasMap = typeof Map === 'function';
+  var hasSet = typeof Set === 'function';
+  var hasArrayBuffer = typeof ArrayBuffer === 'function';
+
+  // Note: We **don't** need `envHasBigInt64Array` in fde es6/index.js
 
   function equal(a, b) {
-    // fast-deep-equal index.js 2.0.1
+    // START: fast-deep-equal es6/index.js 3.1.1
     if (a === b) return true;
 
     if (a && b && typeof a == 'object' && typeof b == 'object') {
-      var arrA = isArray(a)
-        , arrB = isArray(b)
-        , i
-        , length
-        , key;
+      if (a.constructor !== b.constructor) return false;
 
-      if (arrA && arrB) {
+      var length, i, keys;
+      if (Array.isArray(a)) {
         length = a.length;
         if (length != b.length) return false;
         for (i = length; i-- !== 0;)
@@ -396,50 +462,87 @@
         return true;
       }
 
-      if (arrA != arrB) return false;
+      // START: Modifications:
+      // 1. Extra `has<Type> &&` helpers in initial condition allow es6 code
+      //    to co-exist with es5.
+      // 2. Replace `for of` with es5 compliant iteration using `for`.
+      //    Basically, take:
+      //
+      //    ```js
+      //    for (i of a.entries())
+      //      if (!b.has(i[0])) return false;
+      //    ```
+      //
+      //    ... and convert to:
+      //
+      //    ```js
+      //    it = a.entries();
+      //    while (!(i = it.next()).done)
+      //      if (!b.has(i.value[0])) return false;
+      //    ```
+      //
+      //    **Note**: `i` access switches to `i.value`.
+      var it;
+      if (hasMap && (a instanceof Map) && (b instanceof Map)) {
+        if (a.size !== b.size) return false;
+        it = a.entries();
+        while (!(i = it.next()).done)
+          if (!b.has(i.value[0])) return false;
+        it = a.entries();
+        while (!(i = it.next()).done)
+          if (!equal(i.value[1], b.get(i.value[0]))) return false;
+        return true;
+      }
 
-      var dateA = a instanceof Date
-        , dateB = b instanceof Date;
-      if (dateA != dateB) return false;
-      if (dateA && dateB) return a.getTime() == b.getTime();
+      if (hasSet && (a instanceof Set) && (b instanceof Set)) {
+        if (a.size !== b.size) return false;
+        it = a.entries();
+        while (!(i = it.next()).done)
+          if (!b.has(i.value[0])) return false;
+        return true;
+      }
+      // END: Modifications
 
-      var regexpA = a instanceof RegExp
-        , regexpB = b instanceof RegExp;
-      if (regexpA != regexpB) return false;
-      if (regexpA && regexpB) return a.toString() == b.toString();
+      if (hasArrayBuffer && ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+        length = a.length;
+        if (length != b.length) return false;
+        for (i = length; i-- !== 0;)
+          if (a[i] !== b[i]) return false;
+        return true;
+      }
 
-      var keys = keyList(a);
+      if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+      if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+      if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
+
+      keys = Object.keys(a);
       length = keys.length;
-
-      if (length !== keyList(b).length)
-        return false;
+      if (length !== Object.keys(b).length) return false;
 
       for (i = length; i-- !== 0;)
-        if (!hasProp.call(b, keys[i])) return false;
-      // end fast-deep-equal
+        if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+      // END: fast-deep-equal
 
-      // start react-fast-compare
+      // START: react-fast-compare
       // custom handling for DOM elements
-      if (hasElementType && a instanceof Element && b instanceof Element)
-        return a === b;
+      if (hasElementType && a instanceof Element) return false;
 
       // custom handling for React
       for (i = length; i-- !== 0;) {
-        key = keys[i];
-        if (key === '_owner' && a.$$typeof) {
+        if (keys[i] === '_owner' && a.$$typeof) {
           // React-specific: avoid traversing React elements' _owner.
           //  _owner contains circular references
           // and is not needed when comparing the actual elements (and not their owners)
           // .$$typeof and ._store on just reasonable markers of a react element
           continue;
-        } else {
-          // all other properties should be traversed as usual
-          if (!equal(a[key], b[key])) return false;
         }
-      }
-      // end react-fast-compare
 
-      // fast-deep-equal index.js 2.0.1
+        // all other properties should be traversed as usual
+        if (!equal(a[keys[i]], b[keys[i]])) return false;
+      }
+      // END: react-fast-compare
+
+      // START: fast-deep-equal
       return true;
     }
 
@@ -447,17 +550,17 @@
   }
   // end fast-deep-equal
 
-  var _reactFastCompare_2_0_4_reactFastCompare = function exportedEqual(a, b) {
+  var _reactFastCompare_3_0_1_reactFastCompare = function isEqual(a, b) {
     try {
       return equal(a, b);
     } catch (error) {
-      if ((error.message && error.message.match(/stack|recursion/i)) || (error.number === -2146828260)) {
+      if (((error.message || '').match(/stack|recursion/i))) {
         // warn on circular references, don't crash
         // browsers give this different errors name and messages:
         // chrome/safari: "RangeError", "Maximum call stack size exceeded"
         // firefox: "InternalError", too much recursion"
         // edge: "Error", "Out of stack space"
-        console.warn('Warning: react-fast-compare does not handle circular references.', error.name, error.message);
+        console.warn('react-fast-compare cannot handle circular refs');
         return false;
       }
       // some other error. we should definitely know about these
@@ -484,7 +587,7 @@
     if (children) {
       var childrenType = children.type;
 
-      if (_reactIs_16_13_0_reactIs_1(childrenType)) {
+      if (_reactIs_16_13_1_reactIs_1(childrenType)) {
         // SomeComponent.formutiType = xx
         if (childrenType.formutilType) {
           return childrenType.formutilType;
@@ -501,20 +604,20 @@
   }
 
   var FormItem = /*#__PURE__*/function (_Component) {
-    _inherits(FormItem, _Component);
+    inherits(FormItem, _Component);
+
+    var _super = createSuper(FormItem);
 
     function FormItem() {
-      var _getPrototypeOf2;
-
       var _this;
 
-      _classCallCheck(this, FormItem);
+      classCallCheck(this, FormItem);
 
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
 
-      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
+      _this = _super.call.apply(_super, [this].concat(args));
       _this.fields = {};
 
       _this.registerField = function (name, $fieldutil) {
@@ -582,7 +685,7 @@
       return _this;
     }
 
-    _createClass(FormItem, [{
+    createClass(FormItem, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         var _this$registerAncesto;
@@ -610,7 +713,7 @@
             _props$errorLevel = props.errorLevel,
             errorLevel = _props$errorLevel === void 0 ? errorLevelGlobal : _props$errorLevel,
             noStyle = props.noStyle,
-            fieldProps = _objectWithoutProperties(props, ["children", "itemProps", "errorLevel", "noStyle"]);
+            fieldProps = objectWithoutProperties(props, ["children", "itemProps", "errorLevel", "noStyle"]);
 
         if (!props.name) {
           var validationProps = this.latestValidationProps = this.fetchCurrentValidationProps(errorLevel);
@@ -619,13 +722,13 @@
            */
 
           Promise.resolve().then(function () {
-            if (!_reactFastCompare_2_0_4_reactFastCompare(_this2.latestValidationProps, _this2.fetchCurrentValidationProps(errorLevel))) {
+            if (!_reactFastCompare_3_0_1_reactFastCompare(_this2.latestValidationProps, _this2.fetchCurrentValidationProps(errorLevel))) {
               _this2.forceUpdate();
             }
           });
-          return React__default.createElement(Provider, {
+          return /*#__PURE__*/React__default.createElement(Provider, {
             value: this.registerField
-          }, React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+          }, /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
         } // If $memo is true, pass the children to Field for SCU diffing.
 
 
@@ -663,10 +766,10 @@
             break;
         }
 
-        return React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
+        return /*#__PURE__*/React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
           passUtil: "$fieldutil",
           render: function render($handleProps) {
-            var _ref, _childProps, _Object$assign;
+            var _value$fileList, _childProps, _Object$assign;
 
             var _props$valuePropName = props.valuePropName,
                 valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
@@ -682,7 +785,7 @@
                 onFocus = $handleProps[focusPropName],
                 onBlur = $handleProps[blurPropName],
                 value = $handleProps[valuePropName],
-                restProps = _objectWithoutProperties($handleProps, ["$fieldutil", changePropName, focusPropName, blurPropName, valuePropName].map(_toPropertyKey));
+                restProps = objectWithoutProperties($handleProps, ["$fieldutil", changePropName, focusPropName, blurPropName, valuePropName].map(toPropertyKey));
 
             var $invalid = $fieldutil.$invalid,
                 $dirty = $fieldutil.$dirty,
@@ -726,7 +829,7 @@
 
               case antd.Upload:
                 childProps = {
-                  fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
+                  fileList: (_value$fileList = value === null || value === void 0 ? void 0 : value.fileList) !== null && _value$fileList !== void 0 ? _value$fileList : value,
                   onChange: _onChange
                 };
                 break;
@@ -742,7 +845,7 @@
                   onCompositionStart: function onCompositionStart() {
                     return _this2.isComposition = true;
                   }
-                }, _defineProperty(_childProps, changePropName, function (ev) {
+                }, defineProperty(_childProps, changePropName, function (ev) {
                   if (_this2.isComposition) {
                     _this2.compositionValue = ev.target[valuePropName];
 
@@ -754,18 +857,18 @@
 
                     _onChange.apply(void 0, [ev].concat(rest));
                   }
-                }), _defineProperty(_childProps, valuePropName, 'compositionValue' in _this2 ? _this2.compositionValue : value), _childProps);
+                }), defineProperty(_childProps, valuePropName, 'compositionValue' in _this2 ? _this2.compositionValue : value), _childProps);
                 break;
             }
 
-            Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign)); // ansure 'required' could pass to Form.Item
+            Object.assign(childProps, (_Object$assign = {}, defineProperty(_Object$assign, focusPropName, onFocus), defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign)); // ansure 'required' could pass to Form.Item
 
             if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {
               restProps.required = true;
             }
 
             var fieldInstance = typeof children === 'function' ? children(childProps) : React.cloneElement(children, childProps);
-            return React__default.createElement(Consumer, null, function (registerField) {
+            return /*#__PURE__*/React__default.createElement(Consumer, null, function (registerField) {
               if (noStyle) {
                 _this2.$fieldutil = $fieldutil;
                 _this2.registerAncestorField = registerField;
@@ -774,7 +877,7 @@
 
               var validationProps = _this2.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $getFirstError());
 
-              return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
+              return /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
             });
           }
         }));

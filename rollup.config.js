@@ -48,7 +48,7 @@ function createConfig(env, module) {
                 : id =>
                       !externalExclude.some(name => id.startsWith(name)) && !id.startsWith('.') && !path.isAbsolute(id),
         output: {
-            name: exportName,
+            name: 'ReactAntdFormutil',
             file: `dist/${exportName}.${module}.${env}.js`,
             format: module,
             exports: 'named',
@@ -122,7 +122,7 @@ function createConfig(env, module) {
                             corejs: false,
                             helpers: true,
                             regenerator: true,
-                            useESModules: true,
+                            useESModules: module === 'esm',
                             absoluteRuntime: false
                         }
                     ],

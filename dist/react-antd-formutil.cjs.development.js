@@ -5,14 +5,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var reactFormutil = require('react-formutil');
-var _defineProperty = _interopDefault(require('@babel/runtime/helpers/esm/defineProperty'));
-var _toPropertyKey = _interopDefault(require('@babel/runtime/helpers/esm/toPropertyKey'));
-var _objectWithoutProperties = _interopDefault(require('@babel/runtime/helpers/esm/objectWithoutProperties'));
-var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/esm/classCallCheck'));
-var _createClass = _interopDefault(require('@babel/runtime/helpers/esm/createClass'));
-var _possibleConstructorReturn = _interopDefault(require('@babel/runtime/helpers/esm/possibleConstructorReturn'));
-var _getPrototypeOf = _interopDefault(require('@babel/runtime/helpers/esm/getPrototypeOf'));
-var _inherits = _interopDefault(require('@babel/runtime/helpers/esm/inherits'));
+var _defineProperty = _interopDefault(require('@babel/runtime/helpers/defineProperty'));
+var _toPropertyKey = _interopDefault(require('@babel/runtime/helpers/toPropertyKey'));
+var _objectWithoutProperties = _interopDefault(require('@babel/runtime/helpers/objectWithoutProperties'));
+var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/classCallCheck'));
+var _createClass = _interopDefault(require('@babel/runtime/helpers/createClass'));
+var _createSuper = _interopDefault(require('@babel/runtime/helpers/createSuper'));
+var _inherits = _interopDefault(require('@babel/runtime/helpers/inherits'));
 var React = require('react');
 var React__default = _interopDefault(React);
 var reactIs = require('react-is');
@@ -58,9 +57,9 @@ function getChildComponent(children) {
 var FormItem = /*#__PURE__*/function (_Component) {
   _inherits(FormItem, _Component);
 
-  function FormItem() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(FormItem);
 
+  function FormItem() {
     var _this;
 
     _classCallCheck(this, FormItem);
@@ -69,7 +68,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
     _this.fields = {};
 
     _this.registerField = function (name, $fieldutil) {
@@ -178,9 +177,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
             _this2.forceUpdate();
           }
         });
-        return React__default.createElement(Provider, {
+        return /*#__PURE__*/React__default.createElement(Provider, {
           value: this.registerField
-        }, React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+        }, /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), childList));
       } // If $memo is true, pass the children to Field for SCU diffing.
 
 
@@ -218,10 +217,10 @@ var FormItem = /*#__PURE__*/function (_Component) {
           break;
       }
 
-      return React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
+      return /*#__PURE__*/React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
         passUtil: "$fieldutil",
         render: function render($handleProps) {
-          var _ref, _childProps, _Object$assign;
+          var _value$fileList, _childProps, _Object$assign;
 
           var _props$valuePropName = props.valuePropName,
               valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
@@ -281,7 +280,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             case antd.Upload:
               childProps = {
-                fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
+                fileList: (_value$fileList = value === null || value === void 0 ? void 0 : value.fileList) !== null && _value$fileList !== void 0 ? _value$fileList : value,
                 onChange: _onChange
               };
               break;
@@ -320,7 +319,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           }
 
           var fieldInstance = typeof children === 'function' ? children(childProps) : React.cloneElement(children, childProps);
-          return React__default.createElement(Consumer, null, function (registerField) {
+          return /*#__PURE__*/React__default.createElement(Consumer, null, function (registerField) {
             if (noStyle) {
               _this2.$fieldutil = $fieldutil;
               _this2.registerAncestorField = registerField;
@@ -329,7 +328,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             var validationProps = _this2.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $getFirstError());
 
-            return React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
+            return /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
           });
         }
       }));

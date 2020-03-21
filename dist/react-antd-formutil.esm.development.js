@@ -5,8 +5,7 @@ import _toPropertyKey from '@babel/runtime/helpers/esm/toPropertyKey';
 import _objectWithoutProperties from '@babel/runtime/helpers/esm/objectWithoutProperties';
 import _classCallCheck from '@babel/runtime/helpers/esm/classCallCheck';
 import _createClass from '@babel/runtime/helpers/esm/createClass';
-import _possibleConstructorReturn from '@babel/runtime/helpers/esm/possibleConstructorReturn';
-import _getPrototypeOf from '@babel/runtime/helpers/esm/getPrototypeOf';
+import _createSuper from '@babel/runtime/helpers/esm/createSuper';
 import _inherits from '@babel/runtime/helpers/esm/inherits';
 import React, { createContext, Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
@@ -52,9 +51,9 @@ function getChildComponent(children) {
 var FormItem = /*#__PURE__*/function (_Component) {
   _inherits(FormItem, _Component);
 
-  function FormItem() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(FormItem);
 
+  function FormItem() {
     var _this;
 
     _classCallCheck(this, FormItem);
@@ -63,7 +62,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(FormItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
     _this.fields = {};
 
     _this.registerField = function (name, $fieldutil) {
@@ -172,9 +171,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
             _this2.forceUpdate();
           }
         });
-        return React.createElement(Provider, {
+        return /*#__PURE__*/React.createElement(Provider, {
           value: this.registerField
-        }, React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+        }, /*#__PURE__*/React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
       } // If $memo is true, pass the children to Field for SCU diffing.
 
 
@@ -212,10 +211,10 @@ var FormItem = /*#__PURE__*/function (_Component) {
           break;
       }
 
-      return React.createElement(EasyField, Object.assign({}, fieldProps, {
+      return /*#__PURE__*/React.createElement(EasyField, Object.assign({}, fieldProps, {
         passUtil: "$fieldutil",
         render: function render($handleProps) {
-          var _ref, _childProps, _Object$assign;
+          var _value$fileList, _childProps, _Object$assign;
 
           var _props$valuePropName = props.valuePropName,
               valuePropName = _props$valuePropName === void 0 ? 'value' : _props$valuePropName,
@@ -275,7 +274,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             case Upload:
               childProps = {
-                fileList: (_ref = value === null || value === void 0 ? void 0 : value.fileList) !== null && _ref !== void 0 ? _ref : value,
+                fileList: (_value$fileList = value === null || value === void 0 ? void 0 : value.fileList) !== null && _value$fileList !== void 0 ? _value$fileList : value,
                 onChange: _onChange
               };
               break;
@@ -314,7 +313,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           }
 
           var fieldInstance = typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
-          return React.createElement(Consumer, null, function (registerField) {
+          return /*#__PURE__*/React.createElement(Consumer, null, function (registerField) {
             if (noStyle) {
               _this2.$fieldutil = $fieldutil;
               _this2.registerAncestorField = registerField;
@@ -323,7 +322,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             var validationProps = _this2.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $getFirstError());
 
-            return React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
+            return /*#__PURE__*/React.createElement(Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
           });
         }
       }));
