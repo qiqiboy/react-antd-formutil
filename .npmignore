@@ -2,4 +2,5 @@ docs/
 src/
 npm/
 rollup.config.*
+babel.config.json
 *.un~

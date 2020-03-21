@@ -18,6 +18,15 @@ export const setErrorLevel = function(level) {
     errorLevelGlobal = level;
 };
 
+const isUglify = Switch.name !== 'Switch';
+
+const _Switch = isUglify ? Switch : 'Switch';
+const _Checkbox = isUglify ? Checkbox : 'Checkbox';
+const _Radio = isUglify ? Radio : 'Radio';
+const _Transfer = isUglify ? Transfer : 'Transfer';
+const _Pagination = isUglify ? Pagination : 'Pagination';
+const _Upload = isUglify ? Upload : 'Upload';
+
 function getChildComponent(children) {
     if (children) {
         const childrenType = children.type;
@@ -31,6 +40,10 @@ function getChildComponent(children) {
             // <input type="checkbox" />
             if (typeof childrenType === 'string' && children.props.type) {
                 return children.props.type;
+            }
+
+            if (!isUglify) {
+                return childrenType.displayName || childrenType.name || childrenType;
             }
         }
 
@@ -145,13 +158,13 @@ class FormItem extends Component {
         let component = getChildComponent(children);
 
         switch (component) {
-            case Switch:
-            case Checkbox:
-            case Radio:
+            case _Switch:
+            case _Checkbox:
+            case _Radio:
                 fieldProps.__TYPE__ = 'checked';
                 break;
 
-            case Pagination:
+            case _Pagination:
                 if (!('$defaultValue' in fieldProps)) {
                     fieldProps.$defaultValue = 1;
                 }
@@ -195,9 +208,9 @@ class FormItem extends Component {
 
                     let childProps;
                     switch (component) {
-                        case Switch:
-                        case Checkbox:
-                        case Radio:
+                        case _Switch:
+                        case _Checkbox:
+                        case _Radio:
                         case 'checked':
                             const { checked = true, unchecked = false } = props;
                             childProps = {
@@ -209,21 +222,21 @@ class FormItem extends Component {
                             };
                             break;
 
-                        case Transfer:
+                        case _Transfer:
                             childProps = {
                                 targetKeys: value,
                                 onChange
                             };
                             break;
 
-                        case Pagination:
+                        case _Pagination:
                             childProps = {
                                 current: value,
                                 onChange
                             };
                             break;
 
-                        case Upload:
+                        case _Upload:
                             childProps = {
                                 fileList: value?.fileList ?? value,
                                 onChange

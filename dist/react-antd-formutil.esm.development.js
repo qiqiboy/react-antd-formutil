@@ -3,7 +3,7 @@ export * from 'react-formutil';
 import React, { createContext, Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Form, Pagination, Radio, Checkbox, Switch, Upload, Transfer } from 'antd';
+import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 import isEqual from 'react-fast-compare';
 
 function _defineProperty(obj, key, value) {
@@ -201,6 +201,19 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
+var isUglify = Switch.name !== 'Switch';
+
+var _Switch = isUglify ? Switch : 'Switch';
+
+var _Checkbox = isUglify ? Checkbox : 'Checkbox';
+
+var _Radio = isUglify ? Radio : 'Radio';
+
+var _Transfer = isUglify ? Transfer : 'Transfer';
+
+var _Pagination = isUglify ? Pagination : 'Pagination';
+
+var _Upload = isUglify ? Upload : 'Upload';
 
 function getChildComponent(children) {
   if (children) {
@@ -215,6 +228,10 @@ function getChildComponent(children) {
 
       if (typeof childrenType === 'string' && children.props.type) {
         return children.props.type;
+      }
+
+      if (!isUglify) {
+        return childrenType.displayName || childrenType.name || childrenType;
       }
     }
 
@@ -359,13 +376,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
       var component = getChildComponent(children);
 
       switch (component) {
-        case Switch:
-        case Checkbox:
-        case Radio:
+        case _Switch:
+        case _Checkbox:
+        case _Radio:
           fieldProps.__TYPE__ = 'checked';
           break;
 
-        case Pagination:
+        case _Pagination:
           if (!('$defaultValue' in fieldProps)) {
             fieldProps.$defaultValue = 1;
           }
@@ -414,9 +431,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
           var childProps;
 
           switch (component) {
-            case Switch:
-            case Checkbox:
-            case Radio:
+            case _Switch:
+            case _Checkbox:
+            case _Radio:
             case 'checked':
               var _props$checked = props.checked,
                   checked = _props$checked === void 0 ? true : _props$checked,
@@ -432,21 +449,21 @@ var FormItem = /*#__PURE__*/function (_Component) {
               };
               break;
 
-            case Transfer:
+            case _Transfer:
               childProps = {
                 targetKeys: value,
                 onChange: _onChange
               };
               break;
 
-            case Pagination:
+            case _Pagination:
               childProps = {
                 current: value,
                 onChange: _onChange
               };
               break;
 
-            case Upload:
+            case _Upload:
               childProps = {
                 fileList: (_value$fileList = value === null || value === void 0 ? void 0 : value.fileList) !== null && _value$fileList !== void 0 ? _value$fileList : value,
                 onChange: _onChange

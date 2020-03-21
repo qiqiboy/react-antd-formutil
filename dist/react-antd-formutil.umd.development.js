@@ -582,6 +582,19 @@
   var setErrorLevel = function setErrorLevel(level) {
     errorLevelGlobal = level;
   };
+  var isUglify = antd.Switch.name !== 'Switch';
+
+  var _Switch = isUglify ? antd.Switch : 'Switch';
+
+  var _Checkbox = isUglify ? antd.Checkbox : 'Checkbox';
+
+  var _Radio = isUglify ? antd.Radio : 'Radio';
+
+  var _Transfer = isUglify ? antd.Transfer : 'Transfer';
+
+  var _Pagination = isUglify ? antd.Pagination : 'Pagination';
+
+  var _Upload = isUglify ? antd.Upload : 'Upload';
 
   function getChildComponent(children) {
     if (children) {
@@ -596,6 +609,10 @@
 
         if (typeof childrenType === 'string' && children.props.type) {
           return children.props.type;
+        }
+
+        if (!isUglify) {
+          return childrenType.displayName || childrenType.name || childrenType;
         }
       }
 
@@ -740,13 +757,13 @@
         var component = getChildComponent(children);
 
         switch (component) {
-          case antd.Switch:
-          case antd.Checkbox:
-          case antd.Radio:
+          case _Switch:
+          case _Checkbox:
+          case _Radio:
             fieldProps.__TYPE__ = 'checked';
             break;
 
-          case antd.Pagination:
+          case _Pagination:
             if (!('$defaultValue' in fieldProps)) {
               fieldProps.$defaultValue = 1;
             }
@@ -795,9 +812,9 @@
             var childProps;
 
             switch (component) {
-              case antd.Switch:
-              case antd.Checkbox:
-              case antd.Radio:
+              case _Switch:
+              case _Checkbox:
+              case _Radio:
               case 'checked':
                 var _props$checked = props.checked,
                     checked = _props$checked === void 0 ? true : _props$checked,
@@ -813,21 +830,21 @@
                 };
                 break;
 
-              case antd.Transfer:
+              case _Transfer:
                 childProps = {
                   targetKeys: value,
                   onChange: _onChange
                 };
                 break;
 
-              case antd.Pagination:
+              case _Pagination:
                 childProps = {
                   current: value,
                   onChange: _onChange
                 };
                 break;
 
-              case antd.Upload:
+              case _Upload:
                 childProps = {
                   fileList: (_value$fileList = value === null || value === void 0 ? void 0 : value.fileList) !== null && _value$fileList !== void 0 ? _value$fileList : value,
                   onChange: _onChange
