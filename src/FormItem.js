@@ -14,7 +14,7 @@ let errorLevelGlobal = 1;
  * 1 dirty & invalid
  * 2 invalid
  */
-export const setErrorLevel = function(level) {
+export const setErrorLevel = function (level) {
     errorLevelGlobal = level;
 };
 
@@ -53,7 +53,13 @@ function getChildComponent(children) {
 
 class FormItem extends Component {
     static propTypes = {
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+        children(props, ...args) {
+            if ('name' in props) {
+                return PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired(props, ...args);
+            }
+
+            return PropTypes.node.isRequired(props, ...args);
+        },
         itemProps: PropTypes.object, //传递给antd的Form.Item的属性
         errorLevel: PropTypes.oneOf([0, 1, 2, 'off']),
         noStyle: PropTypes.bool
@@ -143,7 +149,7 @@ class FormItem extends Component {
             return (
                 <Provider value={this.registerField}>
                     <Form.Item {...fieldProps} {...validationProps}>
-                        {childList}
+                        {typeof childList === 'function' ? childList() : childList}
                     </Form.Item>
                 </Provider>
             );

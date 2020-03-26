@@ -2,11 +2,10 @@ process.env.NODE_ENV = 'production';
 
 const path = require('path');
 const fs = require('fs');
-const commonjs = require('rollup-plugin-commonjs');
+const commonjs = require('@rollup/plugin-commonjs');
 const replace = require('@rollup/plugin-replace');
 const nodeResolve = require('@rollup/plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
-const sourceMaps = require('rollup-plugin-sourcemaps');
 const filesize = require('rollup-plugin-filesize');
 const copy = require('rollup-plugin-copy');
 const sass = require('rollup-plugin-sass');
@@ -41,7 +40,7 @@ function createConfig(env, module) {
         /**
          * 入口文件位置，如果你更改了entryFile，别忘了同时修改 npm/index.cjs.js 和 npm/index.esm.js 里的文件引用名称
          */
-        input: pkg.entryFile || 'src/index.js',
+        input: pkg.entryFile || 'src/index.ts',
         external:
             module === 'umd'
                 ? Object.keys(globals)
@@ -75,11 +74,11 @@ function createConfig(env, module) {
                 extensions: ['.js', '.jsx', '.ts', '.tsx']
             }),
             commonjs({
-                include: /node_modules/,
                 namedExports: {
                     'node_modules/_react-is@16.11.0@react-is/index.js': ['isValidElementType'],
                     'node_modules/react-is/index.js': ['isValidElementType']
-                }
+                },
+                include: /node_modules/
             }),
             babel({
                 exclude: 'node_modules/**',
@@ -141,7 +140,6 @@ function createConfig(env, module) {
                 sass({
                     output: `dist/${exportName}.css`
                 }),
-            sourceMaps(),
             isProd &&
                 terser({
                     sourcemap: true,
@@ -154,8 +152,13 @@ function createConfig(env, module) {
                 }),
             filesize(),
             copy({
-                targets: [`npm/index.${module}.js`],
-                verbose: true
+                targets: [
+                    {
+                        src: `npm/index.${module}.js`,
+                        dest: 'dist'
+                    }
+                ],
+                verbose: false
             })
         ].filter(Boolean)
     };
