@@ -265,15 +265,23 @@ class FormItem extends Component {
                                         onChange(ev, ...rest);
                                     }
                                 },
-                                [valuePropName]: 'compositionValue' in this ? this.compositionValue : value
+                                [valuePropName]: 'compositionValue' in this ? this.compositionValue : value,
+                                [blurPropName]: (...args) => {
+                                    if (this.isComposition) {
+                                        this.isComposition = false;
+                                        delete this.compositionValue;
+                                        onChange(...args);
+                                    }
+                                    return onBlur(...args);
+                                }
                             };
                             break;
                     }
 
-                    Object.assign(childProps, {
+                    Object.assign({
                         [focusPropName]: onFocus,
                         [blurPropName]: onBlur
-                    });
+                    }, childProps);
 
                     // ansure 'required' could pass to Form.Item
                     if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {

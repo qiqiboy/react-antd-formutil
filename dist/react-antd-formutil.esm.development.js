@@ -364,7 +364,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
         });
         return /*#__PURE__*/React.createElement(Provider, {
           value: this.registerField
-        }, /*#__PURE__*/React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), childList));
+        }, /*#__PURE__*/React.createElement(Form.Item, Object.assign({}, fieldProps, validationProps), typeof childList === 'function' ? childList() : childList));
       } // If $memo is true, pass the children to Field for SCU diffing.
 
 
@@ -493,11 +493,20 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
                   _onChange.apply(void 0, [ev].concat(rest));
                 }
-              }), _defineProperty(_childProps, valuePropName, 'compositionValue' in _this2 ? _this2.compositionValue : value), _childProps);
+              }), _defineProperty(_childProps, valuePropName, 'compositionValue' in _this2 ? _this2.compositionValue : value), _defineProperty(_childProps, blurPropName, function () {
+                if (_this2.isComposition) {
+                  _this2.isComposition = false;
+                  delete _this2.compositionValue;
+
+                  _onChange.apply(void 0, arguments);
+                }
+
+                return onBlur.apply(void 0, arguments);
+              }), _childProps);
               break;
           }
 
-          Object.assign(childProps, (_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign)); // ansure 'required' could pass to Form.Item
+          Object.assign((_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign), childProps); // ansure 'required' could pass to Form.Item
 
           if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {
             restProps.required = true;
@@ -524,7 +533,21 @@ var FormItem = /*#__PURE__*/function (_Component) {
 }(Component);
 
 FormItem.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+  children: function children(props) {
+    var _PropTypes$node;
+
+    for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+      args[_key3 - 1] = arguments[_key3];
+    }
+
+    if ('name' in props) {
+      var _PropTypes$oneOfType;
+
+      return (_PropTypes$oneOfType = PropTypes.oneOfType([PropTypes.element, PropTypes.func])).isRequired.apply(_PropTypes$oneOfType, [props].concat(args));
+    }
+
+    return (_PropTypes$node = PropTypes.node).isRequired.apply(_PropTypes$node, [props].concat(args));
+  },
   itemProps: PropTypes.object,
   //传递给antd的Form.Item的属性
   errorLevel: PropTypes.oneOf([0, 1, 2, 'off']),
