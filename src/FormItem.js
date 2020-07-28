@@ -278,7 +278,7 @@ class FormItem extends Component {
                             break;
                     }
 
-                    Object.assign({
+                    childProps = Object.assign({
                         [focusPropName]: onFocus,
                         [blurPropName]: onBlur
                     }, childProps);

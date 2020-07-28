@@ -887,7 +887,7 @@
                 break;
             }
 
-            Object.assign((_Object$assign = {}, defineProperty(_Object$assign, focusPropName, onFocus), defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign), childProps); // ansure 'required' could pass to Form.Item
+            childProps = Object.assign((_Object$assign = {}, defineProperty(_Object$assign, focusPropName, onFocus), defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign), childProps); // ansure 'required' could pass to Form.Item
 
             if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {
               restProps.required = true;
