@@ -1,7 +1,7 @@
 import React, { Component, cloneElement, Children, createContext } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload, Select } from 'antd';
 import { EasyField } from 'react-formutil';
 import isEqual from 'react-fast-compare';
 
@@ -26,6 +26,7 @@ const _Radio = isUglify ? Radio : 'Radio';
 const _Transfer = isUglify ? Transfer : 'Transfer';
 const _Pagination = isUglify ? Pagination : 'Pagination';
 const _Upload = isUglify ? Upload : 'Upload';
+const _Select = isUglify ? Select : 'Select';
 
 function getChildComponent(children) {
     if (children) {
@@ -259,7 +260,7 @@ class FormItem extends Component {
                                 onCompositionStart: () => (this.isComposition = true),
                                 [changePropName]: (ev, ...rest) => {
                                     if (this.isComposition) {
-                                        this.compositionValue = ev.target[valuePropName];
+                                        this.compositionValue = ev.target?.[valuePropName] ?? ev;
                                         this.forceUpdate();
                                     } else {
                                         onChange(ev, ...rest);
@@ -278,10 +279,21 @@ class FormItem extends Component {
                             break;
                     }
 
-                    childProps = Object.assign({
-                        [focusPropName]: onFocus,
-                        [blurPropName]: onBlur
-                    }, childProps);
+                    /**
+                     * Select组件移除composition相关事件
+                     */
+                    if (component === _Select) {
+                        delete childProps.onCompositionStart;
+                        delete childProps.onCompositionEnd;
+                    }
+
+                    childProps = Object.assign(
+                        {
+                            [focusPropName]: onFocus,
+                            [blurPropName]: onBlur
+                        },
+                        childProps
+                    );
 
                     // ansure 'required' could pass to Form.Item
                     if (!restProps.required && fieldProps.required && (!itemProps || !('required' in itemProps))) {

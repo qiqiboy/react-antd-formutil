@@ -3,7 +3,7 @@ export * from 'react-formutil';
 import React, { createContext, Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload, Select } from 'antd';
 import isEqual from 'react-fast-compare';
 
 function _defineProperty(obj, key, value) {
@@ -214,6 +214,8 @@ var _Transfer = isUglify ? Transfer : 'Transfer';
 var _Pagination = isUglify ? Pagination : 'Pagination';
 
 var _Upload = isUglify ? Upload : 'Upload';
+
+var _Select = isUglify ? Select : 'Select';
 
 function getChildComponent(children) {
   if (children) {
@@ -483,7 +485,9 @@ var FormItem = /*#__PURE__*/function (_Component) {
                 }
               }, _defineProperty(_childProps, changePropName, function (ev) {
                 if (_this2.isComposition) {
-                  _this2.compositionValue = ev.target[valuePropName];
+                  var _ev$target$valuePropN, _ev$target;
+
+                  _this2.compositionValue = (_ev$target$valuePropN = (_ev$target = ev.target) === null || _ev$target === void 0 ? void 0 : _ev$target[valuePropName]) !== null && _ev$target$valuePropN !== void 0 ? _ev$target$valuePropN : ev;
 
                   _this2.forceUpdate();
                 } else {
@@ -504,6 +508,15 @@ var FormItem = /*#__PURE__*/function (_Component) {
                 return onBlur.apply(void 0, arguments);
               }), _childProps);
               break;
+          }
+          /**
+           * Select组件移除composition相关事件
+           */
+
+
+          if (component === _Select) {
+            delete childProps.onCompositionStart;
+            delete childProps.onCompositionEnd;
           }
 
           childProps = Object.assign((_Object$assign = {}, _defineProperty(_Object$assign, focusPropName, onFocus), _defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign), childProps); // ansure 'required' could pass to Form.Item

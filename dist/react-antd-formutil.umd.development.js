@@ -596,6 +596,8 @@
 
   var _Upload = isUglify ? antd.Upload : 'Upload';
 
+  var _Select = isUglify ? antd.Select : 'Select';
+
   function getChildComponent(children) {
     if (children) {
       var childrenType = children.type;
@@ -864,7 +866,9 @@
                   }
                 }, defineProperty(_childProps, changePropName, function (ev) {
                   if (_this2.isComposition) {
-                    _this2.compositionValue = ev.target[valuePropName];
+                    var _ev$target$valuePropN, _ev$target;
+
+                    _this2.compositionValue = (_ev$target$valuePropN = (_ev$target = ev.target) === null || _ev$target === void 0 ? void 0 : _ev$target[valuePropName]) !== null && _ev$target$valuePropN !== void 0 ? _ev$target$valuePropN : ev;
 
                     _this2.forceUpdate();
                   } else {
@@ -885,6 +889,15 @@
                   return onBlur.apply(void 0, arguments);
                 }), _childProps);
                 break;
+            }
+            /**
+             * Select组件移除composition相关事件
+             */
+
+
+            if (component === _Select) {
+              delete childProps.onCompositionStart;
+              delete childProps.onCompositionEnd;
             }
 
             childProps = Object.assign((_Object$assign = {}, defineProperty(_Object$assign, focusPropName, onFocus), defineProperty(_Object$assign, blurPropName, onBlur), _Object$assign), childProps); // ansure 'required' could pass to Form.Item
