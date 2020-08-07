@@ -81,7 +81,7 @@
     "@types/react-is": "16.7.1",
     "@typescript-eslint/eslint-plugin": "2.25.0",
     "@typescript-eslint/parser": "2.25.0",
-    "antd": "^4.0.3",
+    "antd": "^4.5.2",
     "babel-eslint": "10.1.0",
     "babel-jest": "25.2.0",
     "babel-preset-react-app": "9.1.2",
