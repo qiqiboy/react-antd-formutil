@@ -247,7 +247,7 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
-var isUglify = antd.Switch.name !== 'Switch';
+var isUglify = antd.Select.name !== 'Select';
 
 var _Switch = isUglify ? antd.Switch : 'Switch';
 

@@ -3,7 +3,7 @@ export * from 'react-formutil';
 import React, { createContext, Children, cloneElement, Component } from 'react';
 import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
-import { Switch, Form, Checkbox, Radio, Transfer, Pagination, Upload, Select } from 'antd';
+import { Select, Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
 import isEqual from 'react-fast-compare';
 
 function _defineProperty(obj, key, value) {
@@ -201,7 +201,7 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
-var isUglify = Switch.name !== 'Switch';
+var isUglify = Select.name !== 'Select';
 
 var _Switch = isUglify ? Switch : 'Switch';
 

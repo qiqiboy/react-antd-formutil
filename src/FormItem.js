@@ -18,7 +18,7 @@ export const setErrorLevel = function (level) {
     errorLevelGlobal = level;
 };
 
-const isUglify = Switch.name !== 'Switch';
+const isUglify = Select.name !== 'Select';
 
 const _Switch = isUglify ? Switch : 'Switch';
 const _Checkbox = isUglify ? Checkbox : 'Checkbox';
