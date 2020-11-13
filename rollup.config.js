@@ -4,12 +4,13 @@ const path = require('path');
 const fs = require('fs');
 const commonjs = require('@rollup/plugin-commonjs');
 const replace = require('@rollup/plugin-replace');
-const nodeResolve = require('@rollup/plugin-node-resolve');
-const babel = require('rollup-plugin-babel');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const babel = require('@rollup/plugin-babel').default;
 const filesize = require('rollup-plugin-filesize');
 const copy = require('rollup-plugin-copy');
 const sass = require('rollup-plugin-sass');
 const { terser } = require('rollup-plugin-terser');
+const eslint = require('@rollup/plugin-eslint');
 const pkg = require('./package.json');
 
 /**
@@ -67,23 +68,24 @@ function createConfig(env, module) {
             moduleSideEffects: false
         },
         plugins: [
-            replace({
-                'process.env.NODE_ENV': JSON.stringify(env)
+            eslint({
+                fix: true,
+                throwOnError: true,
+                throwOnWarning: true
             }),
             nodeResolve({
                 extensions: ['.js', '.jsx', '.ts', '.tsx']
             }),
             commonjs({
-                namedExports: {
-                    'node_modules/_react-is@16.11.0@react-is/index.js': ['isValidElementType'],
-                    'node_modules/react-is/index.js': ['isValidElementType']
-                },
                 include: /node_modules/
+            }),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify(env)
             }),
             babel({
                 exclude: 'node_modules/**',
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                runtimeHelpers: true,
+                babelHelpers: 'runtime',
                 babelrc: false,
                 configFile: false,
                 presets: [
@@ -100,7 +102,8 @@ function createConfig(env, module) {
                         '@babel/preset-react',
                         {
                             development: false,
-                            useBuiltIns: true
+                            useBuiltIns: true,
+                            runtime: 'classic'
                         }
                     ],
                     ['@babel/preset-typescript']
@@ -132,6 +135,8 @@ function createConfig(env, module) {
                             removeImport: true
                         }
                     ],
+                    require('@babel/plugin-proposal-optional-chaining').default,
+                    require('@babel/plugin-proposal-nullish-coalescing-operator').default,
                     // Adds Numeric Separators
                     require('@babel/plugin-proposal-numeric-separator').default
                 ].filter(Boolean)
@@ -142,7 +147,6 @@ function createConfig(env, module) {
                 }),
             isProd &&
                 terser({
-                    sourcemap: true,
                     output: { comments: false },
                     compress: false,
                     warnings: false,

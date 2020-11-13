@@ -1,9 +1,9 @@
 import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
-import React, { createContext, Children, cloneElement, Component } from 'react';
-import { isValidElementType } from 'react-is';
+import React, { Children, cloneElement, Component, createContext } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import reactIs from 'react-is';
 import isEqual from 'react-fast-compare';
 
 function _defineProperty(obj, key, value) {
@@ -111,6 +111,30 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
 function _getPrototypeOf(o) {
   _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
     return o.__proto__ || Object.getPrototypeOf(o);
@@ -148,11 +172,12 @@ function _possibleConstructorReturn(self, call) {
 }
 
 function _createSuper(Derived) {
-  return function () {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
     var Super = _getPrototypeOf(Derived),
         result;
 
-    if (_isNativeReflectConstruct()) {
+    if (hasNativeReflectConstruct) {
       var NewTarget = _getPrototypeOf(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
@@ -163,31 +188,9 @@ function _createSuper(Derived) {
   };
 }
 
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
+var isValidElementType = reactIs.isValidElementType;
 
-  return _setPrototypeOf(o, p);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-var _createContext = createContext(),
+var _createContext = /*#__PURE__*/createContext(),
     Consumer = _createContext.Consumer,
     Provider = _createContext.Provider;
 
@@ -525,7 +528,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
             restProps.required = true;
           }
 
-          var fieldInstance = typeof children === 'function' ? children(childProps) : cloneElement(children, childProps);
+          var fieldInstance = typeof children === 'function' ? children(childProps) : /*#__PURE__*/cloneElement(children, childProps);
           return /*#__PURE__*/React.createElement(Consumer, null, function (registerField) {
             if (noStyle) {
               _this2.$fieldutil = $fieldutil;

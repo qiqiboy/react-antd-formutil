@@ -2,15 +2,19 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
 var reactFormutil = require('react-formutil');
 var React = require('react');
-var React__default = _interopDefault(React);
-var reactIs = require('react-is');
-var PropTypes = _interopDefault(require('prop-types'));
+var PropTypes = require('prop-types');
 var antd = require('antd');
-var isEqual = _interopDefault(require('react-fast-compare'));
+var reactIs = require('react-is');
+var isEqual = require('react-fast-compare');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+var PropTypes__default = /*#__PURE__*/_interopDefaultLegacy(PropTypes);
+var reactIs__default = /*#__PURE__*/_interopDefaultLegacy(reactIs);
+var isEqual__default = /*#__PURE__*/_interopDefaultLegacy(isEqual);
 
 function _defineProperty(obj, key, value) {
   if (key in obj) {
@@ -139,6 +143,36 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 var createClass = _createClass;
 
+var setPrototypeOf = createCommonjsModule(function (module) {
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf;
+});
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+var inherits = _inherits;
+
 var getPrototypeOf = createCommonjsModule(function (module) {
 function _getPrototypeOf(o) {
   module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
@@ -186,11 +220,12 @@ function _possibleConstructorReturn(self, call) {
 var possibleConstructorReturn = _possibleConstructorReturn;
 
 function _createSuper(Derived) {
-  return function () {
+  var hasNativeReflectConstruct = isNativeReflectConstruct();
+  return function _createSuperInternal() {
     var Super = getPrototypeOf(Derived),
         result;
 
-    if (isNativeReflectConstruct()) {
+    if (hasNativeReflectConstruct) {
       var NewTarget = getPrototypeOf(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
@@ -203,37 +238,9 @@ function _createSuper(Derived) {
 
 var createSuper = _createSuper;
 
-var setPrototypeOf = createCommonjsModule(function (module) {
-function _setPrototypeOf(o, p) {
-  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
+var isValidElementType = reactIs__default['default'].isValidElementType;
 
-  return _setPrototypeOf(o, p);
-}
-
-module.exports = _setPrototypeOf;
-});
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) setPrototypeOf(subClass, superClass);
-}
-
-var inherits = _inherits;
-
-var _createContext = React.createContext(),
+var _createContext = /*#__PURE__*/React.createContext(),
     Consumer = _createContext.Consumer,
     Provider = _createContext.Provider;
 
@@ -267,7 +274,7 @@ function getChildComponent(children) {
   if (children) {
     var childrenType = children.type;
 
-    if (reactIs.isValidElementType(childrenType)) {
+    if (isValidElementType(childrenType)) {
       // SomeComponent.formutiType = xx
       if (childrenType.formutilType) {
         return childrenType.formutilType;
@@ -406,13 +413,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
          */
 
         Promise.resolve().then(function () {
-          if (!isEqual(_this2.latestValidationProps, _this2.fetchCurrentValidationProps(errorLevel))) {
+          if (!isEqual__default['default'](_this2.latestValidationProps, _this2.fetchCurrentValidationProps(errorLevel))) {
             _this2.forceUpdate();
           }
         });
-        return /*#__PURE__*/React__default.createElement(Provider, {
+        return /*#__PURE__*/React__default['default'].createElement(Provider, {
           value: this.registerField
-        }, /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), typeof childList === 'function' ? childList() : childList));
+        }, /*#__PURE__*/React__default['default'].createElement(antd.Form.Item, Object.assign({}, fieldProps, validationProps), typeof childList === 'function' ? childList() : childList));
       } // If $memo is true, pass the children to Field for SCU diffing.
 
 
@@ -450,7 +457,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
           break;
       }
 
-      return /*#__PURE__*/React__default.createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
+      return /*#__PURE__*/React__default['default'].createElement(reactFormutil.EasyField, Object.assign({}, fieldProps, {
         passUtil: "$fieldutil",
         render: function render($handleProps) {
           var _value$fileList, _childProps, _Object$assign;
@@ -571,8 +578,8 @@ var FormItem = /*#__PURE__*/function (_Component) {
             restProps.required = true;
           }
 
-          var fieldInstance = typeof children === 'function' ? children(childProps) : React.cloneElement(children, childProps);
-          return /*#__PURE__*/React__default.createElement(Consumer, null, function (registerField) {
+          var fieldInstance = typeof children === 'function' ? children(childProps) : /*#__PURE__*/React.cloneElement(children, childProps);
+          return /*#__PURE__*/React__default['default'].createElement(Consumer, null, function (registerField) {
             if (noStyle) {
               _this2.$fieldutil = $fieldutil;
               _this2.registerAncestorField = registerField;
@@ -581,7 +588,7 @@ var FormItem = /*#__PURE__*/function (_Component) {
 
             var validationProps = _this2.getValidationProps(errorLevel, $invalid, $dirty, $touched, $focused, $getFirstError());
 
-            return /*#__PURE__*/React__default.createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
+            return /*#__PURE__*/React__default['default'].createElement(antd.Form.Item, Object.assign({}, restProps, itemProps, validationProps), fieldInstance);
           });
         }
       }));
@@ -602,15 +609,15 @@ FormItem.propTypes = {
     if ('name' in props) {
       var _PropTypes$oneOfType;
 
-      return (_PropTypes$oneOfType = PropTypes.oneOfType([PropTypes.element, PropTypes.func])).isRequired.apply(_PropTypes$oneOfType, [props].concat(args));
+      return (_PropTypes$oneOfType = PropTypes__default['default'].oneOfType([PropTypes__default['default'].element, PropTypes__default['default'].func])).isRequired.apply(_PropTypes$oneOfType, [props].concat(args));
     }
 
-    return (_PropTypes$node = PropTypes.node).isRequired.apply(_PropTypes$node, [props].concat(args));
+    return (_PropTypes$node = PropTypes__default['default'].node).isRequired.apply(_PropTypes$node, [props].concat(args));
   },
-  itemProps: PropTypes.object,
+  itemProps: PropTypes__default['default'].object,
   //传递给antd的Form.Item的属性
-  errorLevel: PropTypes.oneOf([0, 1, 2, 'off']),
-  noStyle: PropTypes.bool //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
+  errorLevel: PropTypes__default['default'].oneOf([0, 1, 2, 'off']),
+  noStyle: PropTypes__default['default'].bool //$parser $formatter checked unchecked $validators validMessage等传递给 EasyField 组件的额外参数
 
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
+import { Input, Checkbox, Switch, Radio } from 'antd';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FormItem from './FormItem';
 import { Form, $Formutil } from '..';
-import { Input, Checkbox, Switch, Radio } from 'antd';
 
 if (!window.matchMedia) {
     Object.defineProperty(window, 'matchMedia', {

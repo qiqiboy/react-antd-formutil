@@ -1,10 +1,11 @@
 import React, { Component, cloneElement, Children, createContext } from 'react';
-import { isValidElementType } from 'react-is';
 import PropTypes from 'prop-types';
 import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload, Select } from 'antd';
 import { EasyField } from 'react-formutil';
+import reactIs from 'react-is';
 import isEqual from 'react-fast-compare';
 
+const { isValidElementType } = reactIs;
 const { Consumer, Provider } = createContext();
 
 let errorLevelGlobal = 1;
@@ -82,6 +83,7 @@ class FormItem extends Component {
                 return false;
         }
     };
+
     fetchCurrentValidationProps = errorLevel => {
         const allFieldutils = Object.keys(this.fields).map(name => this.fields[name].$new());
         const errFieldutils = allFieldutils.filter($fieldutil => $fieldutil.$invalid);
@@ -175,6 +177,7 @@ class FormItem extends Component {
                 if (!('$defaultValue' in fieldProps)) {
                     fieldProps.$defaultValue = 1;
                 }
+
                 break;
 
             case 'checked':
@@ -214,19 +217,23 @@ class FormItem extends Component {
                     const { $invalid, $dirty, $touched, $focused, $getFirstError } = $fieldutil;
 
                     let childProps;
+
                     switch (component) {
                         case _Switch:
                         case _Checkbox:
                         case _Radio:
                         case 'checked':
                             const { checked = true, unchecked = false } = props;
+
                             childProps = {
                                 checked: value === checked,
                                 onChange: ev => {
                                     const newValue = ev && ev.target ? ev.target.checked : ev;
+
                                     onChange(newValue ? checked : unchecked, ev);
                                 }
                             };
+
                             break;
 
                         case _Transfer:
@@ -234,6 +241,7 @@ class FormItem extends Component {
                                 targetKeys: value,
                                 onChange
                             };
+
                             break;
 
                         case _Pagination:
@@ -241,6 +249,7 @@ class FormItem extends Component {
                                 current: value,
                                 onChange
                             };
+
                             break;
 
                         case _Upload:
@@ -248,6 +257,7 @@ class FormItem extends Component {
                                 fileList: value?.fileList ?? value,
                                 onChange
                             };
+
                             break;
 
                         default:
@@ -273,9 +283,11 @@ class FormItem extends Component {
                                         delete this.compositionValue;
                                         onChange(...args);
                                     }
+
                                     return onBlur(...args);
                                 }
                             };
+
                             break;
                     }
 
