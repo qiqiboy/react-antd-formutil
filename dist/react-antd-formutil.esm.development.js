@@ -2,7 +2,7 @@ import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
 import React, { Children, cloneElement, Component, createContext } from 'react';
 import PropTypes from 'prop-types';
-import { Select, Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload } from 'antd';
+import { Checkbox, Form, Switch, Radio, Transfer, Pagination, Upload, Select } from 'antd';
 import reactIs from 'react-is';
 import isEqual from 'react-fast-compare';
 
@@ -204,7 +204,7 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
-var isUglify = Select.name !== 'Select';
+var isUglify = Checkbox.name !== 'Checkbox';
 
 var _Switch = isUglify ? Switch : 'Switch';
 
@@ -219,6 +219,17 @@ var _Pagination = isUglify ? Pagination : 'Pagination';
 var _Upload = isUglify ? Upload : 'Upload';
 
 var _Select = isUglify ? Select : 'Select';
+/* // just for debug
+ * console.log(
+ *     Switch.name || Switch.displayName,
+ *     Checkbox.name || Checkbox.displayName,
+ *     Radio.name || Radio.displayName,
+ *     Transfer.name || Transfer.displayName,
+ *     Select.name || Select.displayName,
+ *     Upload.name || Upload.displayName,
+ *     Pagination.name || Pagination.displayName
+ * ); */
+
 
 function getChildComponent(children) {
   if (children) {
@@ -236,7 +247,19 @@ function getChildComponent(children) {
       }
 
       if (!isUglify) {
-        return childrenType.displayName || childrenType.name || childrenType;
+        var _childrenType$render;
+
+        var name = childrenType.displayName || childrenType.name;
+
+        if (name) {
+          return name;
+        }
+
+        if (((_childrenType$render = childrenType.render) === null || _childrenType$render === void 0 ? void 0 : _childrenType$render.name) === 'InternalSelect') {
+          return 'Select';
+        }
+
+        return childrenType;
       }
     }
 

@@ -19,7 +19,7 @@ export const setErrorLevel = function (level) {
     errorLevelGlobal = level;
 };
 
-const isUglify = Select.name !== 'Select';
+const isUglify = Checkbox.name !== 'Checkbox';
 
 const _Switch = isUglify ? Switch : 'Switch';
 const _Checkbox = isUglify ? Checkbox : 'Checkbox';
@@ -28,6 +28,17 @@ const _Transfer = isUglify ? Transfer : 'Transfer';
 const _Pagination = isUglify ? Pagination : 'Pagination';
 const _Upload = isUglify ? Upload : 'Upload';
 const _Select = isUglify ? Select : 'Select';
+
+/* // just for debug
+ * console.log(
+ *     Switch.name || Switch.displayName,
+ *     Checkbox.name || Checkbox.displayName,
+ *     Radio.name || Radio.displayName,
+ *     Transfer.name || Transfer.displayName,
+ *     Select.name || Select.displayName,
+ *     Upload.name || Upload.displayName,
+ *     Pagination.name || Pagination.displayName
+ * ); */
 
 function getChildComponent(children) {
     if (children) {
@@ -45,7 +56,17 @@ function getChildComponent(children) {
             }
 
             if (!isUglify) {
-                return childrenType.displayName || childrenType.name || childrenType;
+                const name = childrenType.displayName || childrenType.name;
+
+                if (name) {
+                    return name;
+                }
+
+                if (childrenType.render?.name === 'InternalSelect') {
+                    return 'Select';
+                }
+
+                return childrenType;
             }
         }
 

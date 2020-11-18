@@ -633,7 +633,7 @@
   var setErrorLevel = function setErrorLevel(level) {
     errorLevelGlobal = level;
   };
-  var isUglify = antd.Select.name !== 'Select';
+  var isUglify = antd.Checkbox.name !== 'Checkbox';
 
   var _Switch = isUglify ? antd.Switch : 'Switch';
 
@@ -648,6 +648,17 @@
   var _Upload = isUglify ? antd.Upload : 'Upload';
 
   var _Select = isUglify ? antd.Select : 'Select';
+  /* // just for debug
+   * console.log(
+   *     Switch.name || Switch.displayName,
+   *     Checkbox.name || Checkbox.displayName,
+   *     Radio.name || Radio.displayName,
+   *     Transfer.name || Transfer.displayName,
+   *     Select.name || Select.displayName,
+   *     Upload.name || Upload.displayName,
+   *     Pagination.name || Pagination.displayName
+   * ); */
+
 
   function getChildComponent(children) {
     if (children) {
@@ -665,7 +676,19 @@
         }
 
         if (!isUglify) {
-          return childrenType.displayName || childrenType.name || childrenType;
+          var _childrenType$render;
+
+          var name = childrenType.displayName || childrenType.name;
+
+          if (name) {
+            return name;
+          }
+
+          if (((_childrenType$render = childrenType.render) === null || _childrenType$render === void 0 ? void 0 : _childrenType$render.name) === 'InternalSelect') {
+            return 'Select';
+          }
+
+          return childrenType;
         }
       }
 

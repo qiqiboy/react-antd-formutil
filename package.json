@@ -1,6 +1,6 @@
 {
   "name": "react-antd-formutil",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Happy to use react-formutil in the project based on ant-design ^_^",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -86,7 +86,7 @@
     "@types/react-is": "16.7.1",
     "@typescript-eslint/eslint-plugin": "4.7.0",
     "@typescript-eslint/parser": "4.7.0",
-    "antd": "^4.5.2",
+    "antd": "^4.8.4",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.6.3",
     "babel-preset-react-app": "10.0.0",
