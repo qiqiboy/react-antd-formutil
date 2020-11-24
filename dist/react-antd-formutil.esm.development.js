@@ -396,8 +396,13 @@ var FormItem = /*#__PURE__*/function (_Component) {
       } // If $memo is true, pass the children to Field for SCU diffing.
 
 
-      if (props.$memo === true) {
-        fieldProps.__DIFF__ = childList;
+      if (fieldProps.$memo === true) {
+        fieldProps.__DIFF__ = {
+          childList: childList,
+          compositionValue: this.compositionValue
+        };
+      } else if (Array.isArray(fieldProps.$memo)) {
+        fieldProps.$memo = fieldProps.$memo.concat(this.compositionValue);
       }
 
       var children = typeof childList === 'function' ? childList : Children.only(childList);
@@ -501,16 +506,16 @@ var FormItem = /*#__PURE__*/function (_Component) {
             default:
               childProps = (_childProps = {
                 onCompositionEnd: function onCompositionEnd(ev) {
-                  _this2.isComposition = false;
+                  _this2.isComposing = false;
                   delete _this2.compositionValue;
 
                   _onChange(ev);
                 },
                 onCompositionStart: function onCompositionStart() {
-                  return _this2.isComposition = true;
+                  return _this2.isComposing = true;
                 }
               }, _defineProperty(_childProps, changePropName, function (ev) {
-                if (_this2.isComposition) {
+                if (_this2.isComposing) {
                   var _ev$target$valuePropN, _ev$target;
 
                   _this2.compositionValue = (_ev$target$valuePropN = (_ev$target = ev.target) === null || _ev$target === void 0 ? void 0 : _ev$target[valuePropName]) !== null && _ev$target$valuePropN !== void 0 ? _ev$target$valuePropN : ev;
@@ -524,8 +529,8 @@ var FormItem = /*#__PURE__*/function (_Component) {
                   _onChange.apply(void 0, [ev].concat(rest));
                 }
               }), _defineProperty(_childProps, valuePropName, 'compositionValue' in _this2 ? _this2.compositionValue : value), _defineProperty(_childProps, blurPropName, function () {
-                if (_this2.isComposition) {
-                  _this2.isComposition = false;
+                if (_this2.isComposing) {
+                  _this2.isComposing = false;
                   delete _this2.compositionValue;
 
                   _onChange.apply(void 0, arguments);
