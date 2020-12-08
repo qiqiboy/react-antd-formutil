@@ -2,7 +2,7 @@ import { EasyField } from 'react-formutil';
 export * from 'react-formutil';
 import React, { Children, cloneElement, Component, createContext } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, Form, Switch, Radio, Transfer, Pagination, Upload, Select } from 'antd';
+import { Form, Switch, Checkbox, Radio, Transfer, Pagination, Upload, Select } from 'antd';
 import reactIs from 'react-is';
 import isEqual from 'react-fast-compare';
 
@@ -204,7 +204,7 @@ var errorLevelGlobal = 1;
 var setErrorLevel = function setErrorLevel(level) {
   errorLevelGlobal = level;
 };
-var isUglify = Checkbox.name !== 'Checkbox';
+var isUglify = Form.Item.name !== 'FormItem';
 
 var _Switch = isUglify ? Switch : 'Switch';
 

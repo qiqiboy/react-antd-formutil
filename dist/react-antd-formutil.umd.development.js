@@ -633,7 +633,7 @@
   var setErrorLevel = function setErrorLevel(level) {
     errorLevelGlobal = level;
   };
-  var isUglify = antd.Checkbox.name !== 'Checkbox';
+  var isUglify = antd.Form.Item.name !== 'FormItem';
 
   var _Switch = isUglify ? antd.Switch : 'Switch';
 

@@ -19,7 +19,7 @@ export const setErrorLevel = function (level) {
     errorLevelGlobal = level;
 };
 
-const isUglify = Checkbox.name !== 'Checkbox';
+const isUglify = Form.Item.name !== 'FormItem';
 
 const _Switch = isUglify ? Switch : 'Switch';
 const _Checkbox = isUglify ? Checkbox : 'Checkbox';
